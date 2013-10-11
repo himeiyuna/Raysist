@@ -41,10 +41,10 @@
     <Compile Include="GameContainer.cs" />
     <Compile Include="DxDLL.cs" />
     <Compile Include="main.cs" />
-    <Compile Include="Matrix.cs" />
+    <Compile Include="Utils\Matrix.cs" />
     <Compile Include="Positioner.cs" />
-    <Compile Include="Vector3.cs" />
-    <Compile Include="Vector4.cs" />
+    <Compile Include="Utils\Vector3.cs" />
+    <Compile Include="Utils\Vector4.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

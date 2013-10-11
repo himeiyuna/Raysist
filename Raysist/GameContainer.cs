@@ -8,6 +8,6 @@ namespace Raysist
 {
     class GameContainer
     {
-
+        Raysist.Positioner Position { set; get; }
     }
 }

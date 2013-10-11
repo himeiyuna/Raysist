@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Raysist
 {
-    class Positioner
+    public class Positioner
     {
         /// <summary>
         /// ローカル座標
