@@ -11,21 +11,21 @@ namespace Raysist
         /// <summary>
         /// X
         /// </summary>
-        private float X { set; get; }
+        public float X { set; get; }
 
         /// <summary>
         /// Y
         /// </summary>
-        private float Y { set; get; }
+        public float Y { set; get; }
 
         /// <summary>
         /// Z
         /// </summary>
-        private float Z { set; get; }
+        public float Z { set; get; }
 
         /// <summary>
         /// W
         /// </summary>
-        private float W { set; get; }
+        public float W { set; get; }
     }
 }

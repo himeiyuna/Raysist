@@ -38,6 +38,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Player.cs" />
+    <Compile Include="GameComponent.cs" />
     <Compile Include="GameContainer.cs" />
     <Compile Include="DxDLL.cs" />
     <Compile Include="main.cs" />

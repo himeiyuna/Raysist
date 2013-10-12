@@ -54,7 +54,7 @@ namespace Raysist
         /// <summary>
         /// 単位行列を取得する関数
         /// </summary>
-        private static Matrix Identity
+        public static Matrix Identity
         {
             get
             {
@@ -71,6 +71,6 @@ namespace Raysist
         /// <summary>
         /// DxLib用に変換する関数
         /// </summary>
-        private DX.MATRIX ToDxLib { get { return dxlib; } }
+        public DX.MATRIX ToDxLib { get { return dxlib; } }
     }
 }

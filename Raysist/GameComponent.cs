@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Raysist
 {
-    public class Positioner
+    public abstract class GameComponent
     {
         /// <summary>
-        /// @brief ローカル座標
+        /// 座標
         /// </summary>
-        public Vector3 LocalPosition { set; get; }
+        private Positioner Position { set; get; }
 
         /// <summary>
-        /// @brief 行列
+        /// コンポーネントが受け持つ作業の実行
         /// </summary>
-        public Matrix  Transform { set; get; }
+        public abstract void Update();
     }
 }
