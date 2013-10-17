@@ -10,3 +10,9 @@ D:\Users\relay\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.pdb
 D:\Users\relay\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csprojResolveAssemblyReference.cache
 D:\Users\relay\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.exe
 D:\Users\relay\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.pdb
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.exe.config
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.exe
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csprojResolveAssemblyReference.cache
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.exe
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.pdb
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.pdb

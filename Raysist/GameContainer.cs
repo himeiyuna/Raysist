@@ -6,10 +6,20 @@ using System.Threading.Tasks;
 
 namespace Raysist
 {
-    class GameContainer
+    /// <summary>
+    /// ゲームを構成するコンテナクラス
+    /// </summary>
+    public abstract class GameContainer 
     {
+        /// <summary>
+        /// @brief ゲームコンポーネントの配列
+        /// </summary>
+        private List<GameComponent> Components { set; get; }
+
+        /// <summary>
+        /// @brief 位置情報
+        /// </summary>
         public Positioner Position { set; get; }
-        private List<GameComponent> components;
 
         /// <summary>
         /// @brief コンポーネントを追加する
@@ -17,7 +27,7 @@ namespace Raysist
         /// <param name="component">追加するコンポーネント</param>
         public void AddComponent(GameComponent component)
         {
-            components.Add(component);
+            Components.Add(component);
         }
 
         /// <summary>
@@ -27,7 +37,7 @@ namespace Raysist
         /// <returns>コンポーネント</returns>
         public T GetComponent<T>() where T : GameComponent
         {
-            return (from i in components where i is T select i).FirstOrDefault() as T;
+            return (from i in Components where i is T select i).FirstOrDefault() as T;
         }
     }
 }

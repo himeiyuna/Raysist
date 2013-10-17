@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Raysist
 {
+    /// <summary>
+    /// @brief ゲームを構成する部品クラス
+    /// </summary>
     public abstract class GameComponent
     {
         /// <summary>
-        /// 座標
+        /// 位置情報
         /// </summary>
         private Positioner Position { set; get; }
 
@@ -17,5 +20,14 @@ namespace Raysist
         /// コンポーネントが受け持つ作業の実行
         /// </summary>
         public abstract void Update();
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="container">所持する親</param>
+        public GameComponent(GameContainer container)
+        {
+            Position = container.Position;
+        }
     }
 }

@@ -72,5 +72,18 @@ namespace Raysist
         /// DxLib用に変換する関数
         /// </summary>
         public DX.MATRIX ToDxLib { get { return dxlib; } }
+
+        /// <summary>
+        /// 乗算演算子
+        /// </summary>
+        /// <param name="left">行列</param>
+        /// <param name="right">ベクトル</param>
+        /// <returns>計算結果ベクトル</returns>
+        public static Vector3 operator * (Matrix left, Vector3 right)
+        {
+            return new Vector3 { X = left[0, 0] * right.X + left[0, 1] * right.Y + left[0, 2] * right.Z,
+                                 Y = left[1, 0] * right.X + left[1, 1] * right.Y + left[1, 2] * right.Z,
+                                 Z = left[2, 0] * right.X + left[2, 1] * right.Y + left[2, 2] + right.Z };
+        }
     }
 }
