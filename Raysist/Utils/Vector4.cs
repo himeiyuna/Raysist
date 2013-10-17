@@ -31,22 +31,22 @@ namespace Raysist
         /// <summary>
         /// X
         /// </summary>
-        public float X { set; get; }
+        public float X { set { x = value; } get { return x; } }
 
         /// <summary>
         /// Y
         /// </summary>
-        public float Y { set; get; }
+        public float Y { set { y = value; } get { return y; } }
 
         /// <summary>
         /// Z
         /// </summary>
-        public float Z { set; get; }
+        public float Z { set { z = value; } get { return z; } }
 
         /// <summary>
         /// W
         /// </summary>
-        public float W { set; get; }
+        public float W { set { w = value; } get { return z; } }
 
         /// <summary>
         /// @brief 配列

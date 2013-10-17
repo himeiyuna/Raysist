@@ -10,6 +10,7 @@ namespace Raysist
     {
         public Player() : base()
         {
+
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Raysist
         /// <summary>
         /// 位置情報
         /// </summary>
-        private Positioner Position { set; get; }
+        public Positioner Position { set; get; }
 
         /// <summary>
         /// コンポーネントが受け持つ作業の実行

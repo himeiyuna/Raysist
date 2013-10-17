@@ -38,11 +38,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MeshRenderer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="GameComponent.cs" />
     <Compile Include="GameContainer.cs" />
     <Compile Include="DxDLL.cs" />
     <Compile Include="main.cs" />
+    <Compile Include="Renderer.cs" />
+    <Compile Include="SpriteRenderer.cs" />
     <Compile Include="Utils\Matrix.cs" />
     <Compile Include="Positioner.cs" />
     <Compile Include="Utils\Vector3.cs" />
