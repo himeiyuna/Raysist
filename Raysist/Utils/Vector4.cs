@@ -8,13 +8,13 @@ using System.Runtime.InteropServices;
 namespace Raysist
 {
     [StructLayout(LayoutKind.Explicit)]
-    public class Vector4
+    public unsafe struct Vector4
     {
         /// <summary>
         /// 要素
         /// </summary>
         [FieldOffset(0)]
-        private float[] elements = new float[4];
+        private fixed float elements[4];
 
         [FieldOffset(0)]
         private float x;
@@ -57,11 +57,14 @@ namespace Raysist
         {
             set
             {
-                elements[index] = value;
+                fixed (float* p = elements)
+                    p[index] = value;
+
             }
             get
             {
-                return elements[index];
+                fixed (float* ret = elements)
+                    return ret[index];
             }
         }
 

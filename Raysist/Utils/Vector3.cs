@@ -7,13 +7,13 @@ namespace Raysist
     /// 3次元ベクトルクラス
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public class Vector3
+    public unsafe struct Vector3
     {
         /// <summary>
         /// @brief 配列式
         /// </summary>
         [FieldOffset(0)]
-        private float[] elements = new float[3];
+        private fixed float elements[3];
 
         [FieldOffset(0)]
         private float x;
@@ -48,11 +48,13 @@ namespace Raysist
         {
             set
             {
-                elements[index] = value;
+                fixed (float* e = elements)
+                    e[index] = value;
             }
             get
             {
-                return elements[index];
+                fixed (float* ret = elements)
+                    return ret[index];
             }
         }
 

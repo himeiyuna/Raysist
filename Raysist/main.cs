@@ -21,7 +21,9 @@ namespace Raysist
                 DX.DrawBox(100, 100, 200, 150, DX.GetColor( 255, 0, 255 ), DX.TRUE);
                 DX.DrawString( 100, 200, "サンプル描画", DX.GetColor( 255, 255, 64 ) );
             }
-            Vector3 v = new Vector3();
+            Vector3 v = new Vector3 { X = 1.0f, Y = 2.0f, Z = 3.0f };
+            var a = v[0];
+            var b = v[1];
 
             DX.WaitKey();
 
