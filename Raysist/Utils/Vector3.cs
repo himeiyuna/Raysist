@@ -6,38 +6,57 @@ namespace Raysist
     /// <summary>
     /// 3次元ベクトルクラス
     /// </summary>
-    [StructLayout(LayoutKind.Explicit)]
-    public unsafe struct Vector3
+    public class Vector3
     {
         /// <summary>
         /// @brief 配列式
         /// </summary>
-        [FieldOffset(0)]
-        private fixed float elements[3];
-
-        [FieldOffset(0)]
-        private float x;
-
-        [FieldOffset(4)]
-        private float y;
-
-        [FieldOffset(8)]
-        private float z;
+        private float[] elements = new float[3];
 
         /// <summary>
-        /// @brief X座標
+        /// @brief x座標
         /// </summary>
-        public float X { set { x = value; } get { return x; } }
+        public float x
+        {
+            set
+            {
+                elements[0] = value;
+            }
+            get
+            {
+                return elements[0];
+            }
+        }
 
         /// <summary>
-        /// @brief Y座標
+        /// @brief y座標
         /// </summary>
-        public float Y { set { y = value; } get { return y; } }
+        public float y
+        {
+            set
+            {
+                elements[1] = value;
+            }
+            get
+            {
+                return elements[1];
+            }
+        }
 
         /// <summary>
-        /// @brief Z座標
-        /// </summary>       
-        public float Z { set { z = value; } get { return z; } } 
+        /// @brief z座標
+        /// </summary>
+        public float z
+        {
+            set
+            {
+                elements[2] = value;
+            }
+            get
+            {
+                return elements[2];
+            }
+        }
 
         /// <summary>
         /// @brief 配列
@@ -48,13 +67,11 @@ namespace Raysist
         {
             set
             {
-                fixed (float* e = elements)
-                    e[index] = value;
+                elements[index] = value;
             }
             get
             {
-                fixed (float* ret = elements)
-                    return ret[index];
+                return elements[index];
             }
         }
 
@@ -66,7 +83,7 @@ namespace Raysist
         /// <returns></returns>
         public static Vector3 operator +(Vector3 left, Vector3 right)
         {
-            return new Vector3 { X = left.X + right.X, Y = left.Y + right.Y, Z = left.Z + right.Z };
+            return new Vector3 { x = left.x + right.x, y = left.y + right.y, z = left.z + right.z };
         }
 
         /// <summary>
@@ -77,7 +94,7 @@ namespace Raysist
         /// <returns></returns>
         public static Vector3 operator -(Vector3 left, Vector3 right)
         {
-            return new Vector3 { X = left.X - right.X, Y = left.Y - right.Y, Z = left.Z - right.Z };
+            return new Vector3 { x = left.x - right.x, y = left.y - right.y, z = left.z - right.z };
         }
     }
 }

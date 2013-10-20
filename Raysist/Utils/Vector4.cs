@@ -7,46 +7,72 @@ using System.Runtime.InteropServices;
 
 namespace Raysist
 {
-    [StructLayout(LayoutKind.Explicit)]
-    public unsafe struct Vector4
+    public class Vector4
     {
         /// <summary>
         /// 要素
         /// </summary>
-        [FieldOffset(0)]
-        private fixed float elements[4];
-
-        [FieldOffset(0)]
-        private float x;
-
-        [FieldOffset(4)]
-        private float y;
-
-        [FieldOffset(8)]
-        private float z;
-
-        [FieldOffset(12)]
-        private float w;
+        private float[] elements = new float[4];
 
         /// <summary>
-        /// X
+        /// @brief x座標
         /// </summary>
-        public float X { set { x = value; } get { return x; } }
+        public float x 
+        { 
+            set 
+            { 
+                elements[0] = value; 
+            }
+            get 
+            { 
+                return elements[0]; 
+            } 
+        }
 
         /// <summary>
-        /// Y
+        /// @brief y座標
         /// </summary>
-        public float Y { set { y = value; } get { return y; } }
+        public float y 
+        { 
+            set 
+            { 
+                elements[1] = value;
+            } 
+            get
+            { 
+                return elements[1]; 
+            }
+        }
 
         /// <summary>
-        /// Z
+        /// @brief z座標
         /// </summary>
-        public float Z { set { z = value; } get { return z; } }
+        public float z 
+        { 
+            set 
+            { 
+                elements[2] = value; 
+            } 
+            get 
+            { 
+                return elements[2]; 
+            } 
+        }
 
         /// <summary>
-        /// W
+        /// @brief w座標
         /// </summary>
-        public float W { set { w = value; } get { return z; } }
+        public float w 
+        { 
+            set 
+            { 
+                elements[3] = value; 
+            } 
+            get
+            { 
+                return elements[3]; 
+            } 
+        }
 
         /// <summary>
         /// @brief 配列
@@ -57,14 +83,11 @@ namespace Raysist
         {
             set
             {
-                fixed (float* p = elements)
-                    p[index] = value;
-
+                elements[index] = value;
             }
             get
             {
-                fixed (float* ret = elements)
-                    return ret[index];
+                return elements[index];
             }
         }
 
@@ -76,7 +99,7 @@ namespace Raysist
         /// <returns></returns>
         public static Vector4 operator +(Vector4 left, Vector4 right)
         {
-            return new Vector4 { X = left.X + right.X, Y = left.Y + right.Y, Z = left.Z + right.Z, W = left.W + right.W };
+            return new Vector4 { x = left.x + right.x, y = left.y + right.y, z = left.z + right.z, w = left.w + right.w };
         }
 
         /// <summary>
@@ -87,7 +110,7 @@ namespace Raysist
         /// <returns></returns>
         public static Vector4 operator -(Vector4 left, Vector4 right)
         {
-            return new Vector4 { X = left.X - right.X, Y = left.Y - right.Y, Z = left.Z - right.Z, W = left.W - right.W };
+            return new Vector4 { x = left.x - right.x, y = left.y - right.y, z = left.z - right.z, w = left.w - right.w };
         }
     }
 }

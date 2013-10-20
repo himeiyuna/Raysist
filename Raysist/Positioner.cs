@@ -25,7 +25,7 @@ namespace Raysist
             get
             {
                 var t = Transform;
-                return new Vector3 { X = t[3, 0], Y = t[3, 1], Z = t[3, 2] };
+                return new Vector3 { x = t[3, 0], y = t[3, 1], z = t[3, 2] };
             }
         }
 
