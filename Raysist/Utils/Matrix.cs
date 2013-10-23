@@ -5,9 +5,15 @@ using System.Collections;
 
 namespace Raysist
 {
+    /// <summary>
+    /// @brief 行列
+    /// </summary>
     public class Matrix
     {
-        private Vector4[] row = new Vector4[4];
+        /// <summary>
+        /// @brief 要素
+        /// </summary>
+        private float[,] elements;
 
         /// <summary>
         /// @brief 行要素を取得する
@@ -18,11 +24,14 @@ namespace Raysist
         {
             set
             {
-                row[index] = value;
+                elements[index, 0] = value.x;
+                elements[index, 1] = value.y;
+                elements[index, 2] = value.z;
+                elements[index, 3] = value.w;
             }
             get
             {
-                return row[index];
+                return new Vector4 { x = elements[index, 0], y = elements[index, 1], z = elements[index, 2], w = elements[index, 3] };
             }
         }
 
@@ -36,11 +45,11 @@ namespace Raysist
         {
             set
             {
-                this.row[row][col] = value;
+                elements[row, col] = value;
             }
             get
             {
-                return this.row[row][col];
+                return elements[row, col];
             }
         }
 
@@ -92,17 +101,6 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief コンストラクタ
-        /// </summary>
-        public Matrix()
-        {
-            row[0] = new Vector4 { x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f };
-            row[1] = new Vector4 { x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f };
-            row[2] = new Vector4 { x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f };
-            row[3] = new Vector4 { x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f };
-        }
-
-        /// <summary>
         /// @brief 乗算演算子
         /// </summary>
         /// <param name="left">行列</param>
@@ -118,35 +116,35 @@ namespace Raysist
         public static Matrix operator *(Matrix left, Matrix right)
         {
             var ret = Matrix.Identity;
-            ret.row[0] = new Vector4
-            {
-                x = left[0, 0] * right[0, 0] + left[0, 1] * right[1, 0] + left[0, 2] * right[2, 0] + left[0, 3] * right[3, 0],
-                y = left[0, 0] * right[0, 1] + left[0, 1] * right[1, 1] + left[0, 2] * right[2, 1] + left[0, 3] * right[3, 1],
-                z = left[0, 0] * right[0, 2] + left[0, 1] * right[1, 2] + left[0, 2] * right[2, 2] + left[0, 3] * right[3, 2],
-                w = left[0, 0] * right[0, 3] + left[0, 1] * right[1, 3] + left[0, 2] * right[2, 3] + left[0, 3] * right[3, 3]
-            };
-            ret.row[1] = new Vector4
-            {
-                x = left[1, 0] * right[0, 0] + left[1, 1] * right[1, 0] + left[1, 2] * right[2, 0] + left[1, 3] * right[3, 0],
-                y = left[1, 0] * right[0, 1] + left[1, 1] * right[1, 1] + left[1, 2] * right[2, 1] + left[1, 3] * right[3, 1],
-                z = left[1, 0] * right[0, 2] + left[1, 1] * right[1, 2] + left[1, 2] * right[2, 2] + left[1, 3] * right[3, 2],
-                w = left[1, 0] * right[0, 3] + left[1, 1] * right[1, 3] + left[1, 2] * right[2, 3] + left[1, 3] * right[3, 3]
-            };
-            ret.row[2] = new Vector4
-            {
-                x = left[2, 0] * right[0, 0] + left[2, 1] * right[1, 0] + left[2, 2] * right[2, 0] + left[2, 3] * right[3, 0],
-                y = left[2, 0] * right[0, 1] + left[2, 1] * right[1, 1] + left[2, 2] * right[2, 1] + left[2, 3] * right[3, 1],
-                z = left[2, 0] * right[0, 2] + left[2, 1] * right[1, 2] + left[2, 2] * right[2, 2] + left[2, 3] * right[3, 2],
-                w = left[2, 0] * right[0, 3] + left[2, 1] * right[1, 3] + left[2, 2] * right[2, 3] + left[2, 3] * right[3, 3]
-            };
-            ret.row[3] = new Vector4
-            {
-                x = left[3, 0] * right[0, 0] + left[3, 1] * right[1, 0] + left[3, 2] * right[2, 0] + left[3, 3] * right[3, 0],
-                y = left[3, 0] * right[0, 1] + left[3, 1] * right[1, 1] + left[3, 2] * right[2, 1] + left[3, 3] * right[3, 1],
-                z = left[3, 0] * right[0, 2] + left[3, 1] * right[1, 2] + left[3, 2] * right[2, 2] + left[3, 3] * right[3, 2],
-                w = left[3, 0] * right[0, 3] + left[3, 1] * right[1, 3] + left[3, 2] * right[2, 3] + left[3, 3] * right[3, 3]
-            };
+            ret[0, 0] = left[0, 0] * right[0, 0] + left[0, 1] * right[1, 0] + left[0, 2] * right[2, 0] + left[0, 3] * right[3, 0];
+            ret[0, 1] = left[0, 0] * right[0, 1] + left[0, 1] * right[1, 1] + left[0, 2] * right[2, 1] + left[0, 3] * right[3, 1];
+            ret[0, 2] = left[0, 0] * right[0, 2] + left[0, 1] * right[1, 2] + left[0, 2] * right[2, 2] + left[0, 3] * right[3, 2];
+            ret[0, 3] = left[0, 0] * right[0, 3] + left[0, 1] * right[1, 3] + left[0, 2] * right[2, 3] + left[0, 3] * right[3, 3];
+            ret[1, 0] = left[1, 0] * right[0, 0] + left[1, 1] * right[1, 0] + left[1, 2] * right[2, 0] + left[1, 3] * right[3, 0];
+            ret[1, 1] = left[1, 0] * right[0, 1] + left[1, 1] * right[1, 1] + left[1, 2] * right[2, 1] + left[1, 3] * right[3, 1];
+            ret[1, 2] = left[1, 0] * right[0, 2] + left[1, 1] * right[1, 2] + left[1, 2] * right[2, 2] + left[1, 3] * right[3, 2];
+            ret[1, 3] = left[1, 0] * right[0, 3] + left[1, 1] * right[1, 3] + left[1, 2] * right[2, 3] + left[1, 3] * right[3, 3];
+            ret[2, 0] = left[2, 0] * right[0, 0] + left[2, 1] * right[1, 0] + left[2, 2] * right[2, 0] + left[2, 3] * right[3, 0];
+            ret[2, 1] = left[2, 0] * right[0, 1] + left[2, 1] * right[1, 1] + left[2, 2] * right[2, 1] + left[2, 3] * right[3, 1];
+            ret[2, 2] = left[2, 0] * right[0, 2] + left[2, 1] * right[1, 2] + left[2, 2] * right[2, 2] + left[2, 3] * right[3, 2];
+            ret[2, 3] = left[2, 0] * right[0, 3] + left[2, 1] * right[1, 3] + left[2, 2] * right[2, 3] + left[2, 3] * right[3, 3];
+            ret[3, 0] = left[3, 0] * right[0, 0] + left[3, 1] * right[1, 0] + left[3, 2] * right[2, 0] + left[3, 3] * right[3, 0];
+            ret[3, 1] = left[3, 0] * right[0, 1] + left[3, 1] * right[1, 1] + left[3, 2] * right[2, 1] + left[3, 3] * right[3, 1];
+            ret[3, 2] = left[3, 0] * right[0, 2] + left[3, 1] * right[1, 2] + left[3, 2] * right[2, 2] + left[3, 3] * right[3, 2];
+            ret[3, 3] = left[3, 0] * right[0, 3] + left[3, 1] * right[1, 3] + left[3, 2] * right[2, 3] + left[3, 3] * right[3, 3];
             return ret;
+        }
+
+        /// <summary>
+        /// @brief デフォルトコンストラクタ
+        /// </summary>
+        public Matrix()
+        {
+            elements = new float[4, 4] { { 0.0f, 0.0f, 0.0f, 0.0f },
+                                         { 0.0f, 0.0f, 0.0f, 0.0f },
+                                         { 0.0f, 0.0f, 0.0f, 0.0f },
+                                         { 0.0f, 0.0f, 0.0f, 0.0f } 
+                                       };
         }
     }
 }

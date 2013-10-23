@@ -1,4 +1,5 @@
 ﻿using DxLibDLL;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Raysist
@@ -11,7 +12,7 @@ namespace Raysist
         /// <summary>
         /// @brief 配列式
         /// </summary>
-        private float[] elements = new float[3];
+        private float[] elements;
 
         /// <summary>
         /// @brief x座標
@@ -59,7 +60,7 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief 配列
+        /// @brief 要素を取得する
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>値</returns>
@@ -76,11 +77,53 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief 長さを取得する
+        /// </summary>
+        public float Length
+        {
+            get
+            {
+                return (float)Math.Sqrt(x * x + y * y + z * z);
+            }
+        }
+
+        /// <summary>
+        /// @brief 長さの２乗を取得する
+        /// </summary>
+        public float Length2
+        {
+            get
+            {
+                return x * x + y * y + z * z;
+            }
+        }
+
+        /// <summary>
+        /// @brief 単位ベクトル
+        /// </summary>
+        public Vector3 Normalize
+        {
+            get
+            {
+                var length = Length;
+                return new Vector3 { x = x / length, y = y / length, z = z / length };
+            }
+        }
+
+        /// <summary>
+        /// @brief デフォルトコンストラクタ
+        /// </summary>
+        public Vector3()
+        {
+            elements = new float[3] { 0.0f, 0.0f, 0.0f };
+        }
+
+        /// <summary>
         /// @brief 加算演算子
         /// </summary>
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
-        /// <returns></returns>
+        /// <returns>計算結果</returns>
         public static Vector3 operator +(Vector3 left, Vector3 right)
         {
             return new Vector3 { x = left.x + right.x, y = left.y + right.y, z = left.z + right.z };

@@ -10,9 +10,9 @@ namespace Raysist
     public class Vector4
     {
         /// <summary>
-        /// 要素
+        /// @brief 要素
         /// </summary>
-        private float[] elements = new float[4];
+        private float[] elements;
 
         /// <summary>
         /// @brief x座標
@@ -111,6 +111,14 @@ namespace Raysist
         public static Vector4 operator -(Vector4 left, Vector4 right)
         {
             return new Vector4 { x = left.x - right.x, y = left.y - right.y, z = left.z - right.z, w = left.w - right.w };
+        }
+
+        /// <summary>
+        /// @brief デフォルトコンストラクタ
+        /// </summary>
+        public Vector4()
+        {
+            elements = new float[4]{ 0.0f, 0.0f, 0.0f, 0.0f };
         }
     }
 }
