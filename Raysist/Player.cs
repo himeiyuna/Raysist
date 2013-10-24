@@ -10,7 +10,7 @@ namespace Raysist
     {
         public Player() : base()
         {
-
+            AddComponent(new SpriteRenderer(this, "title.png"));
         }
     }
 }

@@ -18,17 +18,22 @@ namespace Raysist
         protected int GraphicHandle { set; get; }
 
         /// <summary>
-        /// コンストラクタ
+        /// @brief コンストラクタ
         /// </summary>
-        /// <param name="container"></param>
-        public SpriteRenderer(GameContainer container)
-        :   base(container)
+        /// <param name="container">コンテナ</param>
+        /// <param name="path">ファイルの場所</param>
+        public SpriteRenderer(GameContainer container, String path) : base(container)
         {
+            GraphicHandle = DX.LoadGraph(path);
         }
 
+        /// <summary>
+        /// @brief 描画
+        /// </summary>
         public override void Update()
         {
-            //DX.DrawGraph();
+            var pos = Position.WorldPosition;
+            DX.DrawGraph((int)pos.x, (int)pos.y, GraphicHandle, 0);
         }
     }
 }

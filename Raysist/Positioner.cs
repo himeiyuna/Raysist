@@ -11,16 +11,25 @@ namespace Raysist
     /// </summary>
     public class Positioner
     {
+        /// <summary>
+        /// @brief 親
+        /// </summary>
         private Positioner parent;
 
+        /// <summary>
+        /// @brief ワールド変換行列
+        /// </summary>
         private Matrix     worldMatrix = Matrix.Identity;
 
         /// <summary>
-        /// @brief ローカル座標
+        /// @brief ローカル座標を取得するプロパティ
         /// </summary>
-        public Vector3    LocalPosition { set; get; }
+        public  Vector3    LocalPosition { set; get; }
 
-        public Vector3    WorldPosition
+        /// <summary>
+        /// @brief ワールド変換行列を取得するプロパティ
+        /// </summary>
+        public  Vector3    WorldPosition
         {
             get
             {
@@ -30,9 +39,9 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief ワールド変換行列を取得する
+        /// @brief ワールド変換行列を取得するプロパティ
         /// </summary>
-        public Matrix     Transform 
+        public  Matrix     Transform 
         {
             get
             {
@@ -42,9 +51,9 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief 親の位置
+        /// @brief 親の位置を取得するプロパティ
         /// </summary>
-        public Positioner Parent
+        public  Positioner Parent
         {
             set
             {

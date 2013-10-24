@@ -9,22 +9,25 @@ namespace Raysist
         static void Main()
         {
             DX.ChangeWindowMode( DX.TRUE );
-
-            DX.SetGraphMode( 800, 600, 32 );
+            DX.SetGraphMode(1600, 900, 32);
 
             if ( DX.DxLib_Init() == -1 )
             {
                 return;
             }
 
+            DX.SetDrawScreen(DX.DX_SCREEN_BACK);
+
+            GameContainer gc = new Player();
+
+            while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
             {
-                DX.DrawBox(100, 100, 200, 150, DX.GetColor( 255, 0, 255 ), DX.TRUE);
-                DX.DrawString( 100, 200, "サンプル描画", DX.GetColor( 255, 255, 64 ) );
+                DX.ClearDrawScreen();
+
+                gc.Update();
+
+                DX.ScreenFlip();
             }
-            Matrix mat = new Matrix();
-
-
-            DX.WaitKey();
 
             DX.DxLib_End();
 

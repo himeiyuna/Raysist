@@ -11,15 +11,40 @@ namespace Raysist
     /// </summary>
     public abstract class GameContainer 
     {
+        private static readonly Positioner Root = new Positioner();
+
         /// <summary>
         /// @brief ゲームコンポーネントの配列
         /// </summary>
         private List<GameComponent> Components { set; get; }
 
         /// <summary>
-        /// @brief 位置情報
+        /// @brief 位置情報を取得するプロパティ
         /// </summary>
         public Positioner Position { set; get; }
+
+        /// <summary>
+        /// @brief デフォルトコンストラクタ
+        /// </summary>
+        public GameContainer()
+        {
+            Position = new Positioner();
+            Components = new List<GameComponent>();
+
+            Position.Parent = Root;
+        }
+
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="parent">親</param>
+        public GameContainer(GameContainer parent)
+        {
+            Position = new Positioner();
+            Components = new List<GameComponent>();
+
+            Position.Parent = parent.Position;
+        }
 
         /// <summary>
         /// @brief コンポーネントを追加する
@@ -38,6 +63,14 @@ namespace Raysist
         public T GetComponent<T>() where T : GameComponent
         {
             return (from i in Components where i is T select i).FirstOrDefault() as T;
+        }
+
+        public void Update()
+        {
+            foreach (var child in Components)
+            {
+                child.Update();
+            }
         }
     }
 }
