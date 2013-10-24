@@ -24,7 +24,7 @@ namespace Raysist
         /// <param name="path">ファイルの場所</param>
         public SpriteRenderer(GameContainer container, String path) : base(container)
         {
-            GraphicHandle = DX.LoadGraph(path);
+            GraphicHandle = DX.LoadGraph("..\\..\\Resources\\" + path);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using DxLibDLL;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,19 @@ namespace Raysist
     /// </summary>
     public class MeshRenderer : Renderer
     {
-        public MeshRenderer(GameContainer container)
+        /// <summary>
+        /// @brief モデルハンドル
+        /// </summary>
+        private int ModelHandle { set; get; }
+
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="container">コンテナ</param>
+        public MeshRenderer(GameContainer container, String path)
             : base(container)
         {
+            ModelHandle = DX.MV1LoadModel(path);
         }
 
         /// <summary>
@@ -21,7 +32,7 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            // TODO:描画処理
+            DX.MV1SetMatrix(ModelHandle, Position.Transform);
         }
     }
 }

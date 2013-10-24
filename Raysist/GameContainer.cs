@@ -65,7 +65,10 @@ namespace Raysist
             return (from i in Components where i is T select i).FirstOrDefault() as T;
         }
 
-        public void Update()
+        /// <summary>
+        /// @brief 更新
+        /// </summary>
+        public virtual void Update()
         {
             foreach (var child in Components)
             {

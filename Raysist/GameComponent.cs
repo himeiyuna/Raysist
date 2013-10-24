@@ -12,17 +12,17 @@ namespace Raysist
     public abstract class GameComponent
     {
         /// <summary>
-        /// 位置情報
+        /// @brief位置情報
         /// </summary>
         public Positioner Position { set; get; }
 
         /// <summary>
-        /// コンポーネントが受け持つ作業の実行
+        /// @brief コンポーネントが受け持つ作業の実行
         /// </summary>
         public abstract void Update();
 
         /// <summary>
-        /// コンストラクタ
+        /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">所持する親</param>
         public GameComponent(GameContainer container)

@@ -24,7 +24,19 @@ namespace Raysist
         /// <summary>
         /// @brief ローカル座標を取得するプロパティ
         /// </summary>
-        public  Vector3    LocalPosition { set; get; }
+        public  Vector3    LocalPosition 
+        {
+            set
+            {
+                worldMatrix[3, 0] = value.x;
+                worldMatrix[3, 1] = value.y;
+                worldMatrix[3, 2] = value.z;
+            }
+            get
+            {
+                return new Vector3 { x = worldMatrix[3, 0], y = worldMatrix[3, 1], z = worldMatrix[3, 2] };
+            }
+        }
 
         /// <summary>
         /// @brief ワールド変換行列を取得するプロパティ
@@ -33,7 +45,7 @@ namespace Raysist
         {
             get
             {
-                var t = Transform;
+                var t = Transform * ;
                 return new Vector3 { x = t[3, 0], y = t[3, 1], z = t[3, 2] };
             }
         }
