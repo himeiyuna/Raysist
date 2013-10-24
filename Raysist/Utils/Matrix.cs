@@ -113,6 +113,12 @@ namespace Raysist
                                  z = left[2, 0] * right.x + left[2, 1] * right.y + left[2, 2] + right.z };
         }
 
+        /// <summary>
+        /// @brief 乗算演算子
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
         public static Matrix operator *(Matrix left, Matrix right)
         {
             var ret = Matrix.Identity;

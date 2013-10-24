@@ -22,19 +22,22 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            if (DX.CheckHitKey(DX.KEY_INPUT_W) == 0)
+            if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
             {
-                Position.LocalPosition.x
+                Position.LocalPosition = new Vector3 { x = Position.LocalPosition.x, y = Position.LocalPosition.y + 1.0f, z = Position.LocalPosition.z };
             }
-            else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 0)
+            else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1)
             {
+                Position.LocalPosition.y += 1.0f;
             }
 
-            if (DX.CheckHitKey(DX.KEY_INPUT_A) == 0)
+            if (DX.CheckHitKey(DX.KEY_INPUT_A) == 1)
             {
+                Position.LocalPosition.x -= 1.0f;
             }
-            else if (DX.CheckHitKey(DX.KEY_INPUT_D) == 0)
+            else if (DX.CheckHitKey(DX.KEY_INPUT_D) == 1)
             {
+                Position.LocalPosition.x += 1.0f;
             }
 
             base.Update();

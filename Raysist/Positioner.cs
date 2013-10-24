@@ -19,7 +19,7 @@ namespace Raysist
         /// <summary>
         /// @brief ワールド変換行列
         /// </summary>
-        private Matrix     worldMatrix = Matrix.Identity;
+        private Matrix     transform = Matrix.Identity;
 
         /// <summary>
         /// @brief ローカル座標を取得するプロパティ
@@ -28,13 +28,28 @@ namespace Raysist
         {
             set
             {
-                worldMatrix[3, 0] = value.x;
-                worldMatrix[3, 1] = value.y;
-                worldMatrix[3, 2] = value.z;
+                transform[3, 0] = value.x;
+                transform[3, 1] = value.y;
+                transform[3, 2] = value.z;
             }
             get
             {
-                return new Vector3 { x = worldMatrix[3, 0], y = worldMatrix[3, 1], z = worldMatrix[3, 2] };
+                return new Vector3 { x = transform[3, 0], y = transform[3, 1], z = transform[3, 2] };
+            }
+        }
+
+        /// <summary>
+        /// @brief ローカル変形行列を取得するプロパティ
+        /// </summary>
+        public Matrix      LocalTransform 
+        {
+            set
+            {
+                transform = value;
+            }
+            get
+            {
+                return transform;
             }
         }
 
@@ -45,7 +60,7 @@ namespace Raysist
         {
             get
             {
-                var t = Transform * ;
+                var t = WorldTransform;
                 return new Vector3 { x = t[3, 0], y = t[3, 1], z = t[3, 2] };
             }
         }
@@ -53,12 +68,12 @@ namespace Raysist
         /// <summary>
         /// @brief ワールド変換行列を取得するプロパティ
         /// </summary>
-        public  Matrix     Transform 
+        public  Matrix     WorldTransform
         {
             get
             {
-                // 親がいなくなるまでループを続ける
-                return parent == null ? worldMatrix : parent.Transform * worldMatrix;
+                // 親がいなくなるまで再帰を続ける
+                return parent == null ? LocalTransform : parent.WorldTransform * LocalTransform;
             }
         }
 

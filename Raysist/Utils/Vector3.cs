@@ -109,6 +109,37 @@ namespace Raysist
                 return new Vector3 { x = x / length, y = y / length, z = z / length };
             }
         }
+        
+        /// <summary>
+        /// @brief 平行移動行列を取得するプロパティ
+        /// </summary>
+        public Matrix TranslationMatrix
+        {
+            get
+            {
+                var ret = Matrix.Identity;
+                ret[3, 0] = x;
+                ret[3, 1] = y;
+                ret[3, 2] = z;
+                return ret;
+            }
+        }
+
+        /// <summary>
+        /// @brief 拡縮行列を取得するプロパティ
+        /// </summary>
+        public Matrix ScaleMatrix
+        {
+            get
+            {
+                var ret = new Matrix();
+                ret[0, 0] = x;
+                ret[0, 1] = y;
+                ret[0, 2] = z;
+                ret[0, 3] = 1.0f;
+                return ret;
+            }
+        }
 
         /// <summary>
         /// @brief デフォルトコンストラクタ
@@ -138,6 +169,86 @@ namespace Raysist
         public static Vector3 operator -(Vector3 left, Vector3 right)
         {
             return new Vector3 { x = left.x - right.x, y = left.y - right.y, z = left.z - right.z };
+        }
+
+        /// <summary>
+        /// @brief 乗算演算子
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public static Vector3 operator *(Vector3 left, Quaternion right)
+        {
+            var v = new Quaternion();
+            v.x = left.x;
+            v.y = left.y;
+            v.z = left.z;
+
+            v = right * v * right.Conjugate;
+
+            return new Vector3 { x = v.x, y = v.y, z = v.z };
+        }
+
+        /// <summary>
+        /// @brief 乗算演算子
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public static Vector3 operator *(Quaternion left, Vector3 right)
+        {
+            var v = new Quaternion();
+            v.x = right.x;
+            v.y = right.y;
+            v.z = right.z;
+
+            v = left * v * left.Conjugate;
+
+            return new Vector3 { x = v.x, y = v.y, z = v.z };
+        }
+
+        /// <summary>
+        /// @brief 乗算演算子
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public static Vector3 operator *(float left, Vector3 right)
+        {
+            return new Vector3 { x = left * right.x, y = left * right.y, z = left * right.z };
+        }
+
+        /// <summary>
+        /// @brief 乗算演算子
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public static Vector3 operator *(Vector3 left, float right)
+        {
+            return new Vector3 { x = left.x * right, y = left.y * right, z = left.z * right };
+        }
+
+        /// <summary>
+        /// @brief 内積を取得する
+        /// </summary>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public float Dot(Vector3 right)
+        {
+            return x * right.x + y * right.y + z * right.z;
+        }
+
+        /// <summary>
+        /// @brief 外積を取得する
+        /// </summary>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public Vector3 Cross(Vector3 right)
+        {
+            return new Vector3 { x = y * right.z - z * right.y, 
+                                 y = z * right.x - x * right.z,
+                                 z = x * right.y - y * right.x };
         }
     }
 }

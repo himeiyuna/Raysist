@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Raysist.Utils
+namespace Raysist
 {
     /// <summary>
     /// @brief クォータニオン
@@ -15,7 +15,10 @@ namespace Raysist.Utils
         /// @brief 要素
         /// </summary>
         private float[] elements;
-
+        
+        /// <summary>
+        /// @brief x要素を取得するプロパティ
+        /// </summary>
         public float x
         {
             set
@@ -28,6 +31,9 @@ namespace Raysist.Utils
             }
         }
 
+        /// <summary>
+        /// @brief y要素を取得するプロパティ
+        /// </summary>
         public float y
         {
             set
@@ -40,6 +46,9 @@ namespace Raysist.Utils
             }
         }
 
+        /// <summary>
+        /// @brief z要素を取得するプロパティ
+        /// </summary>
         public float z
         {
             set
@@ -52,6 +61,9 @@ namespace Raysist.Utils
             }
         }
 
+        /// <summary>
+        /// @brief w要素を取得するプロパティ
+        /// </summary>
         public float w
         {
             set
@@ -64,6 +76,11 @@ namespace Raysist.Utils
             }
         }
 
+        /// <summary>
+        /// @brief インデクサ
+        /// </summary>
+        /// <param name="index">添字</param>
+        /// <returns></returns>
         public float this[int index]
         {
             set
@@ -84,6 +101,39 @@ namespace Raysist.Utils
             get
             {
                 return new Quaternion { x = 0.0f, y = 0.0f, z = 0.0f, w = 1.0f };
+            }
+        }
+
+        /// <summary>
+        /// @brief 共役四元数を取得するプロパティ
+        /// </summary>
+        public Quaternion Conjugate
+        {
+            get
+            {
+                return new Quaternion { x = -x, y = -y, z = -z, w = w };
+            }
+        }
+
+        /// <summary>
+        /// @brief 長さを取得するプロパティ
+        /// </summary>
+        public float Length
+        {
+            get
+            {
+                return (float)Math.Sqrt(Length2);
+            }
+        }
+
+        /// <summary>
+        /// @brief 長さの２乗を取得するプロパティ
+        /// </summary>
+        public float Length2 
+        { 
+            get
+            {
+                return x * x + y * y + z * z + w * w; 
             }
         }
 
@@ -208,6 +258,16 @@ namespace Raysist.Utils
                 z = right.x * left.y - right.y * left.x + right.w * left.z + left.w * right.z,
                 w = left.w * right.w - left.x * right.x + left.y * right.y + left.z * right.z
             };
+        }
+
+        /// <summary>
+        /// @brief 内積を取得する
+        /// </summary>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public float Dot(Quaternion right)
+        {
+            return x * right.x + y + right.y + z * right.z + w * right.w;
         }
     }
 }

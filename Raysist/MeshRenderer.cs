@@ -32,7 +32,7 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            DX.MV1SetMatrix(ModelHandle, Position.Transform);
+            DX.MV1SetMatrix(ModelHandle, Position.WorldTransform);
         }
     }
 }
