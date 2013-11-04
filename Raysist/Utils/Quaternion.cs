@@ -176,10 +176,12 @@ namespace Raysist
             elements = new float[4] { 0.0f, 0.0f, 0.0f, 0.0f };
         }
 
+   
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        /// <param name="axis"></param>
+        /// <param name="axis">軸ベクトル</param>
+        /// <param name="radian">回転量</param>
         public Quaternion(Vector3 axis, float radian) : this()
         {
             float sin_t2 = (float)Math.Sin(0.0f * radian);

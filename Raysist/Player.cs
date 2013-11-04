@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Raysist
 {
-    class Player : GameContainer
+    class Player : GameComponent
     {
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public Player() : base()
+        public Player(GameContainer container) : base(container)
         {
-            AddComponent(new SpriteRenderer(this, "dummy.png"));
+            
         }
 
         /// <summary>
@@ -22,9 +22,10 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
+            // 移動処理
             if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
             {
-                Position.LocalPosition = new Vector3 { x = Position.LocalPosition.x, y = Position.LocalPosition.y + 1.0f, z = Position.LocalPosition.z };
+                Position.LocalPosition.y -= 1.0f; 
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1)
             {
@@ -39,8 +40,6 @@ namespace Raysist
             {
                 Position.LocalPosition.x += 1.0f;
             }
-
-            base.Update();
         }
     }
 }

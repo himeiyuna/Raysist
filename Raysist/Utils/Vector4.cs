@@ -120,5 +120,23 @@ namespace Raysist
         {
             elements = new float[4]{ 0.0f, 0.0f, 0.0f, 0.0f };
         }
+
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="right">サイズ4の配列</param>
+        public Vector4(float[] array)
+        {
+            elements = array;
+        }
+
+        /// <summary>
+        /// @brief 配列を返す
+        /// </summary>
+        /// <returns>配列</returns>
+        public float[] ToArray()
+        {
+            return elements;
+        }
     }
 }

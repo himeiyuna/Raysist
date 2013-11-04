@@ -34,7 +34,7 @@ namespace Raysist
             }
             get
             {
-                return new Vector3 { x = transform[3, 0], y = transform[3, 1], z = transform[3, 2] };
+                return new Vector3(transform[3].ToArray());
             }
         }
 

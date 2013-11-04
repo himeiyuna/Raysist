@@ -13,25 +13,25 @@ namespace Raysist
         /// <summary>
         /// @brief 要素
         /// </summary>
-        private float[,] elements;
+        private float[][] elements;
 
         /// <summary>
-        /// @brief 行要素を取得する
+        /// @brief 行要素を取得するプロパティ
         /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <returns>行</returns>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public Vector4 this[int index]
         {
             set
             {
-                elements[index, 0] = value.x;
-                elements[index, 1] = value.y;
-                elements[index, 2] = value.z;
-                elements[index, 3] = value.w;
+                elements[index][0] = value.x;
+                elements[index][1] = value.y;
+                elements[index][2] = value.z;
+                elements[index][3] = value.w;
             }
             get
             {
-                return new Vector4 { x = elements[index, 0], y = elements[index, 1], z = elements[index, 2], w = elements[index, 3] };
+                return new Vector4(elements[index]);
             }
         }
 
@@ -45,11 +45,11 @@ namespace Raysist
         {
             set
             {
-                elements[row, col] = value;
+                elements[row][col] = value;
             }
             get
             {
-                return elements[row, col];
+                return elements[row][col];
             }
         }
 
@@ -146,11 +146,13 @@ namespace Raysist
         /// </summary>
         public Matrix()
         {
-            elements = new float[4, 4] { { 0.0f, 0.0f, 0.0f, 0.0f },
-                                         { 0.0f, 0.0f, 0.0f, 0.0f },
-                                         { 0.0f, 0.0f, 0.0f, 0.0f },
-                                         { 0.0f, 0.0f, 0.0f, 0.0f } 
-                                       };
+            elements = new float[][]
+            { 
+                new float[4] { 0.0f, 0.0f, 0.0f, 0.0f },
+                new float[4] { 0.0f, 0.0f, 0.0f, 0.0f },
+                new float[4] { 0.0f, 0.0f, 0.0f, 0.0f },
+                new float[4] { 0.0f, 0.0f, 0.0f, 0.0f } 
+            };
         }
     }
 }

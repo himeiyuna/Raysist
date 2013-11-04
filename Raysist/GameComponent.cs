@@ -14,12 +14,11 @@ namespace Raysist
         /// <summary>
         /// @brief位置情報
         /// </summary>
-        public Positioner Position { set; get; }
-
-        /// <summary>
-        /// @brief コンポーネントが受け持つ作業の実行
-        /// </summary>
-        public abstract void Update();
+        public Positioner Position 
+        {
+            private set; 
+            get;
+        }
 
         /// <summary>
         /// @brief コンストラクタ
@@ -29,5 +28,10 @@ namespace Raysist
         {
             Position = container.Position;
         }
+
+        /// <summary>
+        /// @brief コンポーネントが受け持つ作業の実行
+        /// </summary>
+        public abstract void Update();
     }
 }

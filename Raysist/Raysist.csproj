@@ -39,6 +39,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
+    <Compile Include="ContainerFactory.cs" />
+    <Compile Include="Scene.cs" />
     <Compile Include="MeshRenderer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="GameComponent.cs" />

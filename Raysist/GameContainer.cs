@@ -9,7 +9,7 @@ namespace Raysist
     /// <summary>
     /// ゲームを構成するコンテナクラス
     /// </summary>
-    public abstract class GameContainer 
+    public sealed class GameContainer 
     {
         private static readonly Positioner Root = new Positioner();
 
@@ -68,7 +68,7 @@ namespace Raysist
         /// <summary>
         /// @brief 更新
         /// </summary>
-        public virtual void Update()
+        public void Update()
         {
             foreach (var child in Components)
             {

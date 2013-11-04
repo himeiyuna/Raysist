@@ -15,7 +15,7 @@ namespace Raysist
         /// <summary>
         /// @brief モデルハンドル
         /// </summary>
-        private int ModelHandle { set; get; }
+        protected int ModelHandle { set; get; }
 
         /// <summary>
         /// @brief コンストラクタ
@@ -33,6 +33,7 @@ namespace Raysist
         public override void Update()
         {
             DX.MV1SetMatrix(ModelHandle, Position.WorldTransform);
+            DX.MV1DrawModel(ModelHandle);
         }
     }
 }

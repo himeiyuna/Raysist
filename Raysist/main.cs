@@ -1,5 +1,6 @@
 ﻿using DxLibDLL;
 using System;
+using System.Collections.Generic;
 
 namespace Raysist
 {
@@ -18,7 +19,14 @@ namespace Raysist
 
             DX.SetDrawScreen(DX.DX_SCREEN_BACK);
 
-            GameContainer gc = new Player();
+            var cf = new ContainerFactory();
+            var gc = cf.Create((GameContainer g) => {
+                return new List<GameComponent>()
+                {
+                    new Player(g),
+                    new SpriteRenderer(g, "dummy.png")
+                };
+            });
 
             while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
             {

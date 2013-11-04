@@ -150,6 +150,15 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="right">配列</param>
+        public Vector3(float[] array)
+        {
+            elements = array;
+        }
+
+        /// <summary>
         /// @brief 加算演算子
         /// </summary>
         /// <param name="left">左辺</param>
@@ -249,6 +258,15 @@ namespace Raysist
             return new Vector3 { x = y * right.z - z * right.y, 
                                  y = z * right.x - x * right.z,
                                  z = x * right.y - y * right.x };
+        }
+
+        /// <summary>
+        /// @brief 配列を返す
+        /// </summary>
+        /// <returns>配列</returns>
+        public float[] ToArray()
+        {
+            return elements;
         }
     }
 }
