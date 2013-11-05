@@ -14,10 +14,21 @@ namespace Raysist
     class ContainerFactory
     {
         /// <summary>
+        /// @brief コンテナの初期化をするプロパティ
+        /// </summary>
+        private Action<GameContainer> CreateFunction
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public ContainerFactory()
+        /// <param name="createFunction"></param>
+        public ContainerFactory(Action<GameContainer> createFunction)
         {
+            CreateFunction = createFunction;
         }
 
         /// <summary>
@@ -26,7 +37,9 @@ namespace Raysist
         /// <returns>生成されたコンテナ</returns>
         public virtual GameContainer Create()
         {
-            return new GameContainer();
+            var ret = new GameContainer();
+            CreateFunction(ret);
+            return ret;
         }
 
         /// <summary>
@@ -36,45 +49,8 @@ namespace Raysist
         /// <returns>生成されたコンテナ</returns>
         public virtual GameContainer Create(GameContainer parent)
         {
-            return new GameContainer(parent);
-        }
-
-        /// <summary>
-        /// @brief コンテナを生成する　
-        ///        匿名関数によるコンポーネント初期化
-        /// </summary>
-        /// <param name="func">実装するコンポーネントのリストを返す関数</param>
-        /// <returns>生成されたコンテナ</returns>
-        public GameContainer Create(Func<GameContainer, List<GameComponent>> func)
-        {
-            var ret = new GameContainer();
-            
-            var components = func(ret);
-            foreach (var component in components)
-            {
-                ret.AddComponent(component);
-            }
-
-            return ret;
-        }
-
-        /// <summary>
-        /// @brief 親が設定されたコンテナを生成する
-        ///        匿名関数によるコンポーネント初期化
-        /// </summary>
-        /// <param name="func">実装するコンポーネントのリストを返す関数</param>
-        /// <param name="parent">親</param>
-        /// <returns>生成されたコンテナ</returns>
-        public GameContainer Create(Func<GameContainer, List<GameComponent>> func, GameContainer parent)
-        {
             var ret = new GameContainer(parent);
-
-            var components = func(ret);
-            foreach (var component in components)
-            {
-                ret.AddComponent(component);
-            }
-
+            CreateFunction(ret);
             return ret;
         }
     }

@@ -19,15 +19,13 @@ namespace Raysist
 
             DX.SetDrawScreen(DX.DX_SCREEN_BACK);
 
-            var cf = new ContainerFactory();
-            var gc = cf.Create((GameContainer g) => {
-                return new List<GameComponent>()
-                {
-                    new Player(g),
-                    new SpriteRenderer(g, "dummy.png")
-                };
+            var cf = new ContainerFactory((GameContainer g) => 
+            {
+                g.AddComponent(new Player(g));
+                g.AddComponent(new SpriteRenderer(g, "dummy.png"));
             });
 
+            var gc = cf.Create();
             while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
             {
                 DX.ClearDrawScreen();
