@@ -10,6 +10,21 @@ namespace Raysist
     public class Vector3
     {
         /// <summary>
+        /// @brief x軸
+        /// </summary>
+        public static readonly Vector3 AxisX = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
+
+        /// <summary>
+        /// @brief y軸
+        /// </summary>
+        public static readonly Vector3 AxisY = new Vector3 { x = 0.0f, y = 1.0f, z = 0.0f };
+
+        /// <summary>
+        /// @brief z軸
+        /// </summary>
+        public static readonly Vector3 AxisZ = new Vector3 { x = 0.0f, y = 0.0f, z = 1.0f };
+
+        /// <summary>
         /// @brief 配列式
         /// </summary>
         private float[] elements;

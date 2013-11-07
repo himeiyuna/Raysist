@@ -96,7 +96,7 @@ namespace Raysist
         /// <summary>
         /// @brief 単位クォータニオン
         /// </summary>
-        public Quaternion Identity
+        public static Quaternion Identity
         {
             get
             {

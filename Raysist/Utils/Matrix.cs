@@ -18,7 +18,7 @@ namespace Raysist
         /// <summary>
         /// @brief 行要素を取得するプロパティ
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">行 0~3</param>
         /// <returns></returns>
         public Vector4 this[int index]
         {
@@ -38,8 +38,8 @@ namespace Raysist
         /// <summary>
         /// @brief 要素を取得する
         /// </summary>
-        /// <param name="row">行</param>
-        /// <param name="col">列</param>
+        /// <param name="row">行 0~3</param>
+        /// <param name="col">列 0~3</param>
         /// <returns>要素</returns>
         public float this[int row, int col]
         {

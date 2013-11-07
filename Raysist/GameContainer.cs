@@ -86,11 +86,45 @@ namespace Raysist
         /// <summary>
         /// @brief 更新
         /// </summary>
-        public void Update()
+        internal void Update()
         {
             foreach (var child in Components)
             {
                 child.Update();
+            }
+        }
+    }
+
+    /// <summary>
+    /// @brief ゲームコンテナを管理するクラス
+    /// </summary>
+    public sealed class GameContainerController
+    {
+        /// <summary>
+        /// @brief コンテナの配列
+        /// </summary>
+        private List<GameContainer> Containers
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        public GameContainerController()
+        {
+            Containers = new List<GameContainer>();
+        }
+
+        /// <summary>
+        /// @brief 更新処理
+        /// </summary>
+        public void Update()
+        {
+            foreach (var container in Containers)
+            {
+                container.Update();
             }
         }
     }

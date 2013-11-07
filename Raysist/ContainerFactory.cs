@@ -23,6 +23,13 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief デフォルトコンストラクタ
+        /// </summary>
+        protected ContainerFactory()
+        {
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="createFunction"></param>

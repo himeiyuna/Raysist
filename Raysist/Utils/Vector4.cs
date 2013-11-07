@@ -92,6 +92,40 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief 
+        /// </summary>
+        public Vector4 Normalize
+        {
+            get
+            {
+                var l = Length;
+                return new Vector4 { x = x / l, y = y / l, z = z / l, w = w / l };
+            }
+        }
+
+        /// <summary>
+        /// @brief 長さを取得する
+        /// </summary>
+        public float Length
+        {
+            get
+            {
+                return (float)Math.Sqrt(Length2);
+            }
+        }
+
+        /// <summary>
+        /// @brief 長さの２乗を取得する 
+        /// </summary>
+        public float Length2
+        {
+            get
+            {
+                return x * x + y * y + z * z + w * w;
+            }
+        }
+
+        /// <summary>
         /// @brief 加算演算子
         /// </summary>
         /// <param name="left">左辺</param>
@@ -111,6 +145,28 @@ namespace Raysist
         public static Vector4 operator -(Vector4 left, Vector4 right)
         {
             return new Vector4 { x = left.x - right.x, y = left.y - right.y, z = left.z - right.z, w = left.w - right.w };
+        }
+
+        /// <summary>
+        /// @brief 乗算演算子
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public static Vector4 operator *(float left, Vector4 right)
+        {
+            return new Vector4 { x = left * right.x, y = left * right.y, z = left * right.z, w = left * right.w };
+        }
+
+        /// <summary>
+        /// @brief 乗算演算子
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>計算結果</returns>
+        public static Vector4 operator *(Vector4 left, float right)
+        {
+            return new Vector4 { x = left.x * right, y = left.y * right, z = left.z * right, w = left.w * right };
         }
 
         /// <summary>

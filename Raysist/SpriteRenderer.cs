@@ -15,7 +15,59 @@ namespace Raysist
         /// <summary>
         /// @brief グラフィックハンドル
         /// </summary>
-        protected int GraphicHandle { set; get; }
+        protected int GraphicHandle 
+        {
+            set; 
+            get;
+        }
+
+        /// <summary>
+        /// @brief 回転量
+        /// </summary>
+        public float Radian
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief スケール
+        /// </summary>
+        public float Scale
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 画像の幅を取得するプロパティ
+        /// </summary>
+        public int Width
+        {
+            get
+            {
+                int width;
+                int height;
+                DX.GetGraphSize(GraphicHandle, out width, out height);
+
+                return width;
+            }
+        }
+
+        /// <summary>
+        /// @brief 画像の高さを取得するプロパティ
+        /// </summary>
+        public int Height
+        {
+            get
+            {
+                int width;
+                int height;
+                DX.GetGraphSize(GraphicHandle, out width, out height);
+
+                return height;
+            }
+        }
 
         /// <summary>
         /// @brief コンストラクタ
@@ -33,7 +85,7 @@ namespace Raysist
         public override void Update()
         {
             var pos = Position.WorldPosition;
-            DX.DrawGraph((int)pos.x, (int)pos.y, GraphicHandle, 0);
+            DX.DrawRotaGraphF(pos.x, pos.y, (double)Scale, (double)Radian, GraphicHandle, 0);
         }
     }
 }

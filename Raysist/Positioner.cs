@@ -14,82 +14,112 @@ namespace Raysist
         /// <summary>
         /// @brief 親
         /// </summary>
-        private Positioner parent;
-
-        /// <summary>
-        /// @brief ワールド変換行列
-        /// </summary>
-        private Matrix     transform = Matrix.Identity;
+        public Positioner Parent
+        {
+            set;
+            get;
+        }
 
         /// <summary>
         /// @brief ローカル座標を取得するプロパティ
         /// </summary>
-        public  Vector3    LocalPosition 
+        public Vector3 LocalPosition
         {
-            set
-            {
-                transform[3, 0] = value.x;
-                transform[3, 1] = value.y;
-                transform[3, 2] = value.z;
-            }
-            get
-            {
-                return new Vector3(transform[3].ToArray());
-            }
+            set;
+            get;
         }
 
         /// <summary>
-        /// @brief ローカル変形行列を取得するプロパティ
+        /// @brief ローカルのスケールを取得するプロパティ
         /// </summary>
-        public Matrix      LocalTransform 
+        public Vector3 LocalScale
         {
-            set
-            {
-                transform = value;
-            }
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief ローカルの回転量を取得するプロパティ
+        /// </summary>
+        public Quaternion LocalRotation
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief ローカル変換行列を取得するプロパティ
+        /// </summary>
+        public Matrix LocalTransform
+        {
             get
             {
-                return transform;
+                var ret = LocalRotation.RotationMatrix;
+                ret[0] *= LocalScale.x;
+                ret[1] *= LocalScale.y;
+                ret[2] *= LocalScale.z;
+                ret[3, 0] = LocalPosition.x;
+                ret[3, 1] = LocalPosition.y;
+                ret[3, 2] = LocalPosition.z;
+
+                return ret;
             }
         }
 
         /// <summary>
         /// @brief ワールド変換行列を取得するプロパティ
         /// </summary>
-        public  Vector3    WorldPosition
+        public Vector3 WorldPosition
         {
             get
             {
-                var t = WorldTransform;
-                return new Vector3 { x = t[3, 0], y = t[3, 1], z = t[3, 2] };
+                return new Vector3(WorldTransform[3].ToArray());
+            }
+        }
+
+        /// <summary>
+        /// @brief ワールドのスケール取得するプロパティ
+        /// </summary>
+        public Vector3 WorldScale
+        {
+            get
+            {
+                var mat = WorldTransform;
+                return new Vector3 { x = WorldTransform[0].Length, y = WorldTransform[1].Length, z = WorldTransform[3].Length };
+            }
+        }
+
+        /// <summary>
+        /// @brief ワールドの回転量を取得するプロパティ
+        /// </summary>
+        public Quaternion WorldRotation
+        {
+            get
+            {
+                return Parent == null ? LocalRotation : LocalRotation * Parent.WorldRotation;
             }
         }
 
         /// <summary>
         /// @brief ワールド変換行列を取得するプロパティ
         /// </summary>
-        public  Matrix     WorldTransform
+        public Matrix WorldTransform
         {
             get
             {
                 // 親がいなくなるまで再帰を続ける
-                return parent == null ? LocalTransform : parent.WorldTransform * LocalTransform;
+                return Parent == null ? LocalTransform : Parent.WorldTransform * LocalTransform;
             }
         }
 
         /// <summary>
-        /// @brief 親の位置を取得するプロパティ
+        /// @brief コンストラクタ
         /// </summary>
-        public  Positioner Parent
+        public Positioner()
         {
-            set
-            {
-                parent = value;
-            }
-            get
-            {
-                return parent;
-            }
+            LocalPosition = new Vector3();
+            LocalScale    = new Vector3();
+            LocalRotation = Quaternion.Identity;
         }
     }
 }
