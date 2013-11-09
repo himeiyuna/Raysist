@@ -14,7 +14,7 @@ namespace Raysist
         /// </summary>
         public Player(GameContainer container) : base(container)
         {
-            
+            //Position.LocalScale *= 10.0f;
         }
 
         /// <summary>

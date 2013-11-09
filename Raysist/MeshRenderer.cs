@@ -21,10 +21,12 @@ namespace Raysist
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">コンテナ</param>
+        /// <param name="path">Resourceフォルダからのパス</param>
         public MeshRenderer(GameContainer container, String path)
             : base(container)
         {
-            ModelHandle = DX.MV1LoadModel(path);
+            // TODO: Deplicateを使用するために管理クラスを作成する
+            ModelHandle = DX.MV1LoadModel("..\\..\\Resources\\" + path);
         }
 
         /// <summary>

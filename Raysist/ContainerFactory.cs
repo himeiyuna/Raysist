@@ -8,8 +8,6 @@ namespace Raysist
 {
     /// <summary>
     /// @brief コンテナを生成するファクトリクラス
-    ///        特化したファクトリを作成する場合はCreate関数をオーバーライドすること
-    ///        匿名関数を使用することでも特化させることは可能
     /// </summary>
     class ContainerFactory
     {

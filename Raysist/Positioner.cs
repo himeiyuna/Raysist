@@ -118,7 +118,7 @@ namespace Raysist
         public Positioner()
         {
             LocalPosition = new Vector3();
-            LocalScale    = new Vector3();
+            LocalScale    = new Vector3 { x = 1.0f, y = 1.0f, z = 1.0f };
             LocalRotation = Quaternion.Identity;
         }
     }
