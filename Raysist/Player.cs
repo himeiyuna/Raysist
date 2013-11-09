@@ -25,20 +25,23 @@ namespace Raysist
             // 移動処理
             if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
             {
-                Position.LocalPosition.y -= 1.0f; 
+                Position.LocalRotation *= new Quaternion(Position.LocalAxisX, 0.1f) * new Quaternion(Position.LocalAxisZ, 0.1f);
+                //Position.LocalPosition.y -= 1.0f; 
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1)
             {
-                Position.LocalPosition.y += 1.0f;
+                Position.LocalRotation *= new Quaternion(Position.LocalAxisX, -0.1f) * new Quaternion(Position.LocalAxisZ, -0.1f);
+                //Position.LocalPosition.y += 1.0f;
             }
 
             if (DX.CheckHitKey(DX.KEY_INPUT_A) == 1)
             {
-                Position.LocalPosition.x -= 1.0f;
+                //Position.LocalPosition.x -= 1.0f;
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_D) == 1)
             {
-                Position.LocalPosition.x += 1.0f;
+                
+                //Position.LocalPosition.x += 1.0f;
             }
         }
     }

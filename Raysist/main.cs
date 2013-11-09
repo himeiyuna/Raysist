@@ -32,7 +32,12 @@ namespace Raysist
             });
 
             var gc = cf.Create();
+            var player = gc.GetComponent<Player>();
+            //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
+
             var camera = cameraFactory.Create();
+            camera.Position.LocalPosition.z = -500.0f; 
+
             while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
             {
                 DX.ClearDrawScreen();

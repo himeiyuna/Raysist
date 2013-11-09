@@ -30,19 +30,23 @@ namespace Raysist
         /// <summary>
         /// @brief 目線ベクトル
         /// </summary>
-        public virtual Vector3 Eye
+        public Vector3 Eye
         {
-            set;
-            get;
+            get
+            {
+                return Position.LocalAxisZ;
+            }
         }
 
         /// <summary>
         /// @brief 上ベクトル
         /// </summary>
-        public virtual Vector3 Up
+        public Vector3 Up
         {
-            set;
-            get;
+            get
+            {
+                return Position.LocalAxisY;
+            }
         }
 
         /// <summary>
@@ -170,8 +174,6 @@ namespace Raysist
         public Camera(GameContainer container) : base(container)
         {
             Position.LocalPosition.z = -100.0f;
-            Eye = Vector3.AxisZ;
-            Up  = Vector3.AxisY;
             Near = DefaultNear;
             Far  = DefaultFar;
 

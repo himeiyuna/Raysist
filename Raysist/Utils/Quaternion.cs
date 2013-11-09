@@ -145,7 +145,7 @@ namespace Raysist
             get
             {
                 var ret = new Matrix();
-                ret[0, 0] = 1.0f - 2.0f * y - 2.0f * z * z;
+                ret[0, 0] = 1.0f - 2.0f * y * y - 2.0f * z * z;
                 ret[0, 1] = 2.0f * x * y + 2.0f * w * z;
                 ret[0, 2] = 2.0f * x * z - 2.0f * w * y;
                 ret[0, 3] = 0.0f;
@@ -184,13 +184,15 @@ namespace Raysist
         /// <param name="radian">回転量</param>
         public Quaternion(Vector3 axis, float radian) : this()
         {
-            float sin_t2 = (float)Math.Sin(0.0f * radian);
-            float cos_t2 = (float)Math.Cos(0.0f * radian);
+            var norm = axis.Normalize;
+
+            float sin_t2 = (float)Math.Sin(0.5f * radian);
+            float cos_t2 = (float)Math.Cos(0.5f * radian);
 
             w = cos_t2;
-            x = axis.x * sin_t2;
-            y = axis.y * sin_t2;
-            z = axis.z * sin_t2;
+            x = norm.x * sin_t2;
+            y = norm.y * sin_t2;
+            z = norm.z * sin_t2;
         }
 
         /// <summary>
@@ -255,10 +257,10 @@ namespace Raysist
         {
             return new Quaternion
             {
-                x = right.y * left.z - right.z * left.y + right.w * left.x + left.w * right.x,
-                y = right.z * left.x - right.x * left.z + right.w * left.y + left.w * right.y,
-                z = right.x * left.y - right.y * left.x + right.w * left.z + left.w * right.z,
-                w = left.w * right.w - left.x * right.x + left.y * right.y + left.z * right.z
+                x = left.w * right.x + left.x * right.w + left.y * right.z - left.z * right.y, //right.y * left.z - right.z * left.y + right.w * left.x + left.w * right.x,
+                y = left.w * right.y - left.x * right.z + left.y * right.w + left.z * right.x, //right.z * left.x - right.x * left.z + right.w * left.y + left.w * right.y,
+                z = left.w * right.z + left.x * right.y - left.y * right.x + left.z * right.w, //right.x * left.y - right.y * left.x + right.w * left.z + left.w * right.z,
+                w = left.w * right.w - left.x * right.x - left.y * right.y - left.z * right.z
             };
         }
 

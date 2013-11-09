@@ -67,13 +67,35 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief ワールド変換行列を取得するプロパティ
+        /// @brief ローカルのx軸
         /// </summary>
-        public Vector3 WorldPosition
+        public Vector3 LocalAxisX
         {
             get
             {
-                return new Vector3(WorldTransform[3].ToArray());
+                return new Vector3(LocalRotation.RotationMatrix[0].ToArray());
+            }
+        }
+
+        /// <summary>
+        /// @brief ローカルのy軸
+        /// </summary>
+        public Vector3 LocalAxisY
+        {
+            get
+            {
+                return new Vector3(LocalRotation.RotationMatrix[1].ToArray());
+            }
+        }
+
+        /// <summary>
+        /// @brief ローカルのz軸
+        /// </summary>
+        public Vector3 LocalAxisZ
+        {
+            get
+            {
+                return new Vector3(LocalRotation.RotationMatrix[2].ToArray());
             }
         }
 
@@ -109,6 +131,50 @@ namespace Raysist
             {
                 // 親がいなくなるまで再帰を続ける
                 return Parent == null ? LocalTransform : Parent.WorldTransform * LocalTransform;
+            }
+        }
+
+        /// <summary>
+        /// @brief ローカルのx軸
+        /// </summary>
+        public Vector3 WorldAxisX
+        {
+            get
+            {
+                return new Vector3(WorldRotation.RotationMatrix[0].ToArray());
+            }
+        }
+
+        /// <summary>
+        /// @brief ローカルのy軸
+        /// </summary>
+        public Vector3 WorldAxisY
+        {
+            get
+            {
+                return new Vector3(WorldRotation.RotationMatrix[1].ToArray());
+            }
+        }
+
+        /// <summary>
+        /// @brief ローカルのz軸
+        /// </summary>
+        public Vector3 WorldAxisZ
+        {
+            get
+            {
+                return new Vector3(WorldRotation.RotationMatrix[2].ToArray());
+            }
+        }
+
+        /// <summary>
+        /// @brief ワールド変換行列を取得するプロパティ
+        /// </summary>
+        public Vector3 WorldPosition
+        {
+            get
+            {
+                return new Vector3(WorldTransform[3].ToArray());
             }
         }
 
