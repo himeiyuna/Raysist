@@ -21,11 +21,13 @@ namespace Raysist
 
             Scene scene = new TestScene();
 
+            SceneController sc = new SceneController(scene);
+
             while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
             {
                 DX.ClearDrawScreen();
 
-                scene.Update();
+                sc.Update();
 
                 DX.ScreenFlip();
             }

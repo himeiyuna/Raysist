@@ -1,9 +1,4 @@
-﻿using System;
-using DxLibDLL;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DxLibDLL;
 
 namespace Raysist
 {
@@ -50,6 +45,15 @@ namespace Raysist
     {
         public TestScene()
         {
+            
+        }
+
+        public override void LoadResource()
+        {
+        }
+
+        public override void EnterScene()
+        {
             var cf = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Player(g));
@@ -70,9 +74,12 @@ namespace Raysist
             camera.Position.LocalPosition.z = -500.0f; 
         }
 
-        public override void Dispose()
+        public override void LeaveScene()
         {
+        }
 
+        public override void UnloadResource()
+        {
         }
     }
 }
