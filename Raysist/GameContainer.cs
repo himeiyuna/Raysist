@@ -21,11 +21,47 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief 更新フラグ
+        /// </summary>
+        public bool IsActive
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 親がアクティブでなかった場合falseを返す
+        /// </summary>
+        public bool IsActiveInHierarchy
+        {
+            get
+            {
+                if (IsActive) 
+                {
+                    return Position.Parent != null ? Position.Parent.Container.IsActiveInHierarchy : true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// @brief 名前
+        /// </summary>
+        public String Name
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief 位置情報を取得するプロパティ
         /// </summary>
-        public Positioner Position 
-        { 
-            private set; 
+        public Positioner Position
+        {
+            private set;
             get;
         }
 
@@ -34,7 +70,8 @@ namespace Raysist
         /// </summary>
         public GameContainer()
         {
-            Position = new Positioner();
+            IsActive = true;
+            Position = new Positioner(this);
             Components = new List<GameComponent>();
         }
 
@@ -86,45 +123,11 @@ namespace Raysist
         /// <summary>
         /// @brief 更新
         /// </summary>
-        internal void Update()
+        public void Update()
         {
             foreach (var child in Components)
             {
                 child.Update();
-            }
-        }
-    }
-
-    /// <summary>
-    /// @brief ゲームコンテナを管理するクラス
-    /// </summary>
-    public sealed class GameContainerController
-    {
-        /// <summary>
-        /// @brief コンテナの配列
-        /// </summary>
-        private List<GameContainer> Containers
-        {
-            set;
-            get;
-        }
-
-        /// <summary>
-        /// @brief コンストラクタ
-        /// </summary>
-        public GameContainerController()
-        {
-            Containers = new List<GameContainer>();
-        }
-
-        /// <summary>
-        /// @brief 更新処理
-        /// </summary>
-        public void Update()
-        {
-            foreach (var container in Containers)
-            {
-                container.Update();
             }
         }
     }

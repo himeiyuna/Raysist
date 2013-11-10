@@ -45,4 +45,34 @@ namespace Raysist
             }
         }
     }
+
+    class TestScene : Scene
+    {
+        public TestScene()
+        {
+            var cf = new ContainerFactory((GameContainer g) =>
+            {
+                g.AddComponent(new Player(g));
+                //g.AddComponent(new SpriteRenderer(g, "dummy.png"));
+                g.AddComponent(new MeshRenderer(g, "fighter.x"));
+            });
+
+            var cameraFactory = new ContainerFactory((GameContainer g) =>
+            {
+                g.AddComponent(new Camera(g));
+            });
+
+            var gc = cf.Create(Root);
+            var player = gc.GetComponent<Player>();
+            //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
+
+            var camera = cameraFactory.Create(Root);
+            camera.Position.LocalPosition.z = -500.0f; 
+        }
+
+        public override void Dispose()
+        {
+
+        }
+    }
 }

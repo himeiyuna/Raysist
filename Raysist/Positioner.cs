@@ -14,9 +14,39 @@ namespace Raysist
         /// <summary>
         /// @brief 親
         /// </summary>
-        public Positioner Parent
+        private Positioner parent;
+
+        /// <summary>
+        /// @brief 子供
+        /// </summary>
+        private List<Positioner> Children
         {
             set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 親
+        /// </summary>
+        public Positioner Parent
+        {
+            set
+            {
+                value.Children.Add(this);
+                parent = value;
+            }
+            get
+            {
+                return parent;
+            }
+        }
+
+        /// <summary>
+        /// @brief 自身を所持しているコンテナ
+        /// </summary>
+        public GameContainer Container
+        {
+            private set;
             get;
         }
 
@@ -181,11 +211,31 @@ namespace Raysist
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public Positioner()
+        public Positioner(GameContainer container)
         {
+            Container = container;
+            Children = new List<Positioner>();
             LocalPosition = new Vector3();
             LocalScale    = new Vector3 { x = 1.0f, y = 1.0f, z = 1.0f };
             LocalRotation = Quaternion.Identity;
+        }
+
+        /// <summary>
+        /// @brief 子を検索する関数
+        /// </summary>
+        /// <param name="key">子の参照</param>
+        public List<Positioner> Find(String key)
+        {
+            return (from child in Children where child.Container.Name == key select child).ToList<Positioner>();
+        }
+
+        /// <summary>
+        /// @brief イテレータを返す
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Positioner> GetIterator()
+        {
+            return Children;
         }
     }
 }
