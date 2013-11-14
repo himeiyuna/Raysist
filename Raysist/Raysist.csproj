@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="CollisionManager.cs" />
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="MeshRenderer.cs" />
