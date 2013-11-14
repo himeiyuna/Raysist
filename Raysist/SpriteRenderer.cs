@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DxLibDLL;
+using System.Reflection;
 
 namespace Raysist
 {
@@ -76,7 +77,7 @@ namespace Raysist
         /// <param name="path">ファイルの場所</param>
         public SpriteRenderer(GameContainer container, String path) : base(container)
         {
-            GraphicHandle = DX.LoadGraph("..\\..\\Resources\\" + path);
+            GraphicHandle = DX.LoadGraph("Resources\\" + path);
         }
 
         /// <summary>

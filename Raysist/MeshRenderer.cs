@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Raysist
 {
@@ -26,7 +27,7 @@ namespace Raysist
             : base(container)
         {
             // TODO: Deplicateを使用するために管理クラスを作成する
-            ModelHandle = DX.MV1LoadModel("..\\..\\Resources\\" + path);
+            ModelHandle = DX.MV1LoadModel("Resources\\" + path);
         }
 
         /// <summary>

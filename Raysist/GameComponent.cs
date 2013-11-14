@@ -12,12 +12,23 @@ namespace Raysist
     public abstract class GameComponent
     {
         /// <summary>
-        /// @brief位置情報
+        /// @brief 位置情報
         /// </summary>
         public Positioner Position 
         {
             private set; 
             get;
+        }
+
+        /// <summary>
+        /// @brief 自身を組み込んでいるコンテナ
+        /// </summary>
+        public GameContainer Container 
+        {
+            get
+            {
+                return Position.Container;
+            }
         }
 
         /// <summary>
