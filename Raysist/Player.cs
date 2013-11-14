@@ -11,7 +11,7 @@ namespace Raysist
         /// </summary>
         public Player(GameContainer container) : base(container)
         {
-            Position.LocalRotation *= new Quaternion(Vector3.AxisX, (float)Math.PI / 2.0f);
+            Position.LocalRotation *= new Quaternion(Vector3.AxisY, (float)Math.PI);
         }
 
         /// <summary>
@@ -23,12 +23,12 @@ namespace Raysist
             if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
             {
                 //Position.LocalRotation *= new Quaternion(Position.LocalAxisX, 0.1f) * new Quaternion(Position.LocalAxisZ, 0.1f);
-                Position.LocalPosition.y -= 1.0f; 
+                Position.LocalPosition.z += 1.0f; 
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1)
             {
                 //Position.LocalRotation *= new Quaternion(Position.LocalAxisX, -0.1f) * new Quaternion(Position.LocalAxisZ, -0.1f);
-                Position.LocalPosition.y += 1.0f;
+                Position.LocalPosition.z -= 1.0f;
             }
 
             if (DX.CheckHitKey(DX.KEY_INPUT_A) == 1)
@@ -46,7 +46,7 @@ namespace Raysist
     {
         public Bit(GameContainer container) : base(container)
         {
-            Position.LocalPosition = new Vector3 { x = 40.0f, y = 40.0f, z = 0.0f };
+            Position.LocalPosition = new Vector3 { x = 40.0f, y = 0.0f, z = -40.0f };
         }
 
         public override void Update()
@@ -86,14 +86,15 @@ namespace Raysist
             var bitmaker = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Bit(g));
-                g.AddComponent(new MeshRenderer(g, "fighter.x"));
+                g.AddComponent(new BillboardRenderer(g, "dummy.png"));
             });
 
             bitmaker.Create(gc);
             //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
 
             var camera = cameraFactory.Create(Root).GetComponent<Camera>();
-            camera.Position.LocalPosition.z = -1500.0f;
+            camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 1000.0f, z = 0.0f };
+            camera.Position.LocalRotation *= new Quaternion(Vector3.AxisX, (float)Math.PI / 2.0f);
             camera.FieldOfView = (float)Math.PI * 0.1f;
         }
 

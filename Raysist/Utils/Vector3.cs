@@ -174,6 +174,16 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief マイナス符号演算子
+        /// </summary>
+        /// <param name="value">右辺</param>
+        /// <returns>計算結果</returns>
+        public static Vector3 operator -(Vector3 value)
+        {
+            return new Vector3 { x = -value.x, y = -value.y, z = -value.z };
+        }
+
+        /// <summary>
         /// @brief 加算演算子
         /// </summary>
         /// <param name="left">左辺</param>

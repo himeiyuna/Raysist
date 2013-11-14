@@ -47,7 +47,7 @@ namespace Raysist
         public abstract void LoadResource();
 
         /// <summary>
-        /// @brief 初期化処理
+        /// @brief 読み込み完了後に呼び出される
         /// </summary>
         public abstract void EnterScene();
 
@@ -79,7 +79,7 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief 終了処理
+        /// @brief シーン解放前に呼び出される
         /// </summary>
         public abstract void LeaveScene(); 
 

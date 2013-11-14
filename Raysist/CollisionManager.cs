@@ -103,13 +103,31 @@ namespace Raysist
 
         }
 
-        private static readonly int MaxLevel = 8; 
+        /// <summary>
+        /// @brief 最大分割数
+        /// </summary>
+        private const int MaxLevel = 8;
 
+
+        /// <summary>
+        /// @brief シングルトンインスタンス
+        /// </summary>
+        private static CollisionManager instance;
         public static CollisionManager Instance
         {
-            
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new CollisionManager();
+                }
+                return instance;
+            }
         }
 
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
         private CollisionManager()
         {
         }

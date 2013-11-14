@@ -78,6 +78,8 @@ namespace Raysist
         public SpriteRenderer(GameContainer container, String path) : base(container)
         {
             GraphicHandle = DX.LoadGraph("Resources\\" + path);
+            Scale = 1.0f;
+            Radian = 0.0f;
         }
 
         /// <summary>
@@ -86,7 +88,7 @@ namespace Raysist
         public override void Update()
         {
             var pos = Position.WorldPosition;
-            DX.DrawRotaGraphF(pos.x, pos.y, (double)Scale, (double)Radian, GraphicHandle, 0);
+            DX.DrawRotaGraphF((int)pos.x, (int)pos.y, (double)Scale, (double)Radian, GraphicHandle, DX.TRUE);
         }
     }
 }
