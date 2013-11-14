@@ -35,7 +35,10 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            DX.MV1SetMatrix(ModelHandle, Position.WorldTransform);
+            // 2DのY座標と整合性をあわせるために符号反転する
+            var wm = Position.WorldTransform;
+            wm[3, 1] = -wm[3, 1];
+            DX.MV1SetMatrix(ModelHandle, wm);
             DX.MV1DrawModel(ModelHandle);
         }
     }

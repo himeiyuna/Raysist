@@ -92,8 +92,9 @@ namespace Raysist
             bitmaker.Create(gc);
             //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
 
-            var camera = cameraFactory.Create(Root);
-            camera.Position.LocalPosition.z = -500.0f; 
+            var camera = cameraFactory.Create(Root).GetComponent<Camera>();
+            camera.Position.LocalPosition.z = -1500.0f;
+            camera.FieldOfView = (float)Math.PI * 0.1f;
         }
 
         public override void LeaveScene()
