@@ -8,29 +8,169 @@ using DxLibDLL;
 namespace Raysist
 {
     /// <summary>
+    /// ゲームを構成するコンテナクラス
+    /// </summary>
+    public sealed class GameContainer
+    {
+        /// <summary>
+        /// @brief ゲームコンポーネントの配列
+        /// </summary>
+        private List<GameComponent> Components
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 更新フラグ
+        /// </summary>
+        public bool IsActive
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 親がアクティブでなかった場合falseを返す
+        /// </summary>
+        public bool IsActiveInHierarchy
+        {
+            get
+            {
+                if (IsActive)
+                {
+                    return Position.Parent != null ? Position.Parent.Container.IsActiveInHierarchy : true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// @brief 名前
+        /// </summary>
+        public String Name
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 位置情報を取得するプロパティ
+        /// </summary>
+        public Positioner Position
+        {
+            private set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief デフォルトコンストラクタ
+        /// </summary>
+        public GameContainer()
+        {
+            IsActive = true;
+            Position = new Positioner(this);
+            Position.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
+            Components = new List<GameComponent>();
+        }
+
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="parent">親</param>
+        public GameContainer(GameContainer parent)
+        {
+            IsActive = true;
+            Position = new Positioner(this);
+            Position.Parent = parent.Position;
+            Components = new List<GameComponent>();
+        }
+
+        /// <summary>
+        /// @brief ルート要素作成用コンストラクタ
+        /// </summary>
+        /// <param name="scene"></param>
+        internal GameContainer(Scene scene)
+        {
+            IsActive = true;
+            Position = new Positioner(this);
+            Components = new List<GameComponent>();
+        }
+
+        /// <summary>
+        /// @brief コンポーネントを追加する
+        /// </summary>
+        /// <param name="component">追加するコンポーネント</param>
+        public void AddComponent(GameComponent component)
+        {
+            Components.Add(component);
+        }
+
+        /// <summary>
+        /// @brief コンポーネントを検索する
+        /// </summary>
+        /// <typeparam name="T">コンポーネントの型</typeparam>
+        /// <returns>コンポーネント</returns>
+        public T GetComponent<T>() where T : GameComponent
+        {
+            return (from i in Components where i is T select i).FirstOrDefault() as T;
+        }
+
+        /// <summary>
+        /// @brief コンポーネントを削除する
+        /// </summary>
+        /// <typeparam name="T">コンポーネント型</typeparam>
+        public void RemoveComponent<T>() where T : GameComponent
+        {
+            var i = 0;
+            foreach (var com in Components)
+            {
+                if (com is T)
+                {
+                    Components.RemoveAt(i);
+                    return;
+                }
+                ++i;
+            }
+        }
+
+        /// <summary>
+        /// @brief 更新
+        /// </summary>
+        public void Update()
+        {
+            foreach (var child in Components)
+            {
+                child.Update();
+            }
+        }
+    }
+
+    /// <summary>
     /// @brief シーンクラス 
     ///        画面を構成するクラス
     /// </summary>
     abstract class Scene
     {
         /// <summary>
-        /// @brief 根要素
-        /// </summary>
-        private GameContainer root;
-
-        /// <summary>
         /// @brief 根要素を取得するプロパティ
         /// </summary>
         public GameContainer Root
         {
-            private set
-            {
-                root = value;
-            }
-            get
-            {
-                return root;
-            }
+            private set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 衝突判定管理
+        /// </summary>
+        public CollisionManager CollisionManager
+        {
+            private set;
+            get;
         }
 
         /// <summary>
@@ -38,7 +178,8 @@ namespace Raysist
         /// </summary>
         protected Scene()
         {
-            root = new GameContainer();
+            Root = new GameContainer(this);
+            CollisionManager = new CollisionManager();
         }
 
         /// <summary>
@@ -168,9 +309,9 @@ namespace Raysist
         /// <summary>
         /// @brief 現在のシーン
         /// </summary>
-        private Scene CurrentScene
+        public Scene CurrentScene
         {
-            set;
+            private set;
             get;
         }
 
@@ -191,7 +332,6 @@ namespace Raysist
             set;
             get;
         }
-
        
         /// <summary>
         /// @brief コンストラクタ

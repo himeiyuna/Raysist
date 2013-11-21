@@ -57,7 +57,7 @@ namespace Raysist
 
     class TestScene : Scene
     {
-        public TestScene()
+        public TestScene() : base()
         {
             
         }
@@ -86,7 +86,13 @@ namespace Raysist
             var bitmaker = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Bit(g));
-                g.AddComponent(new BillboardRenderer(g, "dummy.png"));
+
+                var br = new BillboardRenderer(g, "");
+                var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
+                br.Scale *= 25.0f;
+                animator.UpdateFrame = 5;
+                g.AddComponent(br);
+                g.AddComponent(animator); 
             });
 
             bitmaker.Create(gc);
