@@ -32,11 +32,21 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief trueならUpdateを実行する
+        /// </summary>
+        public bool Active
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">所持する親</param>
         public GameComponent(GameContainer container)
         {
+            Active = true;
             Position = container.Position;
         }
 

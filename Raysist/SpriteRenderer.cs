@@ -143,11 +143,20 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief ループフラグ
+        /// </summary>
+        public bool Loop
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">自身を組み込む親</param>
         /// <param name="target">アニメーション対象</param>
-        public Animator(GameContainer container, SpriteRenderer target, string path, int num, int col, int row, int width, int height)
+        public Animator(GameContainer container, SpriteRenderer target, string path, int num, int col, int row, int width, int height, bool isLoop = true)
             : base(container)
         {
             Target = target;
@@ -159,6 +168,7 @@ namespace Raysist
             CurrentImageIndex = 0;
             CurrentFrameCount = 0;
             UpdateFrame = 1;
+            Loop = true;
         }
 
         /// <summary>
@@ -174,6 +184,12 @@ namespace Raysist
                 // 表示画像を切り替えるが、次の画像がなければ最初に戻す
                 if (++CurrentImageIndex == GraphicHandles.Length)
                 {
+                    if (!Loop) 
+                    {
+                        Active = false;
+                        Target.Active = false;
+
+                    }
                     CurrentImageIndex = 0;
                 }
 

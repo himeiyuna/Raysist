@@ -24,7 +24,7 @@ namespace Raysist
         /// <summary>
         /// @brief 更新フラグ
         /// </summary>
-        public bool IsActive
+        public bool Active
         {
             set;
             get;
@@ -37,7 +37,7 @@ namespace Raysist
         {
             get
             {
-                if (IsActive)
+                if (Active)
                 {
                     return Position.Parent != null ? Position.Parent.Container.IsActiveInHierarchy : true;
                 }
@@ -71,7 +71,7 @@ namespace Raysist
         /// </summary>
         public GameContainer()
         {
-            IsActive = true;
+            Active = true;
             Position = new Positioner(this);
             Position.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
             Components = new List<GameComponent>();
@@ -83,7 +83,7 @@ namespace Raysist
         /// <param name="parent">親</param>
         public GameContainer(GameContainer parent)
         {
-            IsActive = true;
+            Active = true;
             Position = new Positioner(this);
             Position.Parent = parent.Position;
             Components = new List<GameComponent>();
@@ -95,7 +95,7 @@ namespace Raysist
         /// <param name="scene"></param>
         internal GameContainer(Scene scene)
         {
-            IsActive = true;
+            Active = true;
             Position = new Positioner(this);
             Components = new List<GameComponent>();
         }
@@ -144,7 +144,10 @@ namespace Raysist
         {
             foreach (var child in Components)
             {
-                child.Update();
+                if (child.Active)
+                {
+                    child.Update();
+                }
             }
         }
     }
@@ -205,7 +208,7 @@ namespace Raysist
                 var q = queue.Dequeue();
 
                 // アクティブでなければ子も処理しない
-                if (q.Container.IsActive)
+                if (q.Container.Active)
                 {
                     // 更新処理
                     q.Container.Update();
