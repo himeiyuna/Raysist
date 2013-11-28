@@ -25,7 +25,7 @@ namespace Raysist
         /// <summary>
         /// @brief デフォルトの視野角
         /// </summary>
-        public static readonly float DefaultFOV  = (float)Math.PI * 0.25f;
+        public static readonly float DefaultFOV  = (float)Math.PI * 0.75f;
 
         /// <summary>
         /// @brief 目線ベクトル

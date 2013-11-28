@@ -50,8 +50,8 @@ namespace Raysist
             }
 
             this.SceneController = new SceneController(new FirstScene());
-
-            
+            this.SceneController.CurrentScene.LoadResource();
+            this.SceneController.CurrentScene.EnterScene();
 
             DX.SetDrawScreen(DX.DX_SCREEN_BACK);
 

@@ -200,6 +200,8 @@ namespace Raysist
         /// </summary>
         public virtual void Update()
         {
+            CollisionManager.Update();
+
             var queue = new Queue<Positioner>();
             queue.Enqueue(Root.Position);
             while (queue.Count != 0) 
@@ -343,8 +345,6 @@ namespace Raysist
         public SceneController(Scene firstScene)
         {
             CurrentScene = firstScene;
-            CurrentScene.LoadResource();
-            CurrentScene.EnterScene();
 
             SceneStack = new Stack<Scene>();
         }

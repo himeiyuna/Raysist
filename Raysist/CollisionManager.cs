@@ -10,6 +10,17 @@ namespace Raysist
     abstract class Collider : GameComponent
     {
         /// <summary>
+        /// @brief 境界ボックス
+        /// </summary>
+        public class AABB
+        {
+            public float Left { set; get; }
+            public float Top { set; get; }
+            public float Right { set; get; }
+            public float Bottom { set; get; }
+        }
+
+        /// <summary>
         /// @brief 境界範囲
         /// </summary>
         public virtual AABB BoundingBox
@@ -19,23 +30,22 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief 境界ボックス
+        /// @brief 衝突時に呼び出すメソッド
         /// </summary>
-        public class AABB
+        public Action<Collider> OnCollision
         {
-            public float Left   { set; get; }
-            public float Top    { set; get; }
-            public float Right  { set; get; }
-            public float Bottom { set; get; }
+            set;
+            internal get;
         }
 
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">コンテナ</param>
-        public Collider(GameContainer container) : base(container)
+        public Collider(GameContainer container, Action<Collider> onCollision) : base(container)
         {
             BoundingBox = new AABB();
+            OnCollision = onCollision;
         }
 
         /// <summary>
@@ -51,6 +61,12 @@ namespace Raysist
         /// <param name="target">衝突処理対象</param>
         /// <returns>衝突していればtrue</returns>
         internal abstract bool IsCollision(RectCollider target);
+
+        public override void Update()
+        {
+            // 空間に登録
+            Game.Instance.SceneController.CurrentScene.CollisionManager.Regist(this);
+        }
     }
 
     /// <summary>
@@ -89,8 +105,8 @@ namespace Raysist
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">自身を所持するコンテナ</param>
-        public RectCollider(GameContainer container)
-            : base(container)
+        public RectCollider(GameContainer container, Action<Collider> onCollision)
+            : base(container, onCollision)
         {
         
         }
@@ -112,8 +128,9 @@ namespace Raysist
         /// <returns>衝突していればtrue</returns>
         internal override bool IsCollision(RectCollider target)
         {
-            return true;
-            //return BoundingBox.Left < 
+            var s = BoundingBox;
+            var t = target.BoundingBox;
+            return s.Left < t.Right && s.Right > t.Left && s.Top < t.Bottom && s.Bottom > t.Top;
         }
 
 
@@ -122,16 +139,17 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
+
             var screenPos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
             BoundingBox.Left = screenPos.x - Width * 0.5f;
             BoundingBox.Right = screenPos.x + Width * 0.5f;
             BoundingBox.Top = screenPos.y - Height * 0.5f;
             BoundingBox.Bottom = screenPos.y + Height * 0.5f;
 
-            // 登録
-            Game.Instance.SceneController.CurrentScene.CollisionManager.Regist(this);
-
+            DX.DrawBox(1, 800, 10, 810, DX.GetColor(255,255,255), DX.TRUE);
             DX.DrawBox((int)BoundingBox.Left, (int)BoundingBox.Top, (int)BoundingBox.Right, (int)BoundingBox.Bottom, DX.GetColor(255,255,255), DX.FALSE);
+
+            base.Update();
         }
     }
 
@@ -163,7 +181,7 @@ namespace Raysist
             {
                 Pair = new Collider[2];
                 Pair[0] = left;
-                Pair[2] = right;
+                Pair[1] = right;
             }
         }
 
@@ -447,10 +465,13 @@ namespace Raysist
         /// </summary>
         public CollisionManager()
         {
+            ElementList = new List<Element>();
+            CollisionList = new List<CollisionPair>();
+
             Power = new uint[MaxLevel + 1];
 
             Power[0] = 1;
-            for (var i = 1; i < MaxLevel + 1; ++i)
+            for (var i = 1; i < Power.Length; ++i)
             {
                 Power[i] = Power[i - 1] * 4;
             }
@@ -466,7 +487,7 @@ namespace Raysist
         public void Initialize(float left, float top, float right, float bottom)
         {
             // 空間の配列を作成
-            CellNum = (Power[MaxLevel + 1] - 1) / 3;
+            CellNum = (Power[MaxLevel] - 1) / 3;
             CellArray = new Cell[CellNum];
             
             // 領域を計算
@@ -485,6 +506,9 @@ namespace Raysist
         /// </summary>
         public void Update()
         {
+            // 空間に登録するのは各コライダのUpdateで行う
+            // このメソッドの最後で空間の掃除を行う
+
             // 衝突リストの作成
             var list = GetAllCollisionList();
             foreach (var pair in list)
@@ -492,7 +516,9 @@ namespace Raysist
                 // 衝突していれば
                 if (pair.Pair[0].IsCollision(pair.Pair[1]))
                 {
-                    //pair.Pair[0]
+                    // 衝突時の処理
+                    pair.Pair[0].OnCollision(pair.Pair[1]);
+                    pair.Pair[1].OnCollision(pair.Pair[0]);
                 }
             }
 
@@ -535,7 +561,7 @@ namespace Raysist
             Element elem1 = CellArray[mortonNum].First;
             while (elem1 != null)
             {
-                Element elem2 = CellArray[mortonNum].First;
+                Element elem2 = elem1.Next;
                 while (elem2 != null)
                 {
                     CollisionList.Add(new CollisionPair(elem1.Object,elem2.Object));
@@ -545,7 +571,7 @@ namespace Raysist
                 // 衝突スタック(親空間に所属するオブジェクトのリスト)との衝突リスト作成
                 foreach (var it in colStac)
                 {
-                    CollisionList.Add(new CollisionPair(elem1.Object, elem2.Object));
+                    CollisionList.Add(new CollisionPair(elem1.Object, it));
                 }
                 elem1 = elem1.Next; // 次の要素へ
             }
@@ -623,7 +649,7 @@ namespace Raysist
         /// <returns></returns>
         bool CreateNewCell(ulong mortonNum)
         {
-	        while (CellArray[mortonNum] != null)
+	        while (CellArray[mortonNum] == null)
 	        {
 		        // 指定の要素番号に空間を新規作成
 		        CellArray[mortonNum] = new Cell();
