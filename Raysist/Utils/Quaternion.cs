@@ -116,6 +116,23 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief 逆クォータニオンを取得する
+        /// </summary>
+        public Quaternion Inverse
+        {
+            get
+            {
+                var length = Length2;
+                var conj = Conjugate;
+                conj.w /= length;
+                conj.x /= length;
+                conj.y /= length;
+                conj.z /= length;
+                return conj;
+            }
+        }
+
+        /// <summary>
         /// @brief 長さを取得するプロパティ
         /// </summary>
         public float Length

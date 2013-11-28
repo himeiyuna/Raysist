@@ -33,6 +33,17 @@ namespace Raysist
             set
             {
                 value.Children.Add(this);
+
+                if (parent != null)
+                {
+                    parent.RemoveChild(this);
+
+                    // ローカルパラメータをワールドパラメータに変換
+                    LocalRotation = value.WorldRotation.Inverse * WorldRotation;
+                    LocalPosition = WorldPosition - value.WorldPosition;
+                    LocalScale = WorldScale - value.WorldScale;
+                }
+
                 parent = value;
             }
             get
@@ -160,7 +171,7 @@ namespace Raysist
             get
             {
                 // 親がいなくなるまで再帰を続ける
-                return Parent == null ? LocalTransform : Parent.WorldTransform * LocalTransform;
+                return Parent == null ? LocalTransform : LocalTransform * Parent.WorldTransform;
             }
         }
 
@@ -227,6 +238,15 @@ namespace Raysist
         public List<Positioner> Find(String key)
         {
             return (from child in Children where child.Container.Name == key select child).ToList<Positioner>();
+        }
+
+        /// <summary>
+        /// @brief 子を削除する
+        /// </summary>
+        /// <param name="p"></param>
+        public void RemoveChild(Positioner p)
+        {
+            Children.Remove(p);
         }
 
         /// <summary>

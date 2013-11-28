@@ -30,7 +30,7 @@ namespace Raysist
         public Player(GameContainer container) : base(container)
         {
             Position.LocalRotation *= new Quaternion(Vector3.AxisY, (float)Math.PI);
-            Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 0.0f };
+            Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 50.0f };
         }
 
         /// <summary>
@@ -61,6 +61,11 @@ namespace Raysist
 
             if (DX.CheckHitKey(DX.KEY_INPUT_SPACE) == 1)
             {
+                var bit = Position.Find("Bit");
+                foreach (var b in bit)
+                {
+                    b.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
+                }
                 
             }
         }
@@ -70,6 +75,7 @@ namespace Raysist
     {
         public Bit(GameContainer container, Vector3 position) : base(container)
         {
+            container.Name = "Bit";
             Position.LocalPosition = position;
         }
 
@@ -97,7 +103,7 @@ namespace Raysist
 
         public override void EnterScene()
         {
-            CollisionManager.Initialize(0.0f, 0.0f, 1600.0f, 900.0f);
+            CollisionManager.Initialize(8, -10.0f, -10.0f, 1610.0f, 910.0f);
 
             var cf = new ContainerFactory((GameContainer g) =>
             {

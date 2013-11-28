@@ -349,7 +349,7 @@ namespace Raysist
         /// <summary>
         /// @brief 最大分割数
         /// </summary>
-        private const int MaxLevel = 8;
+        private const int MaxLevel = 9;
 
         /// <summary>
         /// @brief 左上のx座標
@@ -471,7 +471,7 @@ namespace Raysist
             Power = new uint[MaxLevel + 1];
 
             Power[0] = 1;
-            for (var i = 1; i < Power.Length; ++i)
+            for (var i = 1; i < MaxLevel + 1; ++i)
             {
                 Power[i] = Power[i - 1] * 4;
             }
@@ -484,10 +484,13 @@ namespace Raysist
         /// <param name="top">当たり判定領域の上</param>
         /// <param name="right">当たり判定領域の右</param>
         /// <param name="bottom">当たり判定領域の下</param>
-        public void Initialize(float left, float top, float right, float bottom)
+        public void Initialize(int level, float left, float top, float right, float bottom)
         {
+            if (level >= MaxLevel)
+                return;
+
             // 空間の配列を作成
-            CellNum = (Power[MaxLevel] - 1) / 3;
+            CellNum = (Power[level + 1] - 1) / 3;
             CellArray = new Cell[CellNum];
             
             // 領域を計算
@@ -673,16 +676,16 @@ namespace Raysist
 
             // 空間番号の排他的論理輪から所属レベルを算出
             ulong def = rb ^ lt;
-            ulong hiLevel = 0;
-            for (var i = 0UL; i < Level; ++i)
+            int hiLevel = 0;
+            for (var i = 0; i < Level; ++i)
             {
-                ulong check = (ulong)((ushort)def >> (ushort)(i * 2)) & 0x3;
+                ulong check = (def >> (i * 2)) & 0x3;
                 if (check != 0)
                 {
                     hiLevel = i + 1;
                 }
             }
-            ulong spaceNum = (ulong)(ushort)rb >> (ushort)(hiLevel * 2);
+            ulong spaceNum = rb >> (hiLevel * 2);
             ulong addNum = (Power[Level - hiLevel] - 1) / 3;
             spaceNum += addNum;
 
@@ -722,7 +725,7 @@ namespace Raysist
         /// <param name="y"></param>
         private ulong GetPointElem(float x, float y)
         {
-            return (ulong)Get2DMortonNumber((ushort)((x - Left) / UnitWidth), (ushort)((y - Top) / UnitHeight));
+            return Get2DMortonNumber((ushort)((x - Left) / UnitWidth), (ushort)((y - Top) / UnitHeight));
         }
     }
 }
