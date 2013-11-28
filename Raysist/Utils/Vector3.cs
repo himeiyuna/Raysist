@@ -157,6 +157,17 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief DxLib用に変換する
+        /// </summary>
+        public DX.VECTOR ToDxLib
+        {
+            get
+            {
+                return new DX.VECTOR { x = this.x, y = this.y, z = this.z };
+            }
+        }
+
+        /// <summary>
         /// @brief デフォルトコンストラクタ
         /// </summary>
         public Vector3()

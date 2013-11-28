@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DxLibDLL;
 
 namespace Raysist
 {
@@ -17,23 +18,131 @@ namespace Raysist
             get;
         }
 
-        public struct AABB
+        /// <summary>
+        /// @brief 境界ボックス
+        /// </summary>
+        public class AABB
         {
-            public float Left { set; get; }
-            public float Top { set; get; }
-            public float Right { set; get; }
+            public float Left   { set; get; }
+            public float Top    { set; get; }
+            public float Right  { set; get; }
             public float Bottom { set; get; }
         }
 
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="container">コンテナ</param>
         public Collider(GameContainer container) : base(container)
         {
+            BoundingBox = new AABB();
+        }
+
+        /// <summary>
+        /// @brief 衝突処理
+        /// </summary>
+        /// <param name="target">衝突処理対象</param>
+        /// <returns>衝突していればtrue</returns>
+        internal abstract bool IsCollision(Collider target);
+
+        /// <summary>
+        /// @brief 衝突処理
+        /// </summary>
+        /// <param name="target">衝突処理対象</param>
+        /// <returns>衝突していればtrue</returns>
+        internal abstract bool IsCollision(RectCollider target);
+    }
+
+    /// <summary>
+    /// @brief 平面の箱のコライダ
+    /// </summary>
+    class RectCollider : Collider
+    {
+        /// <summary>
+        /// @brief スクリーンの座標
+        /// </summary>
+        public DX.VECTOR ScreenPos
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 幅
+        /// </summary>
+        public float Width
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 高さ
+        /// </summary>
+        public float Height
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="container">自身を所持するコンテナ</param>
+        public RectCollider(GameContainer container)
+            : base(container)
+        {
+        
+        }
+
+        /// <summary>
+        /// @brief 衝突処理
+        /// </summary>
+        /// <param name="target">衝突処理対象</param>
+        /// <returns>衝突していればtrue</returns>
+        internal override bool IsCollision(Collider target)
+        {
+            return target.IsCollision(this);
+        }
+
+        /// <summary>
+        /// @brief 衝突処理
+        /// </summary>
+        /// <param name="target">衝突処理対象</param>
+        /// <returns>衝突していればtrue</returns>
+        internal override bool IsCollision(RectCollider target)
+        {
+            return true;
+            //return BoundingBox.Left < 
         }
 
 
+        /// <summary>
+        /// @brief 更新処理
+        /// </summary>
+        public override void Update()
+        {
+            var screenPos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
+            BoundingBox.Left = screenPos.x - Width * 0.5f;
+            BoundingBox.Right = screenPos.x + Width * 0.5f;
+            BoundingBox.Top = screenPos.y - Height * 0.5f;
+            BoundingBox.Bottom = screenPos.y + Height * 0.5f;
+
+            // 登録
+            Game.Instance.SceneController.CurrentScene.CollisionManager.Regist(this);
+
+            DX.DrawBox((int)BoundingBox.Left, (int)BoundingBox.Top, (int)BoundingBox.Right, (int)BoundingBox.Bottom, DX.GetColor(255,255,255), DX.FALSE);
+        }
     }
 
+    /// <summary>
+    /// @brief 衝突処理管理クラス
+    /// </summary>
     class CollisionManager
     {
+        /// <summary>
+        /// @brief 衝突判定する組み合わせ
+        /// </summary>
         private class CollisionPair
         {
             /// <summary>
@@ -316,6 +425,15 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief 要素の配列
+        /// </summary>
+        private List<Element> ElementList
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief 衝突リスト
         /// </summary>
         private List<CollisionPair> CollisionList
@@ -367,8 +485,29 @@ namespace Raysist
         /// </summary>
         public void Update()
         {
+            // 衝突リストの作成
+            var list = GetAllCollisionList();
+            foreach (var pair in list)
+            {
+                // 衝突していれば
+                if (pair.Pair[0].IsCollision(pair.Pair[1]))
+                {
+                    //pair.Pair[0]
+                }
+            }
+
+            // 空間から要素を削除する
+            foreach (var elem in ElementList)
+            {
+                elem.Remove();
+            }
+            ElementList.Clear();
         }
 
+        /// <summary>
+        /// @brief 衝突リストを作成する
+        /// </summary>
+        /// <returns></returns>
         private List<CollisionPair> GetAllCollisionList()
         {
             // リストの初期化
@@ -449,7 +588,12 @@ namespace Raysist
             return true;
         }
 
-        public bool Regist(Collider elem)
+        /// <summary>
+        /// @brief 要素を登録する
+        /// </summary>
+        /// <param name="elem">登録するコライダ</param>
+        /// <returns>成功すればtrue</returns>
+        internal bool Regist(Collider elem)
         {
             Collider.AABB aabb = elem.BoundingBox;
             // オブジェクトの境界範囲からモートン番号を算出
@@ -463,21 +607,30 @@ namespace Raysist
                 {
                     CreateNewCell(mortonNum);
                 }
-                return CellArray[mortonNum].Push(new Element(elem));
+                var e = new Element(elem);
+
+                // 衝突リスト作成後に空間から削除する
+                ElementList.Add(e);
+                return CellArray[mortonNum].Push(e);
             }
             return false;
         }
 
-        bool CreateNewCell( ulong mortonNum )
+        /// <summary>
+        /// @brief 空間を作成する
+        /// </summary>
+        /// <param name="mortonNum">モートン番号</param>
+        /// <returns></returns>
+        bool CreateNewCell(ulong mortonNum)
         {
-	        while ( CellArray[mortonNum] != null )
+	        while (CellArray[mortonNum] != null)
 	        {
 		        // 指定の要素番号に空間を新規作成
 		        CellArray[mortonNum] = new Cell();
 
         		// 親空間にジャンプ
 	        	mortonNum = (mortonNum - 1) >> 2;
-		        if ( mortonNum >= CellNum ) break;
+		        if (mortonNum >= CellNum) break;
 	        }
 	        return true;
         }
@@ -485,7 +638,7 @@ namespace Raysist
         /// <summary>
         /// @brief モートン番号を取得する
         /// </summary>
-        /// <param name="aabb"></param>
+        /// <param name="aabb">座標</param>
         /// <returns></returns>
         private ulong GetMortonNumber(ref Collider.AABB aabb)
         {
