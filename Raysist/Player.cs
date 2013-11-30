@@ -18,6 +18,19 @@ namespace Raysist
             get;
         }
 
+        /// <summary>
+        /// @brief 回転量
+        /// </summary>
+        private int Rot
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 最大回転量
+        /// </summary>
+        private const int MaxRot = 45;
 
         //ここまで
         //----------------------------------------------------
@@ -29,8 +42,9 @@ namespace Raysist
         /// </summary>
         public Player(GameContainer container) : base(container)
         {
-            Position.LocalRotation *= new Quaternion(Vector3.AxisY, (float)Math.PI);
+            Position.LocalRotation = new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisY, (float)Math.PI);
             Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 50.0f };
+            Rot = 0;
         }
 
         /// <summary>
@@ -42,26 +56,56 @@ namespace Raysist
             if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
             {
                 //Position.LocalRotation *= new Quaternion(Position.LocalAxisX, 0.1f) * new Quaternion(Position.LocalAxisZ, 0.1f);
-                Position.LocalPosition.z += 1.0f; 
+                Position.LocalPosition.y += 1.0f; 
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1)
             {
                 //Position.LocalRotation *= new Quaternion(Position.LocalAxisX, -0.1f) * new Quaternion(Position.LocalAxisZ, -0.1f);
-                Position.LocalPosition.z -= 1.0f;
+                Position.LocalPosition.y -= 1.0f;
             }
 
             if (DX.CheckHitKey(DX.KEY_INPUT_A) == 1)
             {
                 Position.LocalPosition.x -= 1.0f;
+
+                --Rot;
+                if (Rot >= -MaxRot)
+                {
+                    
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 180);
+                } 
+                else
+                {
+                    Rot = -MaxRot;
+                }
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_D) == 1)
             {
                 Position.LocalPosition.x += 1.0f;
+
+                ++Rot;
+                if (Rot <= MaxRot)
+                {
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 180);
+                } 
+                else
+                {
+                    Rot = MaxRot;
+                }
+            }
+            else
+            {
+                if (Rot != 0)
+                { 
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 180 * (Rot < 0 ? 1 : -1));
+                    Rot += Rot < 0 ? 1 : -1;
+                }
+                
             }
 
             if (DX.CheckHitKey(DX.KEY_INPUT_SPACE) == 1)
             {
-                var bit = Position.Find("Bit");
+                var bit = Position.FindChildren("Bit");
                 foreach (var b in bit)
                 {
                     b.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
@@ -168,8 +212,7 @@ namespace Raysist
             //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
 
             var camera = cameraFactory.Create(Root).GetComponent<Camera>();
-            camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 3000.0f, z = 0.0f };
-            camera.Position.LocalRotation *= new Quaternion(Vector3.AxisX, (float)Math.PI / 2.0f);
+            camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -3000.0f };
             camera.FieldOfView = (float)Math.PI * 0.1f;
         }
 

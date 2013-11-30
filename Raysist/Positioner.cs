@@ -9,7 +9,7 @@ namespace Raysist
     /// <summary>
     /// @brief 位置情報や親子関係を管理するクラス
     /// </summary>
-    public class Positioner
+    public sealed class Positioner
     {
         /// <summary>
         /// @brief 親
@@ -41,7 +41,10 @@ namespace Raysist
                     // ローカルパラメータをワールドパラメータに変換
                     LocalRotation = value.WorldRotation.Inverse * WorldRotation;
                     LocalPosition = WorldPosition - value.WorldPosition;
-                    LocalScale = WorldScale - value.WorldScale;
+
+                    var worldScale = value.WorldScale;
+                    var localScale = LocalScale;
+                    LocalScale = new Vector3 { x = localScale.x * worldScale.x, y = localScale.y * worldScale.y, z = localScale.z * worldScale.z };
                 }
 
                 parent = value;
@@ -232,12 +235,32 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief 子を検索する関数
+        /// @brief コンテナ名から子を検索する関数
+        ///        同名のものがあった場合は先に見つかったものを返す
         /// </summary>
-        /// <param name="key">子の参照</param>
-        public List<Positioner> Find(String key)
+        /// <param name="name">コンテナ名</param>
+        /// <returns>子</returns>
+        public Positioner FindChild(string name)
         {
-            return (from child in Children where child.Container.Name == key select child).ToList<Positioner>();
+            foreach (var child in Children)
+            {
+                if (child.Container.Name == name) 
+                {
+                    return child;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// @brief コンテナ名から子を検索する関数
+        ///        FindChildの複数要素検索版
+        /// </summary>
+        /// <param name="name">コンテナ名</param>
+        /// <returns>子の配列</returns>
+        public List<Positioner> FindChildren(string name)
+        {
+            return (from child in Children where child.Container.Name == name select child).ToList();
         }
 
         /// <summary>

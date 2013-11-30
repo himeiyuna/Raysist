@@ -23,9 +23,8 @@ namespace Raysist
         /// <summary>
         /// @brief 境界範囲
         /// </summary>
-        public virtual AABB BoundingBox
+        public abstract AABB BoundingBox
         {
-            set;
             get;
         }
 
@@ -44,7 +43,6 @@ namespace Raysist
         /// <param name="container">コンテナ</param>
         public Collider(GameContainer container, Action<Collider> onCollision) : base(container)
         {
-            BoundingBox = new AABB();
             OnCollision = onCollision;
         }
 
@@ -62,6 +60,9 @@ namespace Raysist
         /// <returns>衝突していればtrue</returns>
         internal abstract bool IsCollision(RectCollider target);
 
+        /// <summary>
+        /// @brief 更新処理
+        /// </summary>
         public override void Update()
         {
             // 空間に登録
@@ -75,12 +76,24 @@ namespace Raysist
     class RectCollider : Collider
     {
         /// <summary>
-        /// @brief スクリーンの座標
+        /// @brief 境界範囲
         /// </summary>
-        public DX.VECTOR ScreenPos
+        public override Collider.AABB BoundingBox
         {
-            set;
-            get;
+            get
+            {
+                var pos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
+                var scale = Container.Position.WorldScale;
+                var ret = new Collider.AABB();
+
+                ret.Left   = pos.x - Width * scale.x * 0.5f;
+                ret.Right  = pos.x + Width * scale.x * 0.5f;
+                ret.Top    = pos.y - Height * scale.y * 0.5f;
+                ret.Bottom = pos.y + Height * scale.y * 0.5f;
+
+                return ret;
+            }
+            
         }
 
         /// <summary>
@@ -108,7 +121,8 @@ namespace Raysist
         public RectCollider(GameContainer container, Action<Collider> onCollision)
             : base(container, onCollision)
         {
-        
+            Width = 1.0f;
+            Height = 1.0f;
         }
 
         /// <summary>
@@ -139,13 +153,6 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-
-            var screenPos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
-            BoundingBox.Left = screenPos.x - Width * 0.5f;
-            BoundingBox.Right = screenPos.x + Width * 0.5f;
-            BoundingBox.Top = screenPos.y - Height * 0.5f;
-            BoundingBox.Bottom = screenPos.y + Height * 0.5f;
-
             DX.DrawBox(1, 800, 10, 810, DX.GetColor(255,255,255), DX.TRUE);
             DX.DrawBox((int)BoundingBox.Left, (int)BoundingBox.Top, (int)BoundingBox.Right, (int)BoundingBox.Bottom, DX.GetColor(255,255,255), DX.FALSE);
 

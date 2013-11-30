@@ -37,7 +37,7 @@ namespace Raysist
         /// <summary>
         /// @brief ゲーム起動
         /// </summary>
-        /// <typeparam name="T">最初のシーン</typeparam>
+        /// <typeparam name="FirstScene">最初のシーン</typeparam>
         public void Run<FirstScene>() where FirstScene : Scene, new()
         {
             DX.ChangeWindowMode(DX.TRUE);

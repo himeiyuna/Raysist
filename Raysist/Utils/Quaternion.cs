@@ -290,5 +290,55 @@ namespace Raysist
         {
             return x * right.x + y + right.y + z * right.z + w * right.w;
         }
+
+        /// <summary>
+        /// @brief 正規化する
+        /// </summary>
+        /// <returns></returns>
+        public Quaternion Normalize()
+        {
+            var length = Length;
+            return new Quaternion { x = this.x / length, y = this.y / length, z = this.z / length, w = this.w / length };
+        }
+
+        /// <summary>
+        /// @brief 球面線形補完する
+        /// </summary>
+        /// <param name="end">最終地点</param>
+        /// <param name="t">補完の早さ</param>
+        /// <returns></returns>
+        public Quaternion Slerp(Quaternion end, float t)
+        {
+            Quaternion left = Normalize();
+            Quaternion right = end.Normalize();
+            float len1 = left.Length;
+            float len2 = right.Length;
+
+            if (len1 == 0.0f || len2 == 0.0f)
+            {
+                return Quaternion.Identity;
+            }
+
+            float cos = left.Dot(right) / (len1 * len2);
+            if (cos >= 1.0f)
+            {
+                return this;
+            }
+
+            Quaternion ret = new Quaternion();
+            float w           = (float)Math.Acos(cos);
+            float sin_w       = (float)Math.Sin(w);
+            float sin_t_w     = (float)Math.Sin(t * w);
+            float sin_inv_t_w = (float)Math.Sin((1.0f - t) * w);
+            float mult_q1     = sin_inv_t_w / sin_w;
+            float mult_q2     = sin_t_w / sin_w;
+
+            ret.x = mult_q1 * left.x + mult_q2 * right.x;
+            ret.y = mult_q1 * left.y + mult_q2 * right.y;
+            ret.z = mult_q1 * left.z + mult_q2 * right.z;
+            ret.w = mult_q1 * left.w + mult_q2 * right.w;
+
+            return ret;
+        }
     }
 }
