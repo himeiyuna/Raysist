@@ -53,37 +53,6 @@ namespace Raysist
             });
             fact.Create();
 
-
-            var bitmaker = new ContainerFactory((GameContainer g) =>
-            {
-                g.AddComponent(new Bit(g, new Vector3 { x = 40.0f, y = 0.0f, z = -40.0f }));
-
-                var br = new BillboardRenderer(g, "");
-                var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
-                br.Scale *= 25.0f;
-                animator.UpdateFrame = 5;
-                g.AddComponent(br);
-                g.AddComponent(animator);
-
-                var col = new RectCollider(g, (Collider c) => { return; });
-                col.Width = 10.0f;
-                col.Height = 10.0f;
-                g.AddComponent(col);
-            });
-
-            var bit2maker = new ContainerFactory((GameContainer g) =>
-            {
-                g.AddComponent(new Bit(g, new Vector3 { x = -40.0f, y = 0.0f, z = -40.0f }));
-
-                var br = new BillboardRenderer(g, "");
-                var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
-                br.Scale *= 25.0f;
-                animator.UpdateFrame = 5;
-                g.AddComponent(br);
-                g.AddComponent(animator);
-            });
-            bitmaker.Create(gc);
-            bit2maker.Create(gc);
             //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
 
             var camera = cameraFactory.Create(Root).GetComponent<Camera>();

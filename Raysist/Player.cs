@@ -55,6 +55,43 @@ namespace Raysist
             Position.LocalRotation = new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisY, (float)Math.PI);
             Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 50.0f };
             Rot = 0;
+
+            var bitmaker = new ContainerFactory((GameContainer g) =>
+            {
+                g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_LEFT));
+
+                var br = new BillboardRenderer(g, "");
+                var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
+                br.Scale *= 25.0f;
+                animator.UpdateFrame = 5;
+                g.AddComponent(br);
+                g.AddComponent(animator);
+
+                var col = new RectCollider(g, (Collider c) => { return; });
+                col.Width = 10.0f;
+                col.Height = 10.0f;
+                g.AddComponent(col);
+            });
+
+            var bitmaker2 = new ContainerFactory((GameContainer g) =>
+            {
+                g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_RIGHT));
+
+                var br = new BillboardRenderer(g, "");
+                var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
+                br.Scale *= 25.0f;
+                animator.UpdateFrame = 5;
+                g.AddComponent(br);
+                g.AddComponent(animator);
+
+                var col = new RectCollider(g, (Collider c) => { return; });
+                col.Width = 10.0f;
+                col.Height = 10.0f;
+                g.AddComponent(col);
+            });
+
+            bitmaker.Create(Container);
+            bitmaker2.Create(Container);
         }
 
         /// <summary>
@@ -62,8 +99,6 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            
-
             // 移動処理
             if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
             {
@@ -118,7 +153,7 @@ namespace Raysist
                 var bit = Position.FindChildren("Bit");
                 foreach (var b in bit)
                 {
-                    b.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
+                    b.Container.GetComponent<Bit>().Undock();
                 }
                 
             }
@@ -133,20 +168,136 @@ namespace Raysist
 
     class Bit : GameComponent
     {
-        public Bit(GameContainer container, Vector3 position) : base(container)
+        private const int MaxEnergy = 120;
+
+        /// <summary>
+        /// @brief ビット番号
+        /// </summary>
+        public enum BitIndex
         {
-            container.Name = "Bit";
-            Position.LocalPosition = position;
+            BIT_LEFT,
+            BIT_RIGHT
         }
 
+        /// <summary>
+        /// @brief 親
+        /// </summary>
+        private Player Player
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief ビット番号(0,1)
+        /// </summary>
+        private BitIndex Index
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// @brief エネルギー 0になると自機に戻る
+        /// </summary>
+        public int Energy
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief 切り離されていればfalse
+        /// </summary>
+        public bool IsDock
+        {
+            private set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief コンストラクタ
+        /// </summary>
+        /// <param name="container">自身を組み込むコンテナ</param>
+        /// <param name="player">親</param>
+        /// <param name="position">初期位置</param>
+        public Bit(GameContainer container, Player player, BitIndex index) : base(container)
+        {
+            Energy = MaxEnergy;      // 2秒分
+            Player = player;
+            Index = index;
+
+            container.Name = "Bit";
+
+            if (index == BitIndex.BIT_LEFT)
+            {
+                Position.LocalPosition = new Vector3 { x = -10.0f, y = 0.0f, z = 0.0f };
+            }
+            else
+            {
+                Position.LocalPosition = new Vector3 { x = 10.0f, y = 0.0f, z = 0.0f };
+            }
+        }
+
+        /// <summary>
+        /// @brief 更新処理
+        /// </summary>
         public override void Update()
         {
-            /*var c = new ContainerFactory((GameContainer g) =>
+            // 自機についているときはエネルギー回復
+            if (IsDock)
             {
-                g.AddComponent(new ShotComponent(g, (float)Math.PI / 2.0f, Position.WorldPosition));
-                g.AddComponent(new MeshRenderer(g, "fighter.x"));
-            });
-            //c.Create();*/
+                ++Energy;
+                if (MaxEnergy < Energy)
+                {
+                    Energy = MaxEnergy;
+                }
+            }
+            else
+            {
+                --Energy;
+
+                // 0になれば
+                if (Energy <= 0)
+                {
+                    Dock();
+                }
+            }
+        }
+
+        /// <summary>
+        /// @brief 切り離し
+        /// </summary>
+        public void Undock()
+        {
+            IsDock = false;
+            Position.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
+        }
+
+        /// <summary>
+        /// @brief 自機に戻る
+        /// </summary>
+        public void Dock()
+        {
+            // TODO:徐々に自機に近づく処理をする
+
+            // 自機に戻る
+            Position.Parent = Player.Position;
+
+            // 位置のリセット
+            if (Index == BitIndex.BIT_LEFT)
+            {
+                Position.LocalPosition = new Vector3 { x = -10.0f, y = 0.0f, z = 0.0f };
+            }
+            else
+            {
+                Position.LocalPosition = new Vector3 { x = 10.0f, y = 0.0f, z = 0.0f };
+            }
+
+            // 回転のリセット
+            Position.LocalRotation = Quaternion.Identity;
+
+            IsDock = true;
         }
     }
 }
