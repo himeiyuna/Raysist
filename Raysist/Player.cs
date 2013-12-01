@@ -198,6 +198,20 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief ショットの間隔
+        /// </summary>
+        private const int ShotInterval = 10;
+
+        /// <summary>
+        /// @brief ショットのカウンタ
+        /// </summary>
+        private int ShotCounter
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief エネルギー 0になると自機に戻る
         /// </summary>
         public int Energy
@@ -226,16 +240,19 @@ namespace Raysist
             Energy = MaxEnergy;      // 2秒分
             Player = player;
             Index = index;
+            ShotCounter = 0;
+
+            IsDock = true;
 
             container.Name = "Bit";
 
             if (index == BitIndex.BIT_LEFT)
             {
-                Position.LocalPosition = new Vector3 { x = -10.0f, y = 0.0f, z = 0.0f };
+                Position.LocalPosition = new Vector3 { x = -10.0f, y = -10.0f, z = 0.0f };
             }
             else
             {
-                Position.LocalPosition = new Vector3 { x = 10.0f, y = 0.0f, z = 0.0f };
+                Position.LocalPosition = new Vector3 { x = 10.0f, y = -10.0f, z = 0.0f };
             }
         }
 
@@ -252,6 +269,30 @@ namespace Raysist
                 {
                     Energy = MaxEnergy;
                 }
+
+                ++ShotCounter;
+                if (ShotCounter > ShotInterval)
+                {
+                    ShotCounter = 0;
+
+                    // ショットを放つ
+                    var sf = new ContainerFactory((GameContainer g) =>
+                    {
+                        g.AddComponent(new Shot(g, (float)Math.PI * -0.5f, Position.WorldPosition));
+
+                        var b = new BillboardRenderer(g, "dummy.png");
+                        b.Scale = 10.0f;
+                        g.AddComponent(b);
+
+                        var col = new RectCollider(g, (Collider c) => { return; });
+                        col.Width = 10.0f;
+                        col.Height = 10.0f;
+
+                        g.AddComponent(col);
+                    });
+
+                    sf.Create(Game.Instance.SceneController.CurrentScene.Root);
+                }
             }
             else
             {
@@ -263,15 +304,6 @@ namespace Raysist
                     Dock();
                 }
             }
-        }
-
-        /// <summary>
-        /// @brief 切り離し
-        /// </summary>
-        public void Undock()
-        {
-            IsDock = false;
-            Position.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
         }
 
         /// <summary>
@@ -287,17 +319,26 @@ namespace Raysist
             // 位置のリセット
             if (Index == BitIndex.BIT_LEFT)
             {
-                Position.LocalPosition = new Vector3 { x = -10.0f, y = 0.0f, z = 0.0f };
+                Position.LocalPosition = new Vector3 { x = -10.0f, y = -10.0f, z = 0.0f };
             }
             else
             {
-                Position.LocalPosition = new Vector3 { x = 10.0f, y = 0.0f, z = 0.0f };
+                Position.LocalPosition = new Vector3 { x = 10.0f, y = -10.0f, z = 0.0f };
             }
 
             // 回転のリセット
             Position.LocalRotation = Quaternion.Identity;
 
             IsDock = true;
+        }
+
+        /// <summary>
+        /// @brief 切り離し
+        /// </summary>
+        public void Undock()
+        {
+            IsDock = false;
+            Position.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
         }
     }
 }

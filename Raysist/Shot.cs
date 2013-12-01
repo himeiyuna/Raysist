@@ -7,7 +7,7 @@ using DxLibDLL;
 
 namespace Raysist
 {
-    class ShotComponent : GameComponent
+    class Shot : GameComponent
     {
         //---------------------------------------------------
         //メンバ変数こっから
@@ -28,11 +28,10 @@ namespace Raysist
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public ShotComponent(GameContainer container, float angle, Vector3 position)
+        public Shot(GameContainer container, float angle, Vector3 pos)
             : base(container)
         {
-            Position.LocalRotation *= new Quaternion(Vector3.AxisY, (float)Math.PI);
-            Position.LocalPosition = position;
+            Position.LocalPosition = pos;
             Angle = angle;
         }
 
@@ -41,9 +40,18 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
+            var wp = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
+            var ga = GameScene.GameArea;
+            if (wp.x < ga.Left || wp.x > ga.Right ||
+                wp.y < ga.Top || wp.y > ga.Bottom)
+            {
+                // TODO:外に出たら破棄する
+                GameContainer.Destroy(Container);
+            }
+
             // 移動処理
             Position.LocalPosition.x += (float)Math.Cos(Angle) * 10.0f;
-            Position.LocalPosition.z += (float)Math.Sin(Angle) * 10.0f;
+            Position.LocalPosition.y -= (float)Math.Sin(Angle) * 10.0f;
         }
 
 

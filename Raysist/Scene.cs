@@ -150,6 +150,15 @@ namespace Raysist
                 }
             }
         }
+
+        /// <summary>
+        /// @brief コンテナの破棄
+        /// </summary>
+        /// <param name="container">破棄する対象</param>
+        public static void Destroy(GameContainer container)
+        {
+            container.Position.Parent.RemoveChild(container.Position);
+        }
     }
 
     /// <summary>

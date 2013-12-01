@@ -9,6 +9,22 @@ namespace Raysist
 {
     class GameScene : Scene
     {
+        /// <summary>
+        /// @brief ゲーム画面範囲
+        /// </summary>
+        public static Collider.AABB GameArea
+        {
+            get
+            {
+                var ret = new Collider.AABB();
+                ret.Left = 300.0f;
+                ret.Right = 1300.0f;
+                ret.Top = 0.0f;
+                ret.Bottom = 800.0f;
+                return ret;
+            }
+        }
+
         public GameScene()
             : base()
         {
