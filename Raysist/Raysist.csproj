@@ -41,7 +41,9 @@
   <ItemGroup>
     <Compile Include="BillboardRenderer.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="DisablePlayer.cs" />
+    <Compile Include="Shot.cs" />
+    <Compile Include="GameScene.cs" />
     <Compile Include="CollisionManager.cs" />
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Game.cs" />

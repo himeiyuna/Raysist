@@ -42,7 +42,6 @@ namespace Raysist
         public override void Update()
         {
             // 移動処理
-
             Position.LocalPosition.x += (float)Math.Cos(Angle) * 10.0f;
             Position.LocalPosition.z += (float)Math.Sin(Angle) * 10.0f;
         }

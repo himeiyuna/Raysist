@@ -15,7 +15,7 @@ namespace Raysist
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        /// <param name="container">自信を組み込むコンテナ</param>
+        /// <param name="container">自身を組み込むコンテナ</param>
         /// <param name="path">ファイルパス</param>
         public BillboardRenderer(GameContainer container, String path) : base(container, path)
         {

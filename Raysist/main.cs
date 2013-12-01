@@ -9,7 +9,7 @@ namespace Raysist
         [STAThread]
         static void Main()
         {
-            Game.Instance.Run<TestScene>();
+            Game.Instance.Run<GameScene>();
 
             return;
         }
