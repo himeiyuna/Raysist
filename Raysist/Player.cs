@@ -65,29 +65,33 @@ namespace Raysist
             {
                 g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_LEFT));
 
-                var br = new BillboardRenderer(g, "");
-                var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
+        
+                g.AddComponent(new MeshRenderer(g, "bit.x"));
+                //var br = new BillboardRenderer(g, "");
+                /*var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
                 br.Scale *= 25.0f;
                 animator.UpdateFrame = 5;
                 g.AddComponent(br);
-                g.AddComponent(animator);
+                g.AddComponent(animator);*/
 
                 var col = new RectCollider(g, (Collider c) => { return; });
                 col.Width = 10.0f;
                 col.Height = 10.0f;
                 g.AddComponent(col);
+
+                g.Position.LocalScale *= 10.0f;
             });
 
             var bitmaker2 = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_RIGHT));
-
-                var br = new BillboardRenderer(g, "");
-                var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
-                br.Scale *= 25.0f;
-                animator.UpdateFrame = 5;
-                g.AddComponent(br);
-                g.AddComponent(animator);
+                g.AddComponent(new MeshRenderer(g, "bit.x"));
+                //var br = new BillboardRenderer(g, "");
+                //var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
+                //br.Scale *= 25.0f;
+                //animator.UpdateFrame = 5;
+                //g.AddComponent(br);
+                //g.AddComponent(animator);
 
                 var col = new RectCollider(g, (Collider c) => { return; });
                 col.Width = 10.0f;
