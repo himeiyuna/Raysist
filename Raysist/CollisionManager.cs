@@ -482,6 +482,20 @@ namespace Raysist
             {
                 Power[i] = Power[i - 1] * 4;
             }
+
+            // 空間の配列を作成
+            CellNum = (Power[8 + 1] - 1) / 3;
+            CellArray = new Cell[CellNum];
+
+            // 領域を計算
+            Left = -10.0f;
+            Top = -10.0f;
+            Width = 1610.0f - Left;
+            Height = 910.0f - Top;
+            UnitWidth = Width / (1 << MaxLevel);
+            UnitHeight = Height / (1 << MaxLevel);
+
+            Level = 8;
         }
 
         /// <summary>
@@ -491,24 +505,9 @@ namespace Raysist
         /// <param name="top">当たり判定領域の上</param>
         /// <param name="right">当たり判定領域の右</param>
         /// <param name="bottom">当たり判定領域の下</param>
-        public void Initialize(int level, float left, float top, float right, float bottom)
+        public void Initialize(float left, float top, float right, float bottom)
         {
-            if (level >= MaxLevel)
-                return;
-
-            // 空間の配列を作成
-            CellNum = (Power[level + 1] - 1) / 3;
-            CellArray = new Cell[CellNum];
-            
-            // 領域を計算
-            Left = left;
-            Top = top;
-            Width = right - left;
-            Height = bottom - top;
-            UnitWidth = Width / (1 << MaxLevel);
-            UnitHeight = Height / (1 << MaxLevel);
-
-            Level = MaxLevel;
+           
         }
 
         /// <summary>

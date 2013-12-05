@@ -386,6 +386,8 @@ namespace Raysist
                     // 遷移
                     CurrentScene = LoadingScene.Next;
                     CurrentScene.EnterScene();
+
+                    LoadingScene = null;
                 }
             }
         }

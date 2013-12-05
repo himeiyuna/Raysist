@@ -10,12 +10,12 @@ namespace Raysist
     /// <summary>
     /// @brief タイトル画面
     /// </summary>
-    class TitleScene : Scene
+    class EndScene : Scene
     {
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public TitleScene()
+        public EndScene()
             : base()
         {
         }
@@ -51,8 +51,6 @@ namespace Raysist
             camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -3000.0f };
             camera.FieldOfView = (float)Math.PI * 0.1f;
 
-            Game.Instance.SceneController.ChangeScene<GameScene, LoadScene>();
-            
         }
 
         /// <summary>
@@ -68,6 +66,5 @@ namespace Raysist
         public override void UnloadResource()
         {
         }
-
     }
 }

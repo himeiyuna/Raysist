@@ -42,6 +42,7 @@
     <Compile Include="BillboardRenderer.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="DisablePlayer.cs" />
+    <Compile Include="EndScene.cs" />
     <Compile Include="Shot.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="CollisionManager.cs" />
