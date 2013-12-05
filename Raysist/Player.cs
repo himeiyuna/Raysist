@@ -1,7 +1,7 @@
 ﻿using DxLibDLL;
 using System;
 using System.Runtime.InteropServices;
-using DxLibDLL;
+
 
 namespace Raysist
 {

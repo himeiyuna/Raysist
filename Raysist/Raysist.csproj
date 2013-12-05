@@ -55,6 +55,7 @@
     <Compile Include="main.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="SpriteRenderer.cs" />
+    <Compile Include="TitleScene.cs" />
     <Compile Include="Utils\Quaternion.cs" />
     <Compile Include="Utils\Matrix.cs" />
     <Compile Include="Positioner.cs" />
