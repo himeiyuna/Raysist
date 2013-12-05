@@ -1,6 +1,7 @@
 ﻿using DxLibDLL;
 using System;
 using System.Runtime.InteropServices;
+using DxLibDLL;
 
 namespace Raysist
 {
@@ -56,6 +57,10 @@ namespace Raysist
             Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 50.0f };
             Rot = 0;
 
+            Collider.AABB a = new Collider.AABB();
+
+
+
             var bitmaker = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_LEFT));
@@ -102,23 +107,23 @@ namespace Raysist
             // 移動処理
             if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
             {
-                Position.LocalPosition.y += 1.0f;
+                Position.LocalPosition.y += 100.0f;
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1)
             {
 
-                Position.LocalPosition.y -= 1.0f;
+                Position.LocalPosition.y -= 100.0f;
             }
 
             if (DX.CheckHitKey(DX.KEY_INPUT_A) == 1)
             {
-                Position.LocalPosition.x -= 1.0f;
+                Position.LocalPosition.x -= 100.0f;
 
                 Rot -= 3;
                 if (Rot >= -MaxRot)
                 {
                     Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
-                } 
+                }
                 else
                 {
                     Rot = -MaxRot;
@@ -126,13 +131,13 @@ namespace Raysist
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_D) == 1)
             {
-                Position.LocalPosition.x += 1.0f;
+                Position.LocalPosition.x += 100.0f;
 
                 Rot += 3;
                 if (Rot <= MaxRot)
                 {
                     Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
-                } 
+                }
                 else
                 {
                     Rot = MaxRot;
@@ -141,11 +146,11 @@ namespace Raysist
             else
             {
                 if (Rot != 0)
-                { 
+                {
                     Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 180 * (Rot < 0 ? 3 : -3));
                     Rot += Rot < 0 ? 3 : -3;
                 }
-                
+
             }
 
             if (DX.CheckHitKey(DX.KEY_INPUT_SPACE) == 1)
@@ -155,7 +160,7 @@ namespace Raysist
                 {
                     b.Container.GetComponent<Bit>().Undock();
                 }
-                
+
             }
 
             if (DX.CheckHitKey(DX.KEY_INPUT_RETURN) == 1)
@@ -163,6 +168,33 @@ namespace Raysist
                 var dis = Container.GetComponent<DisablePlayer>();
                 dis.Active = true;
             }
+            
+          
+            var pos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
+            //var pos = DX.ConvScreenPosToWorldPos(Position.WorldPosition.ToDxLib);
+            if (300.0f > pos.x)
+            {
+                pos.x = 300.0f;
+                Position.LocalPosition.x = DX.ConvScreenPosToWorldPos(pos).x;
+            }
+            else if (1300.0f < pos.x)
+            {
+                pos.x = 1300.0f;
+                Position.LocalPosition.x = DX.ConvScreenPosToWorldPos(pos).x;
+            }
+
+            if (0.0f > pos.y)
+            {
+                pos.y = 0.0f;
+                Position.LocalPosition.y = DX.ConvScreenPosToWorldPos(pos).y;
+            }
+            else if (800.0f < pos.y)
+            {
+                pos.y = 800.0f;
+                Position.LocalPosition.y = DX.ConvScreenPosToWorldPos(pos).y;
+            }
+            //string str = string.Format("{0}, {1}, {2}", pos.x, pos.y, pos.z);
+            //DX.DrawString(0, 0, str, DX.GetColor(255, 255, 255));
         }
     }
 
