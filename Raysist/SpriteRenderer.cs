@@ -152,6 +152,15 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief アニメーション終了時に呼び出される
+        /// </summary>
+        public Action<Animator> OnFinishAnimation
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">自身を組み込む親</param>
@@ -184,6 +193,11 @@ namespace Raysist
                 // 表示画像を切り替えるが、次の画像がなければ最初に戻す
                 if (++CurrentImageIndex == GraphicHandles.Length)
                 {
+                    if (OnFinishAnimation != null)
+                    {
+                        OnFinishAnimation(this);
+                    }
+
                     if (!Loop) 
                     {
                         Active = false;
