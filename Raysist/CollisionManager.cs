@@ -75,6 +75,8 @@ namespace Raysist
     /// </summary>
     class RectCollider : Collider
     {
+        private Collider.AABB boundingBox;
+
         /// <summary>
         /// @brief 境界範囲
         /// </summary>
@@ -82,18 +84,8 @@ namespace Raysist
         {
             get
             {
-                var pos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
-                var scale = Container.Position.WorldScale;
-                var ret = new Collider.AABB();
-
-                ret.Left   = pos.x - Width * 0.5f;
-                ret.Right  = pos.x + Width * 0.5f;
-                ret.Top    = pos.y - Height * 0.5f;
-                ret.Bottom = pos.y + Height * 0.5f;
-
-                return ret;
-            }
-            
+                return boundingBox;
+            }   
         }
 
         /// <summary>
@@ -121,6 +113,7 @@ namespace Raysist
         public RectCollider(GameContainer container, Action<Collider> onCollision)
             : base(container, onCollision)
         {
+            boundingBox = new Collider.AABB();
             Width = 1.0f;
             Height = 1.0f;
         }
@@ -153,7 +146,13 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            DX.DrawBox(1, 800, 10, 810, DX.GetColor(255,255,255), DX.TRUE);
+            var pos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
+
+            boundingBox.Left = pos.x - Width * 0.5f;
+            boundingBox.Right = pos.x + Width * 0.5f;
+            boundingBox.Top = pos.y - Height * 0.5f;
+            boundingBox.Bottom = pos.y + Height * 0.5f;
+
             DX.DrawBox((int)BoundingBox.Left, (int)BoundingBox.Top, (int)BoundingBox.Right, (int)BoundingBox.Bottom, DX.GetColor(255,255,255), DX.FALSE);
 
             base.Update();
@@ -554,6 +553,8 @@ namespace Raysist
             // ルート空間を処理
             Stack<Collider> stac = new Stack<Collider>();
             GetCollisionList(0, ref stac);
+
+            DX.DrawString(0, 10, string.Format("Pair:{0}", CollisionList.Count), DX.GetColor(255, 255, 255));
 
             return CollisionList;
         }

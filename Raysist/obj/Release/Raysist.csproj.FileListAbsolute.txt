@@ -1,0 +1,5 @@
+C:\Users\relay\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.exe.config
+C:\Users\relay\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.exe
+C:\Users\relay\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.pdb
+C:\Users\relay\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.exe
+C:\Users\relay\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.pdb

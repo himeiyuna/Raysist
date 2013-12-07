@@ -55,9 +55,10 @@ namespace Raysist
         /// </summary>
         public Player(GameContainer container) : base(container)
         {
-            Speed = 2.0f;
+            Speed = 0.5f;
             Position.LocalRotation = new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisY, (float)Math.PI);
-            Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 50.0f };
+            Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 0.0f };
+            Position.LocalScale *= 0.1f;
             Rot = 0;
 
             //Collider.AABB a = new Collider.AABB();
@@ -68,13 +69,8 @@ namespace Raysist
             {
                 g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_LEFT));
 
-        
-                g.AddComponent(new MeshRenderer(g, "bit.x"));
 
-                var col = new RectCollider(g, (Collider c) => { return; });
-                col.Width = 1.0f;
-                col.Height = 1.0f;
-                g.AddComponent(col);
+                g.AddComponent(new MeshRenderer(g, "bit.x"));
 
                 g.Position.LocalRotation *= new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);
                 g.Position.LocalScale *= 3.0f;
@@ -84,11 +80,6 @@ namespace Raysist
             {
                 g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_RIGHT));
                 g.AddComponent(new MeshRenderer(g, "bit.x"));
-
-                var col = new RectCollider(g, (Collider c) => { return; });
-                col.Width = 1.0f;
-                col.Height = 1.0f;
-                g.AddComponent(col);
 
                 g.Position.LocalRotation *= new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);
                 g.Position.LocalScale *= 3.0f;
@@ -103,20 +94,21 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
+            int dir = 0x0000;
+
             // 移動処理
             if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
             {
-                Position.LocalPosition.y += 100.0f;
+                dir |= 0x1000;
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1)
             {
-
-                Position.LocalPosition.y -= 100.0f;
+                dir |= 0x0010;
             }
 
             if (DX.CheckHitKey(DX.KEY_INPUT_A) == 1)
             {
-                Position.LocalPosition.x -= 100.0f;
+                dir |= 0x0100;
 
                 Rot -= 3;
                 if (Rot >= -MaxRot)
@@ -130,7 +122,7 @@ namespace Raysist
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_D) == 1)
             {
-                Position.LocalPosition.x += 100.0f;
+                dir |= 0x0001;
 
                 Rot += 3;
                 if (Rot <= MaxRot)
@@ -149,43 +141,50 @@ namespace Raysist
                     Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 180 * (Rot < 0 ? 3 : -3));
                     Rot += Rot < 0 ? 3 : -3;
                 }
-
             }
 
-            
-
-            if (DX.CheckHitKey(DX.KEY_INPUT_RETURN) == 1)
+            float theta;
+            switch (dir)
             {
-                var dis = Container.GetComponent<DisablePlayer>();
-                dis.Active = true;
+                case 0x0001: theta = 0.0f; break;
+                case 0x0011: theta = (float)Math.PI * 0.25f; break;
+                case 0x0010: theta = (float)Math.PI * 0.5f;  break;
+                case 0x0110: theta = (float)Math.PI * 0.75f; break;
+                case 0x0100: theta = (float)Math.PI;         break;
+                case 0x1100: theta = (float)Math.PI * 1.25f; break;
+                case 0x1000: theta = (float)Math.PI * 1.5f;  break;
+                case 0x1001: theta = (float)Math.PI * 1.75f; break;
+                default: theta = -1.0f; break;
             }
-            
+
+            if (theta >= 0.0f)
+            {
+                Position.LocalPosition.x += (float)Math.Cos(theta) * Speed;
+                Position.LocalPosition.y += -(float)Math.Sin(theta) * Speed;
+            }
           
             var pos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
-            //var pos = DX.ConvScreenPosToWorldPos(Position.WorldPosition.ToDxLib);
             if (300.0f + PlayerWidth * 0.5f > pos.x)
             {
-                pos.x = 340.0f;
+                pos.x = 300.0f + PlayerWidth * 0.5f;
                 Position.LocalPosition.x = DX.ConvScreenPosToWorldPos(pos).x;
             }
             else if (1300.0f - PlayerWidth * 0.5f < pos.x)
             {
-                pos.x = 1260.0f;
+                pos.x = 1300.0f - PlayerWidth * 0.5f;
                 Position.LocalPosition.x = DX.ConvScreenPosToWorldPos(pos).x;
             }
 
             if (PlayerHeight * 0.5f > pos.y)
             {
-                pos.y = 40.0f;
+                pos.y = PlayerHeight * 0.5f;
                 Position.LocalPosition.y = DX.ConvScreenPosToWorldPos(pos).y;
             }
             else if (800.0f - PlayerHeight * 0.5f < pos.y)
             {
-                pos.y = 750.0f;
+                pos.y = 800.0f - PlayerHeight * 0.5f;
                 Position.LocalPosition.y = DX.ConvScreenPosToWorldPos(pos).y;
             }
-            //string str = string.Format("{0}, {1}, {2}", pos.x, pos.y, pos.z);
-            //DX.DrawString(0, 0, str, DX.GetColor(255, 255, 255));
             DX.DrawBox(300, 0, 1300, 800,255,0);//有効距離
 
             // ビット射出
@@ -196,6 +195,12 @@ namespace Raysist
                 {
                     b.Container.GetComponent<Bit>().Undock();
                 }
+            }
+
+            if (DX.CheckHitKey(DX.KEY_INPUT_RETURN) == 1)
+            {
+                var dis = Container.GetComponent<DisablePlayer>();
+                dis.Active = true;
             }
         }
     }
@@ -315,7 +320,6 @@ namespace Raysist
                         g.AddComponent(new Shot(g, (float)Math.PI * -0.5f, Position.WorldPosition));
 
                         var b = new BillboardRenderer(g, "dummy.png");
-                        b.Scale = 10.0f;
                         g.AddComponent(b);
 
                         var col = new RectCollider(g, (Collider c) => { return; });

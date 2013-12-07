@@ -43,7 +43,6 @@ namespace Raysist
             {
                 g.AddComponent(new Player(g));
                 g.AddComponent(new DisablePlayer(g));
-                //g.AddComponent(new SpriteRenderer(g, "dummy.png"));
                 g.AddComponent(new MeshRenderer(g, "fighter.x"));
                 var col = new RectCollider(g, (Collider c) => { return; });
                 col.Width = 10.0f;
@@ -66,6 +65,7 @@ namespace Raysist
                 a.Width = 10.0f;
                 a.Height = 10.0f;
                 g.AddComponent(a);
+                g.Position.LocalPosition = new Vector3 { x = 50.0f, y = 50.0f, z = 0.0f };
             });
             fact.Create();
 

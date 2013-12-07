@@ -31,6 +31,7 @@ namespace Raysist
         public Shot(GameContainer container, float angle, Vector3 pos)
             : base(container)
         {
+            Position.LocalScale *= 0.1f;
             Position.LocalPosition = pos;
             Angle = angle;
         }
@@ -50,8 +51,8 @@ namespace Raysist
             }
 
             // 移動処理
-            Position.LocalPosition.x += (float)Math.Cos(Angle) * 10.0f;
-            Position.LocalPosition.y -= (float)Math.Sin(Angle) * 10.0f;
+            Position.LocalPosition.x += (float)Math.Cos(Angle) * 0.1f;
+            Position.LocalPosition.y -= (float)Math.Sin(Angle) * 0.1f;
         }
 
 
