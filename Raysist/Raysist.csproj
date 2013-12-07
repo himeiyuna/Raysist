@@ -41,14 +41,19 @@
   <ItemGroup>
     <Compile Include="BillboardRenderer.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Scene\ClearScene.cs" />
     <Compile Include="DisablePlayer.cs" />
-    <Compile Include="EndScene.cs" />
+    <Compile Include="Scene\EndScene.cs" />
+    <Compile Include="Scene\GameOverScene.cs" />
+    <Compile Include="Scene\OptionScene.cs" />
+    <Compile Include="Scene\ReplayScene.cs" />
+    <Compile Include="Scene\ResultScene.cs" />
     <Compile Include="Shot.cs" />
-    <Compile Include="GameScene.cs" />
+    <Compile Include="Scene\GameScene.cs" />
     <Compile Include="CollisionManager.cs" />
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Scene.cs" />
+    <Compile Include="Scene\Scene.cs" />
     <Compile Include="MeshRenderer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="GameComponent.cs" />
@@ -56,7 +61,7 @@
     <Compile Include="main.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="SpriteRenderer.cs" />
-    <Compile Include="TitleScene.cs" />
+    <Compile Include="Scene\TitleScene.cs" />
     <Compile Include="Utils\Quaternion.cs" />
     <Compile Include="Utils\Matrix.cs" />
     <Compile Include="Positioner.cs" />

@@ -176,29 +176,30 @@ namespace Raysist
           
             var pos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
             //var pos = DX.ConvScreenPosToWorldPos(Position.WorldPosition.ToDxLib);
-            if (300.0f > pos.x)
+            if (340.0f > pos.x)
             {
-                pos.x = 300.0f;
+                pos.x = 340.0f;
                 Position.LocalPosition.x = DX.ConvScreenPosToWorldPos(pos).x;
             }
-            else if (1300.0f < pos.x)
+            else if (1250.0f < pos.x)
             {
-                pos.x = 1300.0f;
+                pos.x = 1250.0f;
                 Position.LocalPosition.x = DX.ConvScreenPosToWorldPos(pos).x;
             }
 
-            if (0.0f > pos.y)
+            if (40.0f > pos.y)
             {
-                pos.y = 0.0f;
+                pos.y = 40.0f;
                 Position.LocalPosition.y = DX.ConvScreenPosToWorldPos(pos).y;
             }
-            else if (800.0f < pos.y)
+            else if (750.0f < pos.y)
             {
-                pos.y = 800.0f;
+                pos.y = 750.0f;
                 Position.LocalPosition.y = DX.ConvScreenPosToWorldPos(pos).y;
             }
             //string str = string.Format("{0}, {1}, {2}", pos.x, pos.y, pos.z);
             //DX.DrawString(0, 0, str, DX.GetColor(255, 255, 255));
+            DX.DrawBox(300, 0, 1300, 800,255,0);//有効距離
         }
     }
 
