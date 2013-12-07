@@ -86,10 +86,10 @@ namespace Raysist
                 var scale = Container.Position.WorldScale;
                 var ret = new Collider.AABB();
 
-                ret.Left   = pos.x - Width * scale.x * 0.5f;
-                ret.Right  = pos.x + Width * scale.x * 0.5f;
-                ret.Top    = pos.y - Height * scale.y * 0.5f;
-                ret.Bottom = pos.y + Height * scale.y * 0.5f;
+                ret.Left   = pos.x - Width * 0.5f;
+                ret.Right  = pos.x + Width * 0.5f;
+                ret.Top    = pos.y - Height * 0.5f;
+                ret.Bottom = pos.y + Height * 0.5f;
 
                 return ret;
             }

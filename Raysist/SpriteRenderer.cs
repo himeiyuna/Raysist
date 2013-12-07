@@ -87,6 +87,7 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
+            DX.SetWriteZBufferFlag(DX.FALSE);
             var pos = Position.WorldPosition;
             DX.DrawRotaGraphF((int)pos.x, (int)pos.y, (double)Scale, (double)Radian, GraphicHandle, DX.TRUE);
         }

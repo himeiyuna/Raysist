@@ -72,7 +72,7 @@ namespace Raysist
             //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
 
             var camera = cameraFactory.Create(Root).GetComponent<Camera>();
-            camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -3000.0f };
+            camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -1000.0f };
             camera.FieldOfView = (float)Math.PI * 0.1f;
         }
 

@@ -7,6 +7,9 @@ namespace Raysist
 {
     class Player : GameComponent
     {
+        private const float PlayerWidth = 80.0f;
+        private const float PlayerHeight = 80.0f;
+
         //---------------------------------------------------
         //メンバ変数こっから
 
@@ -57,7 +60,7 @@ namespace Raysist
             Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 50.0f };
             Rot = 0;
 
-            Collider.AABB a = new Collider.AABB();
+            //Collider.AABB a = new Collider.AABB();
 
 
 
@@ -67,36 +70,28 @@ namespace Raysist
 
         
                 g.AddComponent(new MeshRenderer(g, "bit.x"));
-                //var br = new BillboardRenderer(g, "");
-                /*var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
-                br.Scale *= 25.0f;
-                animator.UpdateFrame = 5;
-                g.AddComponent(br);
-                g.AddComponent(animator);*/
 
                 var col = new RectCollider(g, (Collider c) => { return; });
-                col.Width = 10.0f;
-                col.Height = 10.0f;
+                col.Width = 1.0f;
+                col.Height = 1.0f;
                 g.AddComponent(col);
 
-                g.Position.LocalScale *= 10.0f;
+                g.Position.LocalRotation *= new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);
+                g.Position.LocalScale *= 3.0f;
             });
 
             var bitmaker2 = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_RIGHT));
                 g.AddComponent(new MeshRenderer(g, "bit.x"));
-                //var br = new BillboardRenderer(g, "");
-                //var animator = new Animator(g, br, "explosion.png", 4, 4, 1, 512, 512);
-                //br.Scale *= 25.0f;
-                //animator.UpdateFrame = 5;
-                //g.AddComponent(br);
-                //g.AddComponent(animator);
 
                 var col = new RectCollider(g, (Collider c) => { return; });
-                col.Width = 10.0f;
-                col.Height = 10.0f;
+                col.Width = 1.0f;
+                col.Height = 1.0f;
                 g.AddComponent(col);
+
+                g.Position.LocalRotation *= new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);
+                g.Position.LocalScale *= 3.0f;
             });
 
             bitmaker.Create(Container);
@@ -157,15 +152,7 @@ namespace Raysist
 
             }
 
-            if (DX.CheckHitKey(DX.KEY_INPUT_SPACE) == 1)
-            {
-                var bit = Position.FindChildren("Bit");
-                foreach (var b in bit)
-                {
-                    b.Container.GetComponent<Bit>().Undock();
-                }
-
-            }
+            
 
             if (DX.CheckHitKey(DX.KEY_INPUT_RETURN) == 1)
             {
@@ -176,23 +163,23 @@ namespace Raysist
           
             var pos = DX.ConvWorldPosToScreenPos(Position.WorldPosition.ToDxLib);
             //var pos = DX.ConvScreenPosToWorldPos(Position.WorldPosition.ToDxLib);
-            if (340.0f > pos.x)
+            if (300.0f + PlayerWidth * 0.5f > pos.x)
             {
                 pos.x = 340.0f;
                 Position.LocalPosition.x = DX.ConvScreenPosToWorldPos(pos).x;
             }
-            else if (1250.0f < pos.x)
+            else if (1300.0f - PlayerWidth * 0.5f < pos.x)
             {
-                pos.x = 1250.0f;
+                pos.x = 1260.0f;
                 Position.LocalPosition.x = DX.ConvScreenPosToWorldPos(pos).x;
             }
 
-            if (40.0f > pos.y)
+            if (PlayerHeight * 0.5f > pos.y)
             {
                 pos.y = 40.0f;
                 Position.LocalPosition.y = DX.ConvScreenPosToWorldPos(pos).y;
             }
-            else if (750.0f < pos.y)
+            else if (800.0f - PlayerHeight * 0.5f < pos.y)
             {
                 pos.y = 750.0f;
                 Position.LocalPosition.y = DX.ConvScreenPosToWorldPos(pos).y;
@@ -200,6 +187,16 @@ namespace Raysist
             //string str = string.Format("{0}, {1}, {2}", pos.x, pos.y, pos.z);
             //DX.DrawString(0, 0, str, DX.GetColor(255, 255, 255));
             DX.DrawBox(300, 0, 1300, 800,255,0);//有効距離
+
+            // ビット射出
+            if (DX.CheckHitKey(DX.KEY_INPUT_SPACE) == 1)
+            {
+                var bit = Position.FindChildren("Bit");
+                foreach (var b in bit)
+                {
+                    b.Container.GetComponent<Bit>().Undock();
+                }
+            }
         }
     }
 
@@ -364,7 +361,7 @@ namespace Raysist
             }
 
             // 回転のリセット
-            Position.LocalRotation = Quaternion.Identity;
+            Position.LocalRotation = new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);
 
             IsDock = true;
         }

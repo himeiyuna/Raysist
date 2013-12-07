@@ -191,7 +191,7 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            DX.SetupCamera_ProjectionMatrix(ProjectionTransform);
+            //DX.SetupCamera_ProjectionMatrix(ProjectionTransform);
             DX.SetCameraViewMatrix(ViewTransform);
         }
     }

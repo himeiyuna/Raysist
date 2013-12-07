@@ -54,6 +54,7 @@ namespace Raysist
             this.SceneController.CurrentScene.EnterScene();
 
             DX.SetDrawScreen(DX.DX_SCREEN_BACK);
+            DX.SetUseZBufferFlag(DX.TRUE);
 
             while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
             {

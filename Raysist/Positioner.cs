@@ -39,12 +39,8 @@ namespace Raysist
                     parent.RemoveChild(this);
 
                     // ローカルパラメータをワールドパラメータに変換
-                    LocalRotation = value.WorldRotation.Inverse * WorldRotation;
                     LocalPosition = WorldPosition - value.WorldPosition;
-
-                    var worldScale = value.WorldScale;
-                    var localScale = LocalScale;
-                    LocalScale = new Vector3 { x = localScale.x * worldScale.x, y = localScale.y * worldScale.y, z = localScale.z * worldScale.z };
+                    LocalRotation = value.WorldRotation * WorldRotation;
                 }
 
                 parent = value;
@@ -162,7 +158,7 @@ namespace Raysist
         {
             get
             {
-                return Parent == null ? LocalRotation : LocalRotation * Parent.WorldRotation;
+                return Parent == null ? LocalRotation : Parent.WorldRotation * LocalRotation;
             }
         }
 

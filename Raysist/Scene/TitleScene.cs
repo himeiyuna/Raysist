@@ -32,8 +32,6 @@ namespace Raysist
         /// </summary>
         public override void EnterScene()
         {
-            //CollisionManager.Initialize(8, -10.0f, -10.0f, 1610.0f, 910.0f);
-
             var cf = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new SpriteRenderer(g, "title.png"));

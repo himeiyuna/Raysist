@@ -27,6 +27,7 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
+            DX.SetWriteZBufferFlag(DX.TRUE);
             var pos = Position.WorldPosition;
             DX.DrawBillboard3D(DX.VGet(pos.x, pos.y, pos.z), 0.5f, 0.5f, Scale, Radian, GraphicHandle, DX.TRUE);
         }
