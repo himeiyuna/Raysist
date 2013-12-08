@@ -25,7 +25,7 @@ namespace Raysist
         /// <summary>
         /// @brief デフォルトの視野角
         /// </summary>
-        public static readonly float DefaultFOV  = (float)Math.PI * 0.75f;
+        public static readonly float DefaultFOV  = (float)Math.PI * 0.25f;
 
         /// <summary>
         /// @brief 目線ベクトル
@@ -191,7 +191,8 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            DX.SetupCamera_Ortho(150.0f);
+            DX.SetupCamera_Perspective(DefaultFOV);
+            //DX.SetupCamera_Ortho(150.0f);
             //DX.SetupCamera_ProjectionMatrix(ProjectionTransform);
             DX.SetCameraViewMatrix(ViewTransform);
         }

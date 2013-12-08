@@ -45,6 +45,15 @@ namespace Raysist
         /// </summary>
         private const int MaxRot = 45;
 
+        /// <summary>
+        /// @brief タイムライン
+        /// </summary>
+        private Timeline Time
+        {
+            set;
+            get;
+        }
+
         //ここまで
         //----------------------------------------------------
 
@@ -53,17 +62,13 @@ namespace Raysist
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public Player(GameContainer container) : base(container)
+        public Player(GameContainer container, Timeline timeline) : base(container)
         {
-            Speed = 0.5f;
+            Time = timeline;
+            Speed = 5.0f;
             Position.LocalRotation = new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisY, (float)Math.PI);
             Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 0.0f };
-            Position.LocalScale *= 0.1f;
             Rot = 0;
-
-            //Collider.AABB a = new Collider.AABB();
-
-
 
             var bitmaker = new ContainerFactory((GameContainer g) =>
             {
@@ -287,11 +292,11 @@ namespace Raysist
 
             if (index == BitIndex.BIT_LEFT)
             {
-                Position.LocalPosition = new Vector3 { x = -10.0f, y = -10.0f, z = 0.0f };
+                Position.LocalPosition = new Vector3 { x = -10.0f, y = -5.0f, z = 0.0f };
             }
             else
             {
-                Position.LocalPosition = new Vector3 { x = 10.0f, y = -10.0f, z = 0.0f };
+                Position.LocalPosition = new Vector3 { x = 10.0f, y = -5.0f, z = 0.0f };
             }
         }
 
@@ -320,6 +325,7 @@ namespace Raysist
                         g.AddComponent(new Shot(g, (float)Math.PI * -0.5f, Position.WorldPosition));
 
                         var b = new BillboardRenderer(g, "dummy.png");
+                        b.Scale = 5.0f;
                         g.AddComponent(b);
 
                         var col = new RectCollider(g, (Collider c) => { return; });
@@ -357,11 +363,11 @@ namespace Raysist
             // 位置のリセット
             if (Index == BitIndex.BIT_LEFT)
             {
-                Position.LocalPosition = new Vector3 { x = -10.0f, y = -10.0f, z = 0.0f };
+                Position.LocalPosition = new Vector3 { x = -10.0f, y = -5.0f, z = 0.0f };
             }
             else
             {
-                Position.LocalPosition = new Vector3 { x = 10.0f, y = -10.0f, z = 0.0f };
+                Position.LocalPosition = new Vector3 { x = 10.0f, y = -5.0f, z = 0.0f };
             }
 
             // 回転のリセット

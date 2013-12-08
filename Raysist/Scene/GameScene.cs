@@ -37,11 +37,13 @@ namespace Raysist
 
         public override void EnterScene()
         {
-            //CollisionManager.Initialize(8, -10.0f, -10.0f, 1610.0f, 910.0f);
+            var time = new GameContainer();
+            var timeline = new Timeline(time);
+            time.AddComponent(timeline);
 
             var cf = new ContainerFactory((GameContainer g) =>
             {
-                g.AddComponent(new Player(g));
+                g.AddComponent(new Player(g, timeline));
                 g.AddComponent(new DisablePlayer(g));
                 g.AddComponent(new MeshRenderer(g, "fighter.x"));
                 var col = new RectCollider(g, (Collider c) => { return; });
@@ -74,6 +76,13 @@ namespace Raysist
             var camera = cameraFactory.Create(Root).GetComponent<Camera>();
             camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -1000.0f };
             camera.FieldOfView = (float)Math.PI * 0.1f;
+
+            var sf = new ContainerFactory((GameContainer g) =>
+            {
+                g.AddComponent(new Stage(g, timeline));
+                g.AddComponent(new MeshRenderer(g, "stage.x"));
+            });
+            sf.Create();
         }
 
         public override void LeaveScene()

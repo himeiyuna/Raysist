@@ -62,6 +62,8 @@
     <Compile Include="Renderer.cs" />
     <Compile Include="SpriteRenderer.cs" />
     <Compile Include="Scene\TitleScene.cs" />
+    <Compile Include="Stage.cs" />
+    <Compile Include="Timeline.cs" />
     <Compile Include="Utils\Quaternion.cs" />
     <Compile Include="Utils\Matrix.cs" />
     <Compile Include="Positioner.cs" />
