@@ -80,8 +80,9 @@ namespace Raysist
             var sf = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Stage(g, timeline));
-                g.AddComponent(new MeshRenderer(g, "stage.x"));
+                g.AddComponent(new MeshRenderer(g, "hogeStage.x"));
             });
+            
             sf.Create();
         }
 
