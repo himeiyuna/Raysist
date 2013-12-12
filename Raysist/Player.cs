@@ -45,15 +45,6 @@ namespace Raysist
         /// </summary>
         private const int MaxRot = 45;
 
-        /// <summary>
-        /// @brief タイムライン
-        /// </summary>
-        private Timeline Time
-        {
-            set;
-            get;
-        }
-
         //ここまで
         //----------------------------------------------------
 
@@ -62,9 +53,8 @@ namespace Raysist
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public Player(GameContainer container, Timeline timeline) : base(container)
+        public Player(GameContainer container) : base(container)
         {
-            Time = timeline;
             Speed = 5.0f;
             Position.LocalRotation = new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisY, (float)Math.PI);
             Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 0.0f };

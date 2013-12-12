@@ -37,13 +37,13 @@ namespace Raysist
 
         public override void EnterScene()
         {
-            var time = new GameContainer();
-            var timeline = new Timeline(time);
-            time.AddComponent(timeline);
+            //var time = new GameContainer();
+            //var timeline = new Timeline(time, "test.xlsx", 4);
+            //time.AddComponent(timeline);
 
             var cf = new ContainerFactory((GameContainer g) =>
             {
-                g.AddComponent(new Player(g, timeline));
+                g.AddComponent(new Player(g));
                 g.AddComponent(new DisablePlayer(g));
                 g.AddComponent(new MeshRenderer(g, "fighter.x"));
                 var col = new RectCollider(g, (Collider c) => { return; });
@@ -79,7 +79,9 @@ namespace Raysist
 
             var sf = new ContainerFactory((GameContainer g) =>
             {
-                g.AddComponent(new Stage(g, timeline));
+                var gcom = new Stage(g);
+                g.AddComponent(gcom);
+                g.AddComponent(new StageTimeline(g, gcom));
                 g.AddComponent(new MeshRenderer(g, "hogeStage.x"));
             });
             

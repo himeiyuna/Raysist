@@ -43,6 +43,7 @@ namespace Raysist
             DX.ChangeWindowMode(DX.TRUE);
             //DX.SetBackgroundColor(0, 0, 255);
             DX.SetGraphMode(1600, 900, 32);
+            DX.SetFullSceneAntiAliasingMode(4, 2);
 
             if (DX.DxLib_Init() == -1)
             {
