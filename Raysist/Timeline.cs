@@ -87,21 +87,22 @@ namespace Raysist
         /// <returns>タイムラインが更新されたらレコード、そうでなければnull</returns>
         private IEnumerator<List<Excel.Range>> Iterate(string path, string worksheetname)
         {
-            ExcelController ec = new ExcelController(path, worksheetname);
-            int counter = 0;
-            var record = ec.GetRecord(counter, Length);
-            while ( record != null )
+            using (ExcelController ec = new ExcelController(path, worksheetname))
             {
-                // タイムラインを次に進める
-                if (record[0].Value <= Time)
+                int counter = 0;
+                var record = ec.GetRecord(counter, Length);
+                while (record != null)
                 {
-                    ++counter;
-                    record = ec.GetRecord(counter, Length);
-                    yield return record;
+                    // タイムラインを次に進める
+                    if (record[0].Value <= Time)
+                    {
+                        ++counter;
+                        record = ec.GetRecord(counter, Length);
+                        yield return record;
+                    }
+                    yield return null;
                 }
-                yield return null;
             }
-            ec.Dispose();
             while (true) yield return null;
         }
 
@@ -167,14 +168,6 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief デストラクタ
-        /// </summary>
-        ~ExcelController()
-        {
-            Dispose();
-        }
-
-        /// <summary>
         /// @brief 指定したセルとの値が同じであればtrueを返す
         /// </summary>
         /// <param name="col">列</param>
@@ -213,7 +206,7 @@ namespace Raysist
         /// </summary>
         public void Dispose()
         {
-            ExcelWorkbook.Close();
+            ExcelObject.Workbooks.Close();
             ExcelObject.Quit();
         }
 

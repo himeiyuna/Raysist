@@ -66,6 +66,8 @@ namespace Raysist
                 DX.ScreenFlip();
             }
 
+            System.GC.Collect();
+
             DX.DxLib_End();
         }
     }
