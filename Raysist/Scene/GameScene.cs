@@ -37,10 +37,6 @@ namespace Raysist
 
         public override void EnterScene()
         {
-            //var time = new GameContainer();
-            //var timeline = new Timeline(time, "test.xlsx", 4);
-            //time.AddComponent(timeline);
-
             var cf = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Player(g));
@@ -70,6 +66,15 @@ namespace Raysist
                 g.Position.LocalPosition = new Vector3 { x = 50.0f, y = 50.0f, z = 0.0f };
             });
             fact.Create();
+
+            var enemy = new GameContainer();
+            enemy.AddComponent(new Enemy(enemy, new Vector3 { x = 0.0f, y = 800.0f, z = 0.0f }));
+
+            enemy = new GameContainer();
+            enemy.AddComponent(new Enemy(enemy, new Vector3 { x = 200.0f, y = 500.0f, z = 0.0f }));
+
+            enemy = new GameContainer();
+            enemy.AddComponent(new Enemy(enemy, new Vector3 { x = -200.0f, y = 300.0f, z = 0.0f }));
 
             //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
 

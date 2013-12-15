@@ -318,7 +318,14 @@ namespace Raysist
                         b.Scale = 5.0f;
                         g.AddComponent(b);
 
-                        var col = new RectCollider(g, (Collider c) => { return; });
+                        var col = new RectCollider(g, (Collider c) => 
+                        {
+                            var target = c.Container.GetComponent<Enemy>();
+                            if (target != null)
+                            {
+                                GameContainer.Destroy(g);
+                            }
+                        });
                         col.Width = 10.0f;
                         col.Height = 10.0f;
 
