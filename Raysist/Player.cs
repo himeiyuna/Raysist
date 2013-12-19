@@ -309,8 +309,17 @@ namespace Raysist
                 {
                     ShotCounter = 0;
 
+                    //test
+                    var te = new ContainerFactory((GameContainer g) =>
+                    {
+                        g.AddComponent(new Laser(g, Position.WorldPosition, (float)(Math.PI * 1.5f), 10.0f));
+
+                    });
+
+                    te.Create(Game.Instance.SceneController.CurrentScene.Root);
+
                     // ショットを放つ
-                    var sf = new ContainerFactory((GameContainer g) =>
+                    /*var sf = new ContainerFactory((GameContainer g) =>
                     {
                         g.AddComponent(new Shot(g, (float)Math.PI * -0.5f, Position.WorldPosition));
 
@@ -332,7 +341,7 @@ namespace Raysist
                         g.AddComponent(col);
                     });
 
-                    sf.Create(Game.Instance.SceneController.CurrentScene.Root);
+                    sf.Create(Game.Instance.SceneController.CurrentScene.Root);*/
                 }
             }
             else

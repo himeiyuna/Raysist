@@ -43,3 +43,4 @@ C:\Users\Blew\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csprojResolveAs
 C:\Users\Blew\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csproj.ResolveComReference.cache
 C:\Users\relay\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csproj.ResolveComReference.cache
 C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csproj.ResolveComReference.cache
+C:\Users\st031009\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csproj.ResolveComReference.cache

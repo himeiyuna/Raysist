@@ -275,6 +275,20 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief DX.VECTORからVector3へ変換する
+        /// </summary>
+        /// <param name="right">対象</param>
+        /// <returns>結果</returns>
+        public static Vector3 ToVector3(ref DX.VECTOR right)
+        {
+            var ret = new Vector3();
+            ret.x = right.x;
+            ret.y = right.y;
+            ret.z = right.z;
+            return ret;
+        }
+
+        /// <summary>
         /// @brief 内積を取得する
         /// </summary>
         /// <param name="right">右辺</param>
