@@ -45,7 +45,7 @@ namespace Raysist
         /// </summary>
         /// <param name="container"></param>
         /// <param name="s"></param>
-        public StageTimeline(GameContainer container, Stage s) : base(container, "stage.xlsx", 4)
+        public StageTimeline(GameContainer container, Stage s) : base(container, "stage.csv")
         {
             Parent = s;
         }
@@ -55,9 +55,9 @@ namespace Raysist
         /// @brief タイムラインが更新されたときに呼び出される
         /// </summary>
         /// <param name="record">レコード</param>
-        protected override void OnUpdateTimeline(List<Microsoft.Office.Interop.Excel.Range> record)
+        protected override void OnUpdateTimeline(string[] record)
         {
-            Parent.Position.LocalPosition = new Vector3 { x = (float)record[1].Value, y = (float)-record[2].Value, z = (float)record[3].Value };
+            Parent.Position.LocalPosition = new Vector3 { x = float.Parse(record[1]), y = -float.Parse(record[2]), z = float.Parse(record[3]) };
         }
     }
 }

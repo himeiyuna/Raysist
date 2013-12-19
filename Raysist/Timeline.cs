@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
 using DxLibDLL;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Raysist
 {
@@ -15,18 +16,6 @@ namespace Raysist
     /// </summary>
     abstract class Timeline : GameComponent
     {
-        private string Path
-        {
-            set;
-            get;
-        }
-
-        private string WorksheetName
-        {
-            set;
-            get;
-        }
-
         /// <summary>
         /// @brief 時間軸
         /// </summary>
@@ -37,18 +26,9 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief レコードの長さ
-        /// </summary>
-        private int Length
-        {
-            set;
-            get;
-        }
-
-        /// <summary>
         /// @brief
         /// </summary>
-        private IEnumerator<List<Excel.Range>> Iterator
+        private IEnumerator<string[]> Iterator
         {
             set;
             get;
@@ -59,11 +39,10 @@ namespace Raysist
         /// </summary>
         /// <param name="container">自身を組み込むコンテナ</param>
         /// <param name="worksheet">ワークシート名</param>
-        public Timeline(GameContainer container, string path, int length, string worksheet = null) : base(container)
+        public Timeline(GameContainer container, string path) : base(container)
         {
             Time = 0;
-            Length = length;
-            Iterator = Iterate(path, worksheet);
+            Iterator = Iterate(path);
         }
 
         /// <summary>
@@ -85,19 +64,20 @@ namespace Raysist
         /// @brief タイムライン更新
         /// </summary>
         /// <returns>タイムラインが更新されたらレコード、そうでなければnull</returns>
-        private IEnumerator<List<Excel.Range>> Iterate(string path, string worksheetname)
+        private IEnumerator<string[]> Iterate(string path)
         {
-            using (ExcelController ec = new ExcelController(path, worksheetname))
+            using (TextFieldParser parser = new TextFieldParser("Resources\\" + path)) 
             {
-                int counter = 0;
-                var record = ec.GetRecord(counter, Length);
-                while (record != null)
+                parser.SetDelimiters(",");
+                parser.TextFieldType = FieldType.Delimited;
+
+                var record = parser.ReadFields();
+                while (!parser.EndOfData)
                 {
                     // タイムラインを次に進める
-                    if (record[0].Value <= Time)
+                    if (int.Parse(record[0]) <= Time)
                     {
-                        ++counter;
-                        record = ec.GetRecord(counter, Length);
+                        record = parser.ReadFields();
                         yield return record;
                     }
                     yield return null;
@@ -110,6 +90,6 @@ namespace Raysist
         /// @brief タイムラインが更新された時に呼び出される
         /// </summary>
         /// <param name="record">レコード</param>
-        protected abstract void OnUpdateTimeline(List<Excel.Range> record);
+        protected abstract void OnUpdateTimeline(string[] record);
     }
 }

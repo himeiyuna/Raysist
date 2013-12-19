@@ -9,3 +9,10 @@ C:\Users\Blew\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.exe
 C:\Users\Blew\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.pdb
 C:\Users\Blew\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.exe
 C:\Users\Blew\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.pdb
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.exe.config
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.csproj.ResolveComReference.cache
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.exe
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.pdb
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.exe
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.pdb
+C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.csprojResolveAssemblyReference.cache
