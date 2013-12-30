@@ -99,7 +99,6 @@ namespace Raysist
             var ret = new List<Excel.Range>(length);
             for (var i = 0; i < length; ++i)
             {
-
                 ret.Add(ExcelWorksheet.Cells[row + 1, i + 1] as Excel.Range);
             }
             return ret;

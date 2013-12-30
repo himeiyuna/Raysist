@@ -34,6 +34,12 @@ namespace Raysist
             get;
         }
 
+        public InputController InputController
+        {
+            private set;
+            get;
+        }
+
         /// <summary>
         /// @brief ゲーム起動
         /// </summary>
@@ -54,12 +60,16 @@ namespace Raysist
             this.SceneController.CurrentScene.LoadResource();
             this.SceneController.CurrentScene.EnterScene();
 
+            InputController = new InputController();
+
             DX.SetDrawScreen(DX.DX_SCREEN_BACK);
             DX.SetUseZBufferFlag(DX.TRUE);
 
             while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
             {
                 DX.ClearDrawScreen();
+
+                InputController.Update();
 
                 this.SceneController.Update();
 
