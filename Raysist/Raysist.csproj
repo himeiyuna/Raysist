@@ -45,6 +45,9 @@
     <Compile Include="ExcelController.cs" />
     <Compile Include="InputController.cs" />
     <Compile Include="Laser.cs" />
+    <Compile Include="Raypier.cs" />
+    <Compile Include="RaypierRenderFinisher.cs" />
+    <Compile Include="RaypierTrail.cs" />
     <Compile Include="Scene\ClearScene.cs" />
     <Compile Include="DisablePlayer.cs" />
     <Compile Include="Scene\EndScene.cs" />

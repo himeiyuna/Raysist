@@ -45,9 +45,9 @@ namespace Raysist
 
             });
 
-            var gc = cf.Create(Root);
+            var gc = cf.Create();
 
-            var camera = cameraFactory.Create(Root).GetComponent<Camera>();
+            var camera = cameraFactory.Create().GetComponent<Camera>();
             camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -3000.0f };
             camera.FieldOfView = (float)Math.PI * 0.1f;
 

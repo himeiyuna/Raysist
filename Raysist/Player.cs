@@ -60,28 +60,11 @@ namespace Raysist
             Position.LocalPosition = new Vector3 { x = 100.0f, y = 0.0f, z = 0.0f };
             Rot = 0;
 
-            var bitmaker = new ContainerFactory((GameContainer g) =>
-            {
-                g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_LEFT));
+            var bitmaker = new BitFactory(this, Bit.BitIndex.BIT_LEFT);
+            var bitmaker2 = new BitFactory(this, Bit.BitIndex.BIT_RIGHT);
 
-
-                g.AddComponent(new MeshRenderer(g, "bit.x"));
-
-                g.Position.LocalRotation *= new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);
-                g.Position.LocalScale *= 3.0f;
-            });
-
-            var bitmaker2 = new ContainerFactory((GameContainer g) =>
-            {
-                g.AddComponent(new Bit(g, this, Bit.BitIndex.BIT_RIGHT));
-                g.AddComponent(new MeshRenderer(g, "bit.x"));
-
-                g.Position.LocalRotation *= new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);
-                g.Position.LocalScale *= 3.0f;
-            });
-
-            bitmaker.Create(Container);
-            bitmaker2.Create(Container);
+            bitmaker.Create();
+            bitmaker2.Create();
         }
 
         /// <summary>
@@ -232,6 +215,15 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief レーザーの親
+        /// </summary>
+        private GameContainer Lazer
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief ショットの間隔
         /// </summary>
         private const int ShotInterval = 10;
@@ -269,12 +261,14 @@ namespace Raysist
         /// <param name="container">自身を組み込むコンテナ</param>
         /// <param name="player">親</param>
         /// <param name="position">初期位置</param>
-        public Bit(GameContainer container, Player player, BitIndex index) : base(container)
+        public Bit(GameContainer container, Player player, BitIndex index, GameContainer lazer) : base(container)
         {
             Energy = MaxEnergy;      // 2秒分
             Player = player;
             Index = index;
             ShotCounter = 0;
+
+            Lazer = lazer;
 
             IsDock = true;
 
@@ -309,17 +303,17 @@ namespace Raysist
                 {
                     ShotCounter = 0;
 
-                    //test
-                    var te = new ContainerFactory((GameContainer g) =>
-                    {
-                        g.AddComponent(new Laser(g, Position.WorldPosition, (float)(Math.PI * 1.5f), 10.0f));
+                    ////test
+                    //var te = new ContainerFactory((GameContainer g) =>
+                    //{
+                    //    g.AddComponent(new Laser(g, Position.WorldPosition, (float)(Math.PI * 1.5f), 10.0f));
 
-                    });
+                    //});
 
-                    te.Create(Game.Instance.SceneController.CurrentScene.Root);
+                    //te.Create(Game.Instance.SceneController.CurrentScene.Root);
 
                     // ショットを放つ
-                    /*var sf = new ContainerFactory((GameContainer g) =>
+                    var sf = new ContainerFactory((GameContainer g) =>
                     {
                         g.AddComponent(new Shot(g, (float)Math.PI * -0.5f, Position.WorldPosition));
 
@@ -341,12 +335,14 @@ namespace Raysist
                         g.AddComponent(col);
                     });
 
-                    sf.Create(Game.Instance.SceneController.CurrentScene.Root);*/
+                    sf.Create();
                 }
             }
             else
             {
                 --Energy;
+
+                Lazer.GetComponent<Raypier>().Active = true;
 
                 // 0になれば
                 if (Energy <= 0)
@@ -362,6 +358,8 @@ namespace Raysist
         public void Dock()
         {
             // TODO:徐々に自機に近づく処理をする
+
+            Lazer.GetComponent<Raypier>().Active = false;
 
             // 自機に戻る
             Position.Parent = Player.Position;

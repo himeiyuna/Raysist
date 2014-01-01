@@ -54,7 +54,7 @@ namespace Raysist
 
             });
 
-            var gc = cf.Create(Root);
+            var gc = cf.Create();
             var player = gc.GetComponent<Player>();
 
             var fact = new ContainerFactory((GameContainer g) =>
@@ -78,7 +78,7 @@ namespace Raysist
 
             //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
 
-            var camera = cameraFactory.Create(Root).GetComponent<Camera>();
+            var camera = cameraFactory.Create().GetComponent<Camera>();
             camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -1000.0f };
             camera.FieldOfView = (float)Math.PI * 0.1f;
 
