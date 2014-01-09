@@ -165,10 +165,19 @@ namespace Raysist
             }
             DX.DrawBox(300, 0, 1300, 800,255,0);//有効距離
 
-            // ビット射出
-            if (DX.CheckHitKey(DX.KEY_INPUT_SPACE) == 1)
+            // 左ビット射出
+            if (DX.CheckHitKey(DX.KEY_INPUT_Z) == 1)
             {
-                var bit = Position.FindChildren("Bit");
+                var bit = Position.FindChildren("BitLeft");
+                foreach (var b in bit)
+                {
+                    b.Container.GetComponent<Bit>().Undock();
+                }
+            }
+            // 右ビット射出
+            if (DX.CheckHitKey(DX.KEY_INPUT_X) == 1)
+            {
+                var bit = Position.FindChildren("BitRight");
                 foreach (var b in bit)
                 {
                     b.Container.GetComponent<Bit>().Undock();
@@ -272,15 +281,16 @@ namespace Raysist
 
             IsDock = true;
 
-            container.Name = "Bit";
 
             if (index == BitIndex.BIT_LEFT)
             {
                 Position.LocalPosition = new Vector3 { x = -10.0f, y = -5.0f, z = 0.0f };
+                container.Name = "BitLeft";
             }
             else
             {
                 Position.LocalPosition = new Vector3 { x = 10.0f, y = -5.0f, z = 0.0f };
+                container.Name = "BitRight";
             }
         }
 

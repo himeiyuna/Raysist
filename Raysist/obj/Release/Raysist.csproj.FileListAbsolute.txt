@@ -16,3 +16,9 @@ C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.pdb
 C:\Users\st071008\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.exe
 C:\Users\st071008\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.pdb
 C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.csprojResolveAssemblyReference.cache
+C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.exe.config
+C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.exe
+C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.pdb
+C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.csprojResolveAssemblyReference.cache
+C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.exe
+C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.pdb
