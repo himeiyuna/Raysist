@@ -39,6 +39,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppearedEnemy.cs" />
+    <Compile Include="BehindAppearEnemy.cs" />
     <Compile Include="BillboardRenderer.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Enemy.cs" />
@@ -48,6 +50,7 @@
     <Compile Include="Raypier.cs" />
     <Compile Include="RaypierRenderFinisher.cs" />
     <Compile Include="RaypierTrail.cs" />
+    <Compile Include="RetreatEnemy.cs" />
     <Compile Include="Scene\ClearScene.cs" />
     <Compile Include="DisablePlayer.cs" />
     <Compile Include="Scene\EndScene.cs" />

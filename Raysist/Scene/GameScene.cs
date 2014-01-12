@@ -67,14 +67,23 @@ namespace Raysist
             });
             fact.Create();
 
-            var enemy = new GameContainer();
+            var ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 0.0f, y = 400.0f, z = 0.0f }, 1.0f);
+            ef.Create();
+
+            ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 50.0f, y = 400.0f, z = 0.0f }, 2.0f);
+            ef.Create();
+
+            ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 100.0f, y = 400.0f, z = 0.0f }, 3.0f);
+            ef.Create();
+
+            /*var enemy = new GameContainer();
             enemy.AddComponent(new Enemy(enemy, new Vector3 { x = 0.0f, y = 800.0f, z = 0.0f }));
 
             enemy = new GameContainer();
             enemy.AddComponent(new Enemy(enemy, new Vector3 { x = 200.0f, y = 500.0f, z = 0.0f }));
 
             enemy = new GameContainer();
-            enemy.AddComponent(new Enemy(enemy, new Vector3 { x = -200.0f, y = 300.0f, z = 0.0f }));
+            enemy.AddComponent(new Enemy(enemy, new Vector3 { x = -200.0f, y = 300.0f, z = 0.0f }));*/
 
             //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
 

@@ -42,6 +42,7 @@ namespace Raysist
             collider.Height = 10;
             container.AddComponent(collider);
             container.AddComponent(new MeshRenderer(container, "fighter.x"));
+            container.AddComponent(new BehindAppearEnemy(container, Position.LocalPosition, new Vector3() { x = 0.0f, y = 250.0f, z = 0.0f }));
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace Raysist
                 GameContainer.Destroy(Container);
             }
 
-            Position.LocalPosition.y -= 1.0f;
+            //Position.LocalPosition.y -= 1.0f;
         }
     }
 }
