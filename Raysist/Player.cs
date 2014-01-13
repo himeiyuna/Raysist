@@ -247,6 +247,15 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief 向いている方向
+        /// </summary>
+        public float Angle
+        {
+            private set;
+            get;
+        }
+
+        /// <summary>
         /// @brief エネルギー 0になると自機に戻る
         /// </summary>
         public int Energy

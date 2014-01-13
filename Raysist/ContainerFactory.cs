@@ -21,13 +21,6 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief デフォルトコンストラクタ
-        /// </summary>
-        protected ContainerFactory()
-        {
-        }
-
-        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="createFunction"></param>
@@ -85,12 +78,14 @@ namespace Raysist
             var raypier = new GameContainer();
             var raypierEnd = new GameContainer();
 
-            var r = new Raypier(raypier, raypierEnd, g.Position);
+            var bit = new Bit(g, Player, Index, raypier);
+            g.AddComponent(bit);
+
+            var r = new Raypier(raypier, raypierEnd, bit);
             r.Active = false;
             raypier.AddComponent(r);
 
-            g.AddComponent(new Bit(g, Player, Index, raypier));
-
+            
             g.AddComponent(new MeshRenderer(g, "bit.x"));
 
             g.Position.LocalRotation *= new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);

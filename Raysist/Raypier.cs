@@ -9,7 +9,7 @@ namespace Raysist
 {
     class Raypier : GameComponent
     {
-        private Positioner BitPosition
+        private Bit Parent
         {
             set;
             get;
@@ -21,10 +21,10 @@ namespace Raysist
             get;
         }
 
-        public Raypier(GameContainer container, GameContainer re, Positioner bitPosition) : base(container)
+        public Raypier(GameContainer container, GameContainer re, Bit parent) : base(container)
         {
             Ender = re;
-            BitPosition = bitPosition;
+            Parent = parent;
             Active = false;
         }
 
@@ -33,23 +33,18 @@ namespace Raysist
             // 加算描画開始
             DX.SetDrawBlendMode(DX.DX_BLENDMODE_ADD, 255);
 
-            var trail = new GameContainer(Container);
-            trail.Position.LocalPosition = BitPosition.WorldPosition;
-            trail.Position.LocalPosition.z = 0.0f;
-            trail.AddComponent(new RaypierTrail(trail));
-            var br = new BillboardRenderer(trail, "dummy2.png");
-            br.Scale = 64.0f;
-            trail.AddComponent(br);
-
-            var col = new RectCollider(trail, (Collider g) =>
+            var ang = Parent.Angle;
+            var i = 0;
+            var rtf = new RaipierTrailFactory(Container, Parent, (GameContainer g) => 
             {
-                DX.DrawString(0, 400, "hit", DX.GetColor(255, 255, 255));
+                var pos = g.Position.LocalPosition;
+                g.Position.LocalPosition = new Vector3 { x = pos.x + (float)Math.Cos(ang) * 17.0f * i, y = pos.y - (float)Math.Sin(ang) * 17.0f * i, z = 0.0f };
+                ++i;
             });
 
-            col.Width = 10.0f;
-            col.Height = 10.0f;
-
-            trail.AddComponent(col);
+            rtf.Create();
+            rtf.Create();
+            rtf.Create();
         }
 
         public override void OnDisable()
