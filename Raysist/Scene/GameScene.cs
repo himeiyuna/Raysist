@@ -67,14 +67,17 @@ namespace Raysist
             });
             fact.Create();
 
-            var ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 0.0f, y = 400.0f, z = 0.0f }, 1.0f);
+            var ec = new GameContainer();
+            ec.AddComponent(new EnemyController(ec));
+
+            /*var ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 0.0f, y = 400.0f, z = 0.0f }, 1.0f);
             ef.Create();
 
             ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 50.0f, y = 400.0f, z = 0.0f }, 2.0f);
             ef.Create();
 
             ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 100.0f, y = 400.0f, z = 0.0f }, 3.0f);
-            ef.Create();
+            ef.Create();*/
 
             /*var enemy = new GameContainer();
             enemy.AddComponent(new Enemy(enemy, new Vector3 { x = 0.0f, y = 800.0f, z = 0.0f }));

@@ -77,11 +77,18 @@ namespace Raysist
                     // タイムラインを次に進める
                     if (int.Parse(record[0]) <= Time)
                     {
-                        record = parser.ReadFields();
                         yield return record;
+                        record = parser.ReadFields();
+                    } 
+                    else
+                    {
+                        yield return null;
                     }
-                    yield return null;
                 }
+
+                while (int.Parse(record[0]) > Time) yield return null;
+
+                yield return record;
             }
             while (true) yield return null;
         }
