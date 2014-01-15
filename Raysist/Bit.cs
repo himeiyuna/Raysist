@@ -128,7 +128,7 @@ namespace Raysist
             ShotCounter = 0;
             Speed = 5.0f;
             Angle = 90 * -(float)Math.PI / 180;
-            Rot = 0;
+            Rot = 90;
             Lazer = lazer;
 
             IsDock = true;
@@ -144,7 +144,7 @@ namespace Raysist
             {
                 Position.LocalPosition = new Vector3 { x = 10.0f, y = -5.0f, z = 0.0f };
                 container.Name = "BitRight";
-                LRFlag = false;
+                LRFlag = true;
             }
         }
 
@@ -248,17 +248,26 @@ namespace Raysist
         {
             DX.DrawString(0, 200, string.Format("Pair:{0}", Rot), DX.GetColor(255, 255, 255));
             ++Energy;
-
-            if (Rot > 360)
+            /*
+             * http://dixq.net/forum/viewtopic.php?f=3&t=6697
+             * 現在の角度を目標の方向に近い方で回転させるという意味だとしたら
+現在の角度と目標の方向を三角関数に放り込んで2次元のベクトルを作り、
+外積の符号を見るとよろしいかと思います。
+             * */
+            if (Rot >= 360)//360度を越えたら
+            {
                 Rot -= 360;
-            if (Rot < 0)
+            }
+            if (Rot < 0)//-になったら
+            {
                 Rot += 360;
+            }
 
-            if (Rot <= 90 && Rot >= 270) 
+            if ((Rot >= 270 && Rot <= 360) || (Rot <= 90 && Rot >= 0)) //上半分
             { 
                 LRFlag = true;
             }
-            if (Rot <= 270 && Rot >= 90)
+            if (Rot <= 270 && Rot >= 90)//下半分
             {
                 LRFlag = false;
             }
@@ -290,7 +299,7 @@ namespace Raysist
                 if (LRFlag)
                 {
                     Rot -= 3;
-                    if (Rot <= 90 || Rot >= 270)
+                    if ((Rot >= 270 && Rot <= 360) || (Rot <= 90 && Rot >= -3))//270～360　0～90の間
                     {
                         Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
                     }
@@ -358,8 +367,7 @@ namespace Raysist
                 Position.LocalPosition.x += (float)Math.Cos(theta) * Speed;
                 Position.LocalPosition.y += -(float)Math.Sin(theta) * Speed;
             }
-            //Angle += theta;kakkoii
-            Angle = (90-Rot) * -(float)Math.PI / 180; ;
+            Angle = (90-Rot) * -(float)Math.PI / 180;//ラジアンに直す
         }
 
         /// <summary>
