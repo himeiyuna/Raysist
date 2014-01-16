@@ -67,16 +67,6 @@ namespace Raysist
             get;
         }
 
-        
-        /// <summary>
-        /// @brief 移動速度
-        /// </summary>
-        private bool LRFlag
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// @brief 向いている方向
         /// </summary>
@@ -127,9 +117,9 @@ namespace Raysist
             Index = index;
             ShotCounter = 0;
             Speed = 5.0f;
-            Angle = 90 * -(float)Math.PI / 180;
+
             Rot = 90;
-            
+            Angle = Rot * -(float)Math.PI / 180;
             Lazer = lazer;
 
             IsDock = true;
@@ -139,13 +129,13 @@ namespace Raysist
             {
                 Position.LocalPosition = new Vector3 { x = -10.0f, y = -5.0f, z = 0.0f };
                 container.Name = "BitLeft";
-                LRFlag = true;
+                //LRFlag = true;
             }
             else
             {
                 Position.LocalPosition = new Vector3 { x = 10.0f, y = -5.0f, z = 0.0f };
                 container.Name = "BitRight";
-                LRFlag = true;
+                //LRFlag = true;
             }
         }
 
@@ -196,7 +186,7 @@ namespace Raysist
             }
             else
             {
-                --Energy;                //--Energy;
+                --Energy;
                 //--Energy;
                 Move();
                 Lazer.GetComponent<Raypier>().Active = true;
@@ -248,7 +238,6 @@ namespace Raysist
         /// </summary>
         private void Move()
         {
-            DX.DrawString(0, 200, string.Format("Pair:{0}", Rot), DX.GetColor(255, 255, 255));
             ++Energy;
             /*
              * http://dixq.net/forum/viewtopic.php?f=3&t=6697
@@ -256,32 +245,148 @@ namespace Raysist
 現在の角度と目標の方向を三角関数に放り込んで2次元のベクトルを作り、
 外積の符号を見るとよろしいかと思います。
              * */
-            if (Rot >= 360)//360度を越えたら
-            {
-                Rot -= 360;
+            
+            //if ((Rot >= 270 && Rot <= 360) || (Rot <= 90 && Rot >= 0)) //上半分
+            //{
+            //    LRFlag = true;
+            //}
+            //if (Rot <= 270 && Rot >= 90)//下半分
+            //{
+            //    LRFlag = false;
+            //}
+
+            int dir = 0x0000;
+            var EightDirection = Game.Instance.InputController.XController.GetStick8Direction(false, 10000);
+            if (EightDirection == XGameController.StickDirection.LEFTDOWN)
+            {//左下
+                dir |= 0x0110;
+            }
+            else if (EightDirection == XGameController.StickDirection.LEFTUP)
+            {//左上
+                dir |= 0x1100;
+            }
+            else if (EightDirection == XGameController.StickDirection.RIGHTDOWN)
+            {//右下
+                dir |= 0x0011;
+            }
+            else if (EightDirection == XGameController.StickDirection.RIGHTUP)
+            {//右上
+                dir |= 0x1001;
             }
 
-            if ((Rot >= 270 && Rot <= 360) || (Rot <= 90 && Rot >= 0)) //上半分
-            { 
-                LRFlag = true;
-            }
-            if (Rot <= 270 && Rot >= 90)//下半分
-            {
-                LRFlag = false;
-            }
-            
-            int dir = 0x0000;
             // 移動処理
-            if (DX.CheckHitKey(DX.KEY_INPUT_UP) == 1)
+            if (DX.CheckHitKey(DX.KEY_INPUT_UP) == 1
+                 || EightDirection == XGameController.StickDirection.UP)
             {
                 dir |= 0x1000;
+                var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
+                var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
+                var c = Direciton * b;//Angle分回転した向きベクトル
+
+                var Purpose = new Vector3 { x = 0.0f, y = -1.0f, z = 0.0f };
+                var Cross = c.Cross(Purpose);
+
+                
+
+
+                if (
+                    (Rot < 270 && Rot > 90) 
+                    ||
+                    ((Rot > 270 && Rot <= 360) || (Rot >= 0 && Rot < 90))
+                    )
+                {
+                    if (Cross.z >= 0)
+                        Rot -= 3;
+                    else
+                        Rot += 3;
+
+                    if (Rot >= 360)//360度を越えたら
+                    {
+                        Rot -= 360;
+                    }
+                    if (Rot < 0)//-になったら
+                    {
+                        Rot += 360;
+                    }
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
+                }
+                else
+                {
+                    Rot = 90;
+                }
             }
-            else if (DX.CheckHitKey(DX.KEY_INPUT_DOWN) == 1)
+            else if (DX.CheckHitKey(DX.KEY_INPUT_DOWN) == 1
+                 || EightDirection == XGameController.StickDirection.DOWN)
             {
                 dir |= 0x0010;
-                Rot += 3;
-                if (Rot <= 180)
+                var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
+                var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
+                var c = Direciton * b;//Angle分回転した向きベクトル
+
+                var Purpose = new Vector3 { x = 0.0f, y = 1.0f, z = 0.0f };
+                var Cross = c.Cross(Purpose);
+
+                
+
+
+                if (
+                    (Rot < 270 && Rot > 90)
+                    ||
+                    ((Rot > 270 && Rot <= 360) || (Rot >= 0 && Rot < 90))
+                    )
                 {
+                    if (Cross.z >= 0)
+                        Rot -= 3;
+                    else
+                        Rot += 3;
+
+                    if (Rot >= 360)//360度を越えたら
+                    {
+                        Rot -= 360;
+                    }
+                    if (Rot < 0)//-になったら
+                    {
+                        Rot += 360;
+                    }
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
+                }
+                else
+                {
+                    Rot = 270;
+                }
+            }
+
+            if (DX.CheckHitKey(DX.KEY_INPUT_LEFT) == 1
+                || EightDirection == XGameController.StickDirection.LEFT)
+            {
+                dir |= 0x0100;
+                var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
+                var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
+                var c = Direciton * b;//Angle分回転した向きベクトル
+
+                var Purpose = new Vector3 { x = -1.0f, y = 0.0f, z = 0.0f };
+                var Cross = c.Cross(Purpose);
+
+                
+
+                if (
+                    (Rot > 180 && Rot < 360) ||
+                    (Rot > 0 && Rot < 180)
+                    )
+                {
+                    if (Cross.z <= 0)
+                        Rot -= 3;
+                    else
+                        Rot += 3;
+
+                    if (Rot >= 360)//360度を越えたら
+                    {
+                        Rot -= 360;
+                    }
+                    if (Rot < 0)//-になったら
+                    {
+                        Rot += 360;
+                    }
                     Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
                 }
                 else
@@ -289,128 +394,47 @@ namespace Raysist
                     Rot = 180;
                 }
             }
-
-            if (DX.CheckHitKey(DX.KEY_INPUT_LEFT) == 1)
-            {
-                dir |= 0x0100;
-
-                if (LRFlag)
-                {
-                    Rot -= 3;
-                    if ((Rot >= 270 && Rot <= 360) || (Rot <= 90 && Rot >= -3))//270～360　0～90の間
-                    {
-                        Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
-                    }
-                    else
-                    {
-                        Rot = 270;
-                    }
-                }
-                else
-                {
-                    Rot += 3;
-                    if (Rot <= 270 && Rot >= 90)
-                    {
-                        Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
-                    }
-                    else
-                    {
-                        Rot = 270;
-                    }
-                }
-
-            }
-            else if (DX.CheckHitKey(DX.KEY_INPUT_RIGHT) == 1)
-            if (Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.LEFTDOWN)
-            {//左下
-                dir |= 0x0110;
-            }
-            else if (Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.LEFTUP)
-            {//左上
-                dir |= 0x1100;
-            }
-            else if (Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.RIGHTDOWN)
-            {//右下
-                dir |= 0x0011;
-            }
-            else if (Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.RIGHTUP)
-            {//右上
-                dir |= 0x1001;
-            }
-            // 移動処理
-            if (DX.CheckHitKey(DX.KEY_INPUT_UP) == 1
-                 || Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.UP)
-            {
-                dir |= 0x1000;
-            }
-            else if (DX.CheckHitKey(DX.KEY_INPUT_DOWN) == 1
-                 || Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.DOWN)
-            {
-                dir |= 0x0010;
-            }
-
-            if (DX.CheckHitKey(DX.KEY_INPUT_LEFT) == 1 
-                || Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.LEFT)
-            {
-                dir |= 0x0100;
-                var a = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
-                var b = new Quaternion(Position.LocalAxisZ, Angle);
-                var c = a * b;//Angle分回転した向きベクトル
-
-                var Purpose = new Vector3 { x = -1.0f, y = 0.0f, z = 0.0f };
-
-                var Cross = c.Cross(Purpose);
-
-                if (Cross.z <= 0)
-                    Rot -= 3;
-                else
-                    Rot += 3;
-
-                if ((((Rot > 270 && Rot < 0) && (Rot > 0 && Rot < 90)) || 
-                    (Rot > 90 && Rot < 270)))
-                {
-                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
-                }
-                else
-                {
-                    Rot = 270;
-                }
-            }
             else if (DX.CheckHitKey(DX.KEY_INPUT_RIGHT) == 1
-                || Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.RIGHT)
+                || EightDirection == XGameController.StickDirection.RIGHT)
             {
                 dir |= 0x0001;
 
-                Rot += 3;
+                var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
+                var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
+                var c = Direciton * b;//Angle分回転した向きベクトル
 
-                if (Rot >= 90 && Rot <= 0)
+                var Purpose = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
+                var Cross = c.Cross(Purpose);
+
+               
+
+                if (
+                    (Rot > 180 && Rot < 360) ||
+                    (Rot > 0 && Rot < 180)
+                    )
                 {
-                    if (Rot <= 90)
-                    {
-                        Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
-                    }
+                    if (Cross.z <= 0)
+                        Rot -= 3;
                     else
+                        Rot += 3;
+
+                    if (Rot >= 360)//360度を越えたら
                     {
-                        Rot = 90;
+                        Rot -= 360;
                     }
-                }
-            }
-            else
-            {
-                //if (Rot != 0)
-                //{
-                //    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 180 * (Rot < 0 ? 3 : -3));
-                //    Rot += Rot < 0 ? 3 : -3;
-                //}
-                if (Rot <= 0)
-                {
+                    if (Rot < 0)//-になったら
+                    {
+                        Rot += 360;
+                    }
                     Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
                 }
                 else
                 {
                     Rot = 0;
                 }
+
             }
+
 
             float theta;
             switch (dir)
@@ -435,6 +459,7 @@ namespace Raysist
             Angle = Rot * -(float)Math.PI / 180;
         }
 
+
         /// <summary>
         /// @brief 切り離し
         /// </summary>
@@ -446,44 +471,3 @@ namespace Raysist
         }
     }
 }
-/*
-if (DX.CheckHitKey(DX.KEY_INPUT_LEFT) == 1)
-            {
-                dir |= 0x0100;
-
-                
-                if (Rot <= 90 && Rot >= -90)
-                {
-                    Rot -= 3;
-                }
-                else
-                {
-                    Rot += 3;
-                }
-
-
-                if (Rot <= 90 && Rot >= -90)
-                {
-                    
-
-                    if (Rot >= -90)
-                    {
-                        Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
-                    }
-                    else
-                    {
-                        Rot = -90;
-                    }
-                }
-                else if(Rot < 90 || -90 > Rot)
-                {
-                    if (Rot <= 270)
-                    {
-                        Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
-                    }
-                    else
-                    {
-                        Rot = 270;
-                    }
-                }
-*/
