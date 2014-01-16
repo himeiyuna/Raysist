@@ -68,7 +68,13 @@ namespace Raysist
                 return x * x + y * y;
             }
         }
-        
+
+        public Vector2 Normalize()
+        {
+            var length = Length;
+            return new Vector2 { x = x / length, y = y / length };
+        }
+
         public Vector2()
         {
             element = new float[2];

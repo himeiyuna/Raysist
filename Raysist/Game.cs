@@ -61,7 +61,7 @@ namespace Raysist
             this.SceneController.CurrentScene.EnterScene();
 
             InputController = new InputController();
-
+            
             DX.SetDrawScreen(DX.DX_SCREEN_BACK);
             DX.SetUseZBufferFlag(DX.TRUE);
 
