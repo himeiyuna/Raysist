@@ -57,6 +57,7 @@ namespace Raysist
             set;
             get;
         }
+<<<<<<< HEAD
         /// <summary>
         /// @brief 回転量
         /// </summary>
@@ -73,6 +74,15 @@ namespace Raysist
         private bool LRFlag
         {
             set;
+=======
+
+        /// <summary>
+        /// @brief 向いている方向
+        /// </summary>
+        public float Angle
+        {
+            private set;
+>>>>>>> origin/master
             get;
         }
 
@@ -85,6 +95,7 @@ namespace Raysist
             get;
         }
 
+<<<<<<< HEAD
 
         /// <summary>
         /// @brief 向いている方向
@@ -92,6 +103,14 @@ namespace Raysist
         public float Angle
         {
             private set;
+=======
+        /// <summary>
+        /// @brief 回転量
+        /// </summary>
+        private int Rot
+        {
+            set;
+>>>>>>> origin/master
             get;
         }
 
@@ -127,8 +146,14 @@ namespace Raysist
             Index = index;
             ShotCounter = 0;
             Speed = 5.0f;
+<<<<<<< HEAD
             Angle = 90 * -(float)Math.PI / 180;
             Rot = 90;
+=======
+            
+            Rot = 90;
+            Angle = Rot * -(float)Math.PI / 180;
+>>>>>>> origin/master
             Lazer = lazer;
 
             IsDock = true;
@@ -138,13 +163,19 @@ namespace Raysist
             {
                 Position.LocalPosition = new Vector3 { x = -10.0f, y = -5.0f, z = 0.0f };
                 container.Name = "BitLeft";
+<<<<<<< HEAD
                 LRFlag = true;
+=======
+>>>>>>> origin/master
             }
             else
             {
                 Position.LocalPosition = new Vector3 { x = 10.0f, y = -5.0f, z = 0.0f };
                 container.Name = "BitRight";
+<<<<<<< HEAD
                 LRFlag = true;
+=======
+>>>>>>> origin/master
             }
         }
 
@@ -195,7 +226,11 @@ namespace Raysist
             }
             else
             {
+<<<<<<< HEAD
                 --Energy;
+=======
+                //--Energy;
+>>>>>>> origin/master
                 Move();
                 Lazer.GetComponent<Raypier>().Active = true;
 
@@ -207,6 +242,7 @@ namespace Raysist
             }
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// @brief 自機に戻る
         /// </summary>
@@ -259,10 +295,22 @@ namespace Raysist
                 Rot -= 360;
             }
             if (Rot < 0)//-になったら
+=======
+        private void Move()
+        {
+            int dir = 0x0000;
+
+            if(Rot > 360)
+            {
+                Rot -= 360;
+            }
+            if (Rot < 0)
+>>>>>>> origin/master
             {
                 Rot += 360;
             }
 
+<<<<<<< HEAD
             if ((Rot >= 270 && Rot <= 360) || (Rot <= 90 && Rot >= 0)) //上半分
             { 
                 LRFlag = true;
@@ -323,10 +371,70 @@ namespace Raysist
 
             }
             else if (DX.CheckHitKey(DX.KEY_INPUT_RIGHT) == 1)
+=======
+            if (Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.LEFTDOWN)
+            {//左下
+                dir |= 0x0110;
+            }
+            else if (Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.LEFTUP)
+            {//左上
+                dir |= 0x1100;
+            }
+            else if (Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.RIGHTDOWN)
+            {//右下
+                dir |= 0x0011;
+            }
+            else if (Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.RIGHTUP)
+            {//右上
+                dir |= 0x1001;
+            }
+            // 移動処理
+            if (DX.CheckHitKey(DX.KEY_INPUT_UP) == 1
+                 || Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.UP)
+            {
+                dir |= 0x1000;
+            }
+            else if (DX.CheckHitKey(DX.KEY_INPUT_DOWN) == 1
+                 || Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.DOWN)
+            {
+                dir |= 0x0010;
+            }
+
+            if (DX.CheckHitKey(DX.KEY_INPUT_LEFT) == 1 
+                || Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.LEFT)
+            {
+                dir |= 0x0100;
+                var a = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
+                var b = new Quaternion(Position.LocalAxisZ, Angle);
+                var c = a * b;//Angle分回転した向きベクトル
+
+                var Purpose = new Vector3 { x = -1.0f, y = 0.0f, z = 0.0f };
+
+                var Cross = c.Cross(Purpose);
+
+                if (Cross.z <= 0)
+                    Rot -= 3;
+                else
+                    Rot += 3;
+
+                if ((((Rot > 270 && Rot < 0) && (Rot > 0 && Rot < 90)) || 
+                    (Rot > 90 && Rot < 270)))
+                {
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
+                }
+                else
+                {
+                    Rot = 270;
+                }
+            }
+            else if (DX.CheckHitKey(DX.KEY_INPUT_RIGHT) == 1
+                || Game.Instance.InputController.XController.GetStick8Direction(false, 10000) == XGameController.StickDirection.RIGHT)
+>>>>>>> origin/master
             {
                 dir |= 0x0001;
 
                 Rot += 3;
+<<<<<<< HEAD
                 if (Rot >= 90 && Rot <= 0)
                 {
                     if (Rot <= 90)
@@ -346,6 +454,16 @@ namespace Raysist
                 //    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 180 * (Rot < 0 ? 3 : -3));
                 //    Rot += Rot < 0 ? 3 : -3;
                 //}
+=======
+                if (Rot <= 0)
+                {
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
+                }
+                else
+                {
+                    Rot = 0;
+                }
+>>>>>>> origin/master
             }
 
             float theta;
@@ -367,7 +485,40 @@ namespace Raysist
                 Position.LocalPosition.x += (float)Math.Cos(theta) * Speed;
                 Position.LocalPosition.y += -(float)Math.Sin(theta) * Speed;
             }
+<<<<<<< HEAD
             Angle = (90-Rot) * -(float)Math.PI / 180;//ラジアンに直す
+=======
+
+            Angle = Rot * -(float)Math.PI / 180;
+        }
+
+        /// <summary>
+        /// @brief 自機に戻る
+        /// </summary>
+        public void Dock()
+        {
+            // TODO:徐々に自機に近づく処理をする
+
+            Lazer.GetComponent<Raypier>().Active = false;
+
+            // 自機に戻る
+            Position.Parent = Player.Position;
+
+            // 位置のリセット
+            if (Index == BitIndex.BIT_LEFT)
+            {
+                Position.LocalPosition = new Vector3 { x = -10.0f, y = -5.0f, z = 0.0f };
+            }
+            else
+            {
+                Position.LocalPosition = new Vector3 { x = 10.0f, y = -5.0f, z = 0.0f };
+            }
+
+            // 回転のリセット
+            Position.LocalRotation = new Quaternion(Vector3.AxisX, -(float)Math.PI * 0.5f);
+
+            IsDock = true;
+>>>>>>> origin/master
         }
 
         /// <summary>
@@ -376,11 +527,15 @@ namespace Raysist
         public void Undock()
         {
             IsDock = false;
+<<<<<<< HEAD
             Rot = 0;
+=======
+>>>>>>> origin/master
             Position.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
         }
     }
 }
+<<<<<<< HEAD
 /*
 if (DX.CheckHitKey(DX.KEY_INPUT_LEFT) == 1)
             {
@@ -422,3 +577,5 @@ if (DX.CheckHitKey(DX.KEY_INPUT_LEFT) == 1)
                     }
                 }
 */
+=======
+>>>>>>> origin/master
