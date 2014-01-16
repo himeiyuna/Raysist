@@ -261,17 +261,19 @@ namespace Raysist
 
             if (isLeft)
             {
-                dir = new Vector2 { x = InputLeftStickX, y = InputLeftStickY };
+                dir = new Vector2 { x = InputLeftStickX, y = -InputLeftStickY };
             }
             else
             {
-                dir = new Vector2 { x = InputRightStickX, y = InputRightStickY };
+                dir = new Vector2 { x = InputRightStickX, y = -InputRightStickY };
             }
 
             if (dir.Length < value)
             {
                 return StickDirection.NONE;
             }
+
+            dir = dir.Normalize();
 
             float r_cross = dir.Cross(RIGHT);
             float rd_cross = dir.Cross(RIGHTDOWN);
@@ -317,19 +319,19 @@ namespace Raysist
 
             if (r)
             {
-                return r_cross > 0 ? StickDirection.RIGHT : StickDirection.LEFT;
+                return dir.Dot(RIGHT) > 0 ? StickDirection.RIGHT : StickDirection.LEFT;
             }
             else if (rd)
             {
-                return rd_cross > 0 ? StickDirection.RIGHTDOWN : StickDirection.LEFTUP;
+                return dir.Dot(RIGHTDOWN) > 0 ? StickDirection.RIGHTDOWN : StickDirection.LEFTUP;
             }
             else if (d)
             {
-                return d_cross > 0 ? StickDirection.DOWN : StickDirection.UP;
+                return dir.Dot(DOWN) > 0 ? StickDirection.DOWN : StickDirection.UP;
             }
             else
             {
-                return ld_cross > 0 ? StickDirection.LEFTDOWN : StickDirection.RIGHTUP;
+                return dir.Dot(LEFTDOWN) > 0 ? StickDirection.LEFTDOWN : StickDirection.RIGHTUP;
             }
         }
 
