@@ -192,10 +192,4 @@ namespace Raysist
             }
         }
     }
-
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> origin/master
 }
