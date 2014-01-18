@@ -39,53 +39,14 @@ namespace Raysist
 
     class XGameController
     {
-        private Vector2 RIGHT
-        {
-            set;
-            get;
-        }
-
-        private Vector2 RIGHTDOWN
-        {
-            set;
-            get;
-        }
-
-        private Vector2 DOWN
-        {
-            set;
-            get;
-        }
-
-        private Vector2 LEFTDOWN
-        {
-            set;
-            get;
-        }
-
-        private Vector2 LEFT
-        {
-            set;
-            get;
-        }
-
-        private Vector2 LEFTUP
-        {
-            set;
-            get;
-        }
-
-        private Vector2 UP
-        {
-            set;
-            get;
-        }
-
-        private Vector2 RIGHTUP
-        {
-            set;
-            get;
-        }
+        private static readonly Vector2 RIGHT = new Vector2 { x = 1.0f, y = 0.0f };
+        private static readonly Vector2 RIGHTDOWN = new Vector2 { x = 0.70710678118f, y = 0.70710678118f };
+        private static readonly Vector2 DOWN = new Vector2 { x = 0.0f, y = 1.0f };
+        private static readonly Vector2 LEFTDOWN = new Vector2 { x = -0.70710678118f, y = 0.70710678118f };
+        private static readonly Vector2 LEFT = new Vector2 { x = -1.0f, y = 0.0f };
+        private static readonly Vector2 LEFTUP = new Vector2 { x = -0.70710678118f, y = -0.70710678118f };
+        private static readonly Vector2 UP = new Vector2 { x = 0.0f, y = -1.0f };
+        private static readonly Vector2 RIGHTUP = new Vector2 { x = 0.70710678118f, y = -0.70710678118f };
 
         /// <summary>
         /// @brief トリガー
@@ -199,15 +160,6 @@ namespace Raysist
         internal XGameController()
         {
             ButtonInputBuffer = new int[(int)Button.BUTTON_NUM];
-
-            RIGHT = new Vector2 { x = 1.0f, y = 0.0f };
-            RIGHTDOWN = new Vector2 { x = 0.70710678118f, y = 0.70710678118f };
-            DOWN = new Vector2 { x = 0.0f, y = 1.0f };
-            LEFTDOWN = new Vector2 { x = -0.70710678118f, y = 0.70710678118f };
-            LEFT = new Vector2 { x = -1.0f, y = 0.0f };
-            LEFTUP = new Vector2 { x = -0.70710678118f, y = -0.70710678118f };
-            UP = new Vector2 { x = 0.0f, y = -1.0f };
-            RIGHTUP = new Vector2 { x = 0.70710678118f, y = -0.70710678118f };
         }
         
         /// <summary>

@@ -12,6 +12,7 @@ namespace Raysist
     /// </summary>
     class BehindAppearEnemy : GameComponent
     {
+        internal const int MaxLife = 100;
         private const int AnimationFrame = 90;
 
         /// <summary>
@@ -64,6 +65,9 @@ namespace Raysist
             Position.LocalPosition = from;
         }
 
+        /// <summary>
+        /// @brief 更新処理
+        /// </summary>
         public override void Update()
         {
             ++Frame;
@@ -75,7 +79,7 @@ namespace Raysist
 
             float r = Frame / (float)AnimationFrame;
 
-            Position.LocalPosition = new Vector3() { x = From.x + Diff.x * r, y = Position.LocalPosition.y + (To.y - Position.LocalPosition.y) * 0.1f, z = From.z + Diff.z * r };
+            Position.LocalPosition = new Vector3() { x = From.x + Diff.x * r, y = Position.LocalPosition.y + (To.y - Position.LocalPosition.y) * 0.05f, z = From.z + Diff.z * r };
         }
 
         /// <summary>
@@ -92,6 +96,12 @@ namespace Raysist
 
     class BehindAppearEnemyFactory : ContainerFactory
     {
+        public enum Direction
+        {
+            LEFT,
+            RIGHT
+        }
+
         /// <summary>
         /// @brief 開始地点
         /// </summary>
@@ -124,9 +134,9 @@ namespace Raysist
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
-        public BehindAppearEnemyFactory(Vector3 from, Vector3 to, float speed) : base()
+        public BehindAppearEnemyFactory(Vector3 to, Direction dir, float speed) : base()
         {
-            From = from;
+            From = new Vector3 { x = to.x + 300.0f * (dir == Direction.LEFT ? -1 : 1), y = -500.0f, z = 0.0f };
             To = to;
             Speed = speed;
         }
@@ -134,6 +144,7 @@ namespace Raysist
         public override GameContainer Create()
         {
             var gc = new GameContainer();
+            gc.AddComponent(new EnemyInformation(gc, BehindAppearEnemy.MaxLife));
             gc.AddComponent(new BehindAppearEnemy(gc, From, To));
 
             var re = new RetreatEnemy(gc, Speed);

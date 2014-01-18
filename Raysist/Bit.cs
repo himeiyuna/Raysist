@@ -169,7 +169,7 @@ namespace Raysist
 
                         var col = new RectCollider(g, (Collider c) =>
                         {
-                            var target = c.Container.GetComponent<Enemy>();
+                            var target = c.Container.GetComponent<EnemyInformation>();
                             if (target != null)
                             {
                                 GameContainer.Destroy(g);
@@ -238,7 +238,7 @@ namespace Raysist
         /// </summary>
         private void Move()
         {
-            ++Energy;
+            ///++Energy;
             /*
              * http://dixq.net/forum/viewtopic.php?f=3&t=6697
              * 現在の角度を目標の方向に近い方で回転させるという意味だとしたら
@@ -256,7 +256,15 @@ namespace Raysist
             //}
 
             int dir = 0x0000;
-            var EightDirection = Game.Instance.InputController.XController.GetStick8Direction(false, 10000);
+
+            var EightDirection = XGameController.StickDirection.NONE;
+
+            // コントローラーが接続されていない場合は判定しない
+            if (Game.Instance.InputController.XController != null) 
+            {
+                Game.Instance.InputController.XController.GetStick8Direction(false, 10000);
+            }
+            
             if (EightDirection == XGameController.StickDirection.LEFTDOWN)
             {//左下
                 dir |= 0x0110;

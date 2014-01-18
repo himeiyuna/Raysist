@@ -11,15 +11,18 @@ namespace Raysist
         private enum EnemyType
         {
             None = -1,
-            BehindAppearEnemy = 0
+            BehindAppearEnemy,
+            InfrontApeearEnemy
+
         }
 
         /// <summary>
         /// @brief 敵種類判別テーブル
         /// </summary>
-        private static Dictionary<string, EnemyType> EnemyTypes = new Dictionary<string, EnemyType>
+        private static readonly Dictionary<string, EnemyType> EnemyTypes = new Dictionary<string, EnemyType>
         {
-            {"BehindAppearEnemy", 0}
+            {"BehindAppearEnemy", EnemyType.BehindAppearEnemy},
+            {"InfrontAppearEnemy", EnemyType.InfrontApeearEnemy}
         };
 
 
@@ -36,7 +39,14 @@ namespace Raysist
             {
                 case EnemyType.BehindAppearEnemy:
                     factory = new BehindAppearEnemyFactory(new Vector3 { x = float.Parse(record[2]), y = float.Parse(record[3]), z = float.Parse(record[4]) }, 
-                        new Vector3 { x = float.Parse(record[5]), y = float.Parse(record[6]), z = float.Parse(record[7]) }, float.Parse(record[8]));
+                        bool.Parse(record[5]) ? BehindAppearEnemyFactory.Direction.LEFT : BehindAppearEnemyFactory.Direction.RIGHT, 
+                        float.Parse(record[6]));
+                    factory.Create();
+                    break;
+                case EnemyType.InfrontApeearEnemy:
+                    factory = new InfrontAppearEnemyFactory(new Vector3 { x = float.Parse(record[2]), y = float.Parse(record[3]), z = float.Parse(record[4]) },
+                        bool.Parse(record[5]) ? InfrontAppearEnemyFactory.Direction.LEFT : InfrontAppearEnemyFactory.Direction.RIGHT,
+                        int.Parse(record[6]));
                     factory.Create();
                     break;
                 default:
