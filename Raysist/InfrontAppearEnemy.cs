@@ -136,17 +136,21 @@ namespace Raysist
         public override GameContainer Create()
         {
             var gc = new GameContainer();
-            var iae = new InfrontAppearEnemy(gc, To, new Vector3 { x = To.x + 300.0f * (Dir == Direction.LEFT ? -1 : 1), y = 500.0f, z = 0.0f });
+            var iae = new InfrontAppearEnemy(gc, To, new Vector3 { x = To.x + 500.0f * (Dir == Direction.LEFT ? -1 : 1), y = 500.0f, z = 0.0f });
             var se = new StayEnemy(gc, StayTime);
-            var de = new DisappearEnemy(gc, new Vector3 { x = To.x + 200.0f * (Dir == Direction.LEFT ? 1 : -1), y = 500.0f, z = 0.0f }, 2.0f);
+            var de = new DisappearEnemy(gc, new Vector3 { x = To.x + 500.0f * (Dir == Direction.LEFT ? 1 : -1), y = 500.0f, z = 0.0f }, 0.3f);
             gc.AddComponent(iae);
             gc.AddComponent(se);
             gc.AddComponent(de);
             gc.AddComponent(new MeshRenderer(gc, "fighter.x"));
-            gc.AddComponent(new RectCollider(gc, (Collider c) =>
+
+            var col = new RectCollider(gc, (Collider c) =>
             {
 
-            }));
+            });
+            col.Width = 50.0f;
+            col.Height = 50.0f;
+            gc.AddComponent(col);
 
             gc.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f);
             return gc;

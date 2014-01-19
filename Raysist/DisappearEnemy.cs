@@ -29,6 +29,15 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief 開始地点
+        /// </summary>
+        private Vector3 From
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief 目的地
         /// </summary>
         private Vector3 To
@@ -49,7 +58,7 @@ namespace Raysist
         /// <summary>
         /// @brief フレーム数
         /// </summary>
-        private float Frame
+        private int Frame
         {
             set;
             get;
@@ -75,7 +84,8 @@ namespace Raysist
         {
             base.OnEnable();
 
-            Diff = To - Position.LocalPosition;
+            From = Position.LocalPosition;
+            Diff = To - From;
         }
 
         /// <summary>
@@ -95,7 +105,7 @@ namespace Raysist
             float r = Frame / (float)AnimationTime;
 
             var pos = Position.LocalPosition;
-            Position.LocalPosition = new Vector3() { x = pos.x + Diff.x * r, y = pos.y + Speed, z = pos.z + Diff.z * r };
+            Position.LocalPosition = new Vector3() { x = From.x + Diff.x * r, y = pos.y + Speed, z = pos.z + Diff.z * r };
         }
     }
 }
