@@ -6,7 +6,7 @@ namespace Raysist
 {
     class Bit : GameComponent
     {
-        private const int MaxEnergy = 120;
+        private const int MaxEnergy = 12000;
 
         /// <summary>
         /// @brief ビット番号
@@ -129,13 +129,11 @@ namespace Raysist
             {
                 Position.LocalPosition = new Vector3 { x = -10.0f, y = -5.0f, z = 0.0f };
                 container.Name = "BitLeft";
-                //LRFlag = true;
             }
             else
             {
                 Position.LocalPosition = new Vector3 { x = 10.0f, y = -5.0f, z = 0.0f };
                 container.Name = "BitRight";
-                //LRFlag = true;
             }
         }
 
@@ -147,7 +145,6 @@ namespace Raysist
             // 自機についているときはエネルギー回復
             if (IsDock)
             {
-                ++Energy;
                 if (MaxEnergy < Energy)
                 {
                     Energy = MaxEnergy;
@@ -238,7 +235,7 @@ namespace Raysist
         /// </summary>
         private void Move()
         {
-            ///++Energy;
+            ++Energy;
             /*
              * http://dixq.net/forum/viewtopic.php?f=3&t=6697
              * 現在の角度を目標の方向に近い方で回転させるという意味だとしたら
@@ -256,13 +253,16 @@ namespace Raysist
             //}
 
             int dir = 0x0000;
-
+            var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };//右向きの基本ベクトル
+            float Clockwise = (float)Math.PI / 60;//曲げる分；
+            var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
+            var c = Direciton * b;//Angle分回転した向きベクトル
             var EightDirection = XGameController.StickDirection.NONE;
 
             // コントローラーが接続されていない場合は判定しない
             if (Game.Instance.InputController.XController != null) 
             {
-                Game.Instance.InputController.XController.GetStick8Direction(false, 10000);
+                EightDirection = Game.Instance.InputController.XController.GetStick8Direction(false, 10000);
             }
             
             if (EightDirection == XGameController.StickDirection.LEFTDOWN)
@@ -287,27 +287,22 @@ namespace Raysist
                  || EightDirection == XGameController.StickDirection.UP)
             {
                 dir |= 0x1000;
-                var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
-                var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
-                var c = Direciton * b;//Angle分回転した向きベクトル
-
                 var Purpose = new Vector3 { x = 0.0f, y = -1.0f, z = 0.0f };
                 var Cross = c.Cross(Purpose);
 
-                
-
-
-                if (
-                    (Rot < 270 && Rot > 90) 
-                    ||
-                    ((Rot > 270 && Rot <= 360) || (Rot >= 0 && Rot < 90))
-                    )
+                if (((Rot < 270 && Rot > 90) || ((Rot > 270 && Rot < 360) || (Rot >= 0 && Rot < 90))) ||
+                    Rot == 270)
                 {
                     if (Cross.z >= 0)
+                    {
                         Rot -= 3;
+                        Clockwise = (float)Math.PI / 60;
+                    }
                     else
+                    {
                         Rot += 3;
-
+                        Clockwise = -(float)Math.PI / 60;
+                    }
                     if (Rot >= 360)//360度を越えたら
                     {
                         Rot -= 360;
@@ -316,7 +311,7 @@ namespace Raysist
                     {
                         Rot += 360;
                     }
-                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, Clockwise);
                 }
                 else
                 {
@@ -327,26 +322,22 @@ namespace Raysist
                  || EightDirection == XGameController.StickDirection.DOWN)
             {
                 dir |= 0x0010;
-                var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
-                var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
-                var c = Direciton * b;//Angle分回転した向きベクトル
-
                 var Purpose = new Vector3 { x = 0.0f, y = 1.0f, z = 0.0f };
                 var Cross = c.Cross(Purpose);
 
-                
-
-
-                if (
-                    (Rot < 270 && Rot > 90)
-                    ||
-                    ((Rot > 270 && Rot <= 360) || (Rot >= 0 && Rot < 90))
-                    )
+                if (((Rot < 270 && Rot > 90) || ((Rot > 270 && Rot < 360) || (Rot >= 0 && Rot < 90))) ||
+                    Rot == 90)
                 {
                     if (Cross.z >= 0)
+                    {
                         Rot -= 3;
+                        Clockwise = (float)Math.PI / 60;
+                    }
                     else
+                    {
                         Rot += 3;
+                        Clockwise = -(float)Math.PI / 60;
+                    }
 
                     if (Rot >= 360)//360度を越えたら
                     {
@@ -356,7 +347,7 @@ namespace Raysist
                     {
                         Rot += 360;
                     }
-                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, Clockwise);
                 }
                 else
                 {
@@ -368,24 +359,21 @@ namespace Raysist
                 || EightDirection == XGameController.StickDirection.LEFT)
             {
                 dir |= 0x0100;
-                var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
-                var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
-                var c = Direciton * b;//Angle分回転した向きベクトル
-
                 var Purpose = new Vector3 { x = -1.0f, y = 0.0f, z = 0.0f };
                 var Cross = c.Cross(Purpose);
 
-                
-
-                if (
-                    (Rot > 180 && Rot < 360) ||
-                    (Rot > 0 && Rot < 180)
-                    )
+                if (((Rot > 180 && Rot < 360) || (Rot > 0 && Rot < 180)) || Rot == 0)
                 {
                     if (Cross.z <= 0)
+                    {
                         Rot -= 3;
+                        Clockwise = (float)Math.PI / 60;
+                    }
                     else
+                    {
                         Rot += 3;
+                        Clockwise = -(float)Math.PI / 60;
+                    }
 
                     if (Rot >= 360)//360度を越えたら
                     {
@@ -395,7 +383,7 @@ namespace Raysist
                     {
                         Rot += 360;
                     }
-                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, -(float)Math.PI / 60);
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, Clockwise);
                 }
                 else
                 {
@@ -406,25 +394,23 @@ namespace Raysist
                 || EightDirection == XGameController.StickDirection.RIGHT)
             {
                 dir |= 0x0001;
-
-                var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
-                var b = new Quaternion(Position.LocalAxisZ, Angle);//Zziku Angle分回転する回転量
-                var c = Direciton * b;//Angle分回転した向きベクトル
-
                 var Purpose = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };
                 var Cross = c.Cross(Purpose);
 
-               
 
-                if (
-                    (Rot > 180 && Rot < 360) ||
-                    (Rot > 0 && Rot < 180)
-                    )
+
+                if (((Rot > 180 && Rot < 360) || (Rot > 0 && Rot < 180)) || Rot == 180)
                 {
                     if (Cross.z <= 0)
+                    {
                         Rot -= 3;
+                        Clockwise = (float)Math.PI / 60;
+                    }
                     else
+                    {
                         Rot += 3;
+                        Clockwise = -(float)Math.PI / 60;
+                    }
 
                     if (Rot >= 360)//360度を越えたら
                     {
@@ -434,7 +420,7 @@ namespace Raysist
                     {
                         Rot += 360;
                     }
-                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, (float)Math.PI / 60);
+                    Position.LocalRotation *= new Quaternion(Vector3.AxisZ, Clockwise);
                 }
                 else
                 {
@@ -474,7 +460,7 @@ namespace Raysist
         public void Undock()
         {
             IsDock = false;
-            Rot = 0;
+            Rot = 90;
             Position.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
         }
     }

@@ -39,22 +39,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppearedEnemy.cs" />
-    <Compile Include="BehindAppearEnemy.cs" />
+    <Compile Include="Enemy\AppearedEnemy.cs" />
+    <Compile Include="Enemy\BehindAppearEnemy.cs" />
     <Compile Include="BillboardRenderer.cs" />
     <Compile Include="Bit.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="DisappearEnemy.cs" />
-    <Compile Include="EnemyInformation.cs" />
-    <Compile Include="EnemyController.cs" />
+    <Compile Include="Enemy\DisappearEnemy.cs" />
+    <Compile Include="Enemy\EnemyInformation.cs" />
+    <Compile Include="Enemy\EnemyController.cs" />
     <Compile Include="ExcelController.cs" />
-    <Compile Include="InfrontAppearEnemy.cs" />
+    <Compile Include="Enemy\InfrontAppearEnemy.cs" />
     <Compile Include="InputController.cs" />
     <Compile Include="Laser.cs" />
     <Compile Include="Raypier.cs" />
     <Compile Include="RaypierRenderFinisher.cs" />
     <Compile Include="RaypierTrail.cs" />
-    <Compile Include="RetreatEnemy.cs" />
+    <Compile Include="Enemy\RetreatEnemy.cs" />
     <Compile Include="Scene\ClearScene.cs" />
     <Compile Include="DisablePlayer.cs" />
     <Compile Include="Scene\EndScene.cs" />
@@ -77,7 +77,7 @@
     <Compile Include="SpriteRenderer.cs" />
     <Compile Include="Scene\TitleScene.cs" />
     <Compile Include="Stage.cs" />
-    <Compile Include="StayEnemy.cs" />
+    <Compile Include="Enemy\StayEnemy.cs" />
     <Compile Include="Timeline.cs" />
     <Compile Include="Utils\Quaternion.cs" />
     <Compile Include="Utils\Matrix.cs" />

@@ -83,14 +83,23 @@ namespace Raysist
             var br = new BillboardRenderer(gc, "dummy2.png");
             br.Scale = 64.0f;
             gc.AddComponent(br);
-
+            //var bra = new BillboardRenderer(gc, "dummy2.png");
+            //bra.Scale = 32.0f;
+            //gc.AddComponent(bra);
             var col = new RectCollider(gc, (Collider g) =>
             {
                 DX.DrawString(0, 400, "hit", DX.GetColor(255, 255, 255));
+                var a = g.Container.GetComponent<EnemyInformation>();
+                if(a != null){
+                    a.Damage(10);
+                    GameContainer.Destroy(gc);
+                }
+
+                
             });
 
-            col.Width = 10.0f;
-            col.Height = 10.0f;
+            col.Width = 64.0f;
+            col.Height = 64.0f;
 
             gc.AddComponent(col);
 

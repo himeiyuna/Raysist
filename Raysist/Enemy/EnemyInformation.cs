@@ -37,6 +37,22 @@ namespace Raysist
             if (Life <= 0)
             {
                 GameContainer.Destroy(Container);
+
+                var gc = new GameContainer();
+                gc.Position.LocalPosition = Position.LocalPosition;
+                var spriteRenderer = new BillboardRenderer(gc, "explosion.png");
+                spriteRenderer.Scale = 64.0f;
+                var animator = new Animator(gc, spriteRenderer, "explosion.png", 4, 4, 1, 512, 512, true);
+                animator.UpdateFrame = 3;
+                gc.AddComponent(spriteRenderer);
+                gc.AddComponent(animator);
+                
+                animator.OnFinishAnimation = (Animator a) =>
+                {
+                    GameContainer.Destroy(a.Container);
+                };
+      
+
             }
         }
 

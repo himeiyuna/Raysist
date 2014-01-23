@@ -24,7 +24,7 @@ namespace Raysist
             DX.XINPUT_STATE buf;
             if (DX.GetJoypadXInputState(DX.DX_INPUT_PAD1, out buf) == 0)
             {
-                XController = new XGameController();
+                 XController = new XGameController();
             }
         }
 

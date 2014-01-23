@@ -273,10 +273,3 @@ namespace Raysist
 
     }
 }
-/* var te = new ContainerFactory((GameContainer g) =>
-                    {
-                        g.AddComponent(new Laser(g,Position.WorldPosition, 10.0f, 1.0f));
-
-                    });
-
-                   te.Create(Game.Instance.SceneController.CurrentScene.Root);*/
