@@ -12,10 +12,46 @@ namespace Raysist
     /// </summary>
     public sealed class GameContainer
     {
+        private interface ComponentIDBase
+        {
+            /// <summary>
+            /// @brief ID
+            /// </summary>
+            string ID
+            {
+                set;
+                get;
+            }
+        }
+
+        /// <summary>
+        /// @brief コンポーネントを識別するIDクラス
+        /// </summary>
+        /// <typeparam name="T">コンポーネント</typeparam>
+        private class ComponentID<T> : ComponentIDBase where T : GameComponent
+        {
+            /// <summary>
+            /// @copydoc ComponentIDBase::ID
+            /// </summary>
+            public string ID
+            {
+                set;
+                get;
+            }
+
+            /// <summary>
+            /// @brief コンストラクタ
+            /// </summary>
+            public ComponentID()
+            {
+                ID = GetType().ToString();
+            }
+        }
+
         /// <summary>
         /// @brief ゲームコンポーネントの配列
         /// </summary>
-        private List<GameComponent> Components
+        private Dictionary<string, List<GameComponent>> Components
         {
             set;
             get;
@@ -74,7 +110,7 @@ namespace Raysist
             Active = true;
             Position = new Positioner(this);
             Position.Parent = Game.Instance.SceneController.CurrentScene.Root.Position;
-            Components = new List<GameComponent>();
+            Components = new Dictionary<string, List<GameComponent>>();
         }
 
         /// <summary>
@@ -86,7 +122,7 @@ namespace Raysist
             Active = true;
             Position = new Positioner(this);
             Position.Parent = parent.Position;
-            Components = new List<GameComponent>();
+            Components = new Dictionary<string, List<GameComponent>>();
         }
 
         /// <summary>
@@ -97,16 +133,31 @@ namespace Raysist
         {
             Active = true;
             Position = new Positioner(this);
-            Components = new List<GameComponent>();
+            Components = new Dictionary<string, List<GameComponent>>();
         }
 
         /// <summary>
         /// @brief コンポーネントを追加する
         /// </summary>
         /// <param name="component">追加するコンポーネント</param>
-        public void AddComponent(GameComponent component)
+        public void AddComponent<T>(T component) where T : GameComponent
         {
-            Components.Add(component);
+            var id = new ComponentID<T>();
+
+            // キーが存在しなければ
+            if (!Components.ContainsKey(id.ID)) 
+            {
+                // リストを作成
+                var list = new List<GameComponent>();
+                list.Add(component);
+
+                Components.Add(id.ID, list);
+            } 
+            else 
+            {
+                Components[id.ID].Add(component);
+            }
+            
         }
 
         /// <summary>
@@ -116,7 +167,15 @@ namespace Raysist
         /// <returns>コンポーネント</returns>
         public T GetComponent<T>() where T : GameComponent
         {
-            return (from i in Components where i is T select i).FirstOrDefault() as T;
+            var id = new ComponentID<T>();
+            if (!Components.ContainsKey(id.ID))
+            {
+                return null;
+            }
+            else
+            {
+                return (T)Components[id.ID].First();
+            }
         }
 
         /// <summary>
@@ -125,15 +184,16 @@ namespace Raysist
         /// <typeparam name="T">コンポーネント型</typeparam>
         public void RemoveComponent<T>() where T : GameComponent
         {
-            var i = 0;
-            foreach (var com in Components)
+            foreach (var list in Components)
             {
-                if (com is T)
+                foreach (var com in list.Value)
                 {
-                    Components.RemoveAt(i);
-                    return;
+                    if (com is T)
+                    {
+                        Components[new ComponentID<T>().ID].Clear();
+                        return;
+                    }
                 }
-                ++i;
             }
         }
 
@@ -142,11 +202,14 @@ namespace Raysist
         /// </summary>
         public void Update()
         {
-            foreach (var child in Components)
+            foreach (var list in Components)
             {
-                if (child.Active)
+                foreach (var com in list.Value)
                 {
-                    child.Update();
+                    if (com.Active)
+                    {
+                        com.Update();
+                    }
                 }
             }
         }

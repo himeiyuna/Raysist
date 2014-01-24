@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DxLibDLL;
+using System.Diagnostics;
 
 namespace Raysist
 {
@@ -153,9 +154,18 @@ namespace Raysist
             boundingBox.Top = pos.y - Height * 0.5f;
             boundingBox.Bottom = pos.y + Height * 0.5f;
 
-            DX.DrawBox((int)BoundingBox.Left, (int)BoundingBox.Top, (int)BoundingBox.Right, (int)BoundingBox.Bottom, DX.GetColor(255,255,255), DX.FALSE);
+            DrawCollisionArea();
 
             base.Update();
+        }
+
+        /// <summary>
+        /// @brief あたり判定範囲を描画する
+        /// </summary>
+        [Conditional("DEBUG")]
+        private void DrawCollisionArea()
+        {
+            DX.DrawBox((int)BoundingBox.Left, (int)BoundingBox.Top, (int)BoundingBox.Right, (int)BoundingBox.Bottom, DX.GetColor(255, 255, 255), DX.FALSE);
         }
     }
 

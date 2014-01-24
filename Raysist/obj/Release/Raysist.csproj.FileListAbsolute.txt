@@ -22,3 +22,4 @@ C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\bin\Release\Raysist.pdb
 C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.csprojResolveAssemblyReference.cache
 C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.exe
 C:\Users\kakeru\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.pdb
+C:\Users\relay\Documents\GitHub\Raysist\Raysist\obj\Release\Raysist.csprojResolveAssemblyReference.cache

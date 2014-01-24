@@ -1,0 +1,4 @@
+90,BehindAppearEnemy,0,400,0,TRUE,1
+120,BehindAppearEnemy,50,400,0,FALSE,2
+150,BehindAppearEnemy,100,400,0,FALSE,3
+160,InfrontAppearEnemy,0,0,0,TRUE,120
