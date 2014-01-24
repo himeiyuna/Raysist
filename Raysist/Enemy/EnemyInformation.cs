@@ -21,12 +21,32 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @breif ショットの間隔
+        /// </summary>
+        public int Count
+        {
+            protected set;
+            get;
+        }
+
+        /// <summary>
+        /// @breif ショットの速さ
+        /// </summary>
+        public float Speed
+        {
+            protected set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">自身を組み込むコンテナ</param>
         public EnemyInformation(GameContainer container, int life) : base(container)
         {
-            Life = life;    
+            Life = life;
+            Count = 15;
+            Speed = 5.0f;
         }
 
         /// <summary>
@@ -34,6 +54,12 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
+            --Count;
+            if (Count < 0)
+            {
+                Count = 15;
+            }
+
             if (Life <= 0)
             {
                 GameContainer.Destroy(Container);

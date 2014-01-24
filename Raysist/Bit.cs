@@ -158,7 +158,7 @@ namespace Raysist
                     // ショットを放つ
                     var sf = new ContainerFactory((GameContainer g) =>
                     {
-                        g.AddComponent(new Shot(g, (float)Math.PI * -0.5f, Position.WorldPosition));
+                        g.AddComponent(new Shot(g, (float)Math.PI * -0.5f, 5.0f , Position.WorldPosition));
 
                         var b = new BillboardRenderer(g, "dummy.png");
                         b.Scale = 5.0f;
