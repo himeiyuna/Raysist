@@ -59,6 +59,7 @@
     <Compile Include="RaypierRenderFinisher.cs" />
     <Compile Include="RaypierTrail.cs" />
     <Compile Include="Enemy\RetreatEnemy.cs" />
+    <Compile Include="ResourceController.cs" />
     <Compile Include="Scene\ClearScene.cs" />
     <Compile Include="DisablePlayer.cs" />
     <Compile Include="Scene\EndScene.cs" />

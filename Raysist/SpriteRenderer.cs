@@ -77,7 +77,7 @@ namespace Raysist
         /// <param name="path">ファイルの場所</param>
         public SpriteRenderer(GameContainer container, String path) : base(container)
         {
-            GraphicHandle = DX.LoadGraph("Resources\\" + path);
+            GraphicHandle = ResourceController.Instance.LoadGraphic(path);
             Scale = 1.0f;
             Radian = 0.0f;
         }
@@ -171,8 +171,7 @@ namespace Raysist
         {
             Target = target;
 
-            GraphicHandles = new int[num];
-            DX.LoadDivGraph("Resources\\" + path, num, col, row, width, height, out GraphicHandles[0]);
+            GraphicHandles = ResourceController.Instance.LoadDivideGraphic(path, num, width, height);
 
             Target.GraphicHandle = GraphicHandles[0];
             CurrentImageIndex = 0;

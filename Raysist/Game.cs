@@ -65,15 +65,18 @@ namespace Raysist
             DX.SetDrawScreen(DX.DX_SCREEN_BACK);
             DX.SetUseZBufferFlag(DX.TRUE);
 
-            while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
+            using (ResourceController rc = ResourceController.Instance)
             {
-                DX.ClearDrawScreen();
+                while (DX.ProcessMessage() == 0 && DX.CheckHitKey(DX.KEY_INPUT_ESCAPE) == 0)
+                {
+                    DX.ClearDrawScreen();
 
-                InputController.Update();
+                    InputController.Update();
 
-                this.SceneController.Update();
+                    this.SceneController.Update();
 
-                DX.ScreenFlip();
+                    DX.ScreenFlip();
+                }
             }
 
             System.GC.Collect();
