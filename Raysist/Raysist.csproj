@@ -39,6 +39,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Barrage\Barrage.cs" />
+    <Compile Include="Barrage\CircleShot.cs" />
     <Compile Include="Enemy\AppearedEnemy.cs" />
     <Compile Include="Enemy\BehindAppearEnemy.cs" />
     <Compile Include="BillboardRenderer.cs" />
@@ -47,6 +49,8 @@
     <Compile Include="Enemy\DisappearEnemy.cs" />
     <Compile Include="Enemy\EnemyInformation.cs" />
     <Compile Include="Enemy\EnemyController.cs" />
+    <Compile Include="Barrage\FanShot.cs" />
+    <Compile Include="Barrage\VerticalShot.cs" />
     <Compile Include="ExcelController.cs" />
     <Compile Include="Enemy\InfrontAppearEnemy.cs" />
     <Compile Include="InputController.cs" />

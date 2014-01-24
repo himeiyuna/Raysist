@@ -77,7 +77,7 @@ namespace Raysist
                 return;
             }
 
-            
+
             float r = Frame / (float)AnimationFrame;
 
             Position.LocalPosition = new Vector3() { x = From.x + Diff.x * r, y = Position.LocalPosition.y + (To.y - Position.LocalPosition.y) * 0.05f, z = From.z + Diff.z * r };
@@ -165,6 +165,10 @@ namespace Raysist
 
             gc.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f); ;
 
+            var vs = new VerticalShot(gc, 0.5f, From);
+            vs.Speed = 5.0f;
+
+            gc.AddComponent(vs);
             return gc;
         }
     }
