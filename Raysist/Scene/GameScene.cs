@@ -33,6 +33,11 @@ namespace Raysist
 
         public override void LoadResource()
         {
+            var rc = ResourceController.Instance;
+
+            rc.LoadGraphic("dummy.png");
+            rc.LoadGraphic("dummy2.png");
+            rc.LoadDivideGraphic("explosion.png", 4, 512, 512);
         }
 
         public override void EnterScene()
@@ -70,29 +75,12 @@ namespace Raysist
             var ec = new GameContainer();
             ec.AddComponent(new EnemyController(ec));
 
-            /*var ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 0.0f, y = 400.0f, z = 0.0f }, 1.0f);
-            ef.Create();
-
-            ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 50.0f, y = 400.0f, z = 0.0f }, 2.0f);
-            ef.Create();
-
-            ef = new BehindAppearEnemyFactory(new Vector3 { x = -400.0f, y = -1000.0f, z = 0.0f }, new Vector3 { x = 100.0f, y = 400.0f, z = 0.0f }, 3.0f);
-            ef.Create();*/
-
-            /*var enemy = new GameContainer();
-            enemy.AddComponent(new Enemy(enemy, new Vector3 { x = 0.0f, y = 800.0f, z = 0.0f }));
-
-            enemy = new GameContainer();
-            enemy.AddComponent(new Enemy(enemy, new Vector3 { x = 200.0f, y = 500.0f, z = 0.0f }));
-
-            enemy = new GameContainer();
-            enemy.AddComponent(new Enemy(enemy, new Vector3 { x = -200.0f, y = 300.0f, z = 0.0f }));*/
-
-            //player.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f) * new Quaternion(Vector3.AxisZ, (float)Math.PI);
-
             var camera = cameraFactory.Create().GetComponent<Camera>();
             camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -1000.0f };
             camera.FieldOfView = (float)Math.PI * 0.1f;
+
+            var explosion = new GameContainer();
+            explosion.Name = "Explosion";
 
             var sf = new ContainerFactory((GameContainer g) =>
             {
@@ -101,7 +89,7 @@ namespace Raysist
                 g.AddComponent(new StageTimeline(g, gcom));
                 g.AddComponent(new MeshRenderer(g, "hogeStage.x"));
             });
-            
+
             sf.Create();
         }
 

@@ -64,7 +64,7 @@ namespace Raysist
             {
                 GameContainer.Destroy(Container);
 
-                var gc = new GameContainer();
+                var gc = new GameContainer(Game.Instance.SceneController.CurrentScene.Root.Position.FindChild("Explosion").Container);
                 gc.Position.LocalPosition = Position.LocalPosition;
                 var spriteRenderer = new BillboardRenderer(gc);
                 spriteRenderer.Scale = 64.0f;

@@ -11,12 +11,11 @@ namespace Raysist
     {
         public RaypierRenderFinisher(GameContainer container) : base(container)
         {
-            Active = false;
         }
 
         public override void Update()
         {
-            DX.SetDrawBlendMode(DX.DX_BLENDMODE_NOBLEND, 155);
+            DX.SetDrawBlendMode(DX.DX_BLENDMODE_NOBLEND, 0);
         }
     }
 }

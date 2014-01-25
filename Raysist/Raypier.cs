@@ -21,11 +21,10 @@ namespace Raysist
             get;
         }
 
-        public Raypier(GameContainer container, GameContainer re, Bit parent) : base(container)
+        public Raypier(GameContainer container, GameContainer re, Bit parent) : base(container, false)
         {
             Ender = re;
             Parent = parent;
-            Active = false;
         }
 
         public override void Update()
@@ -58,7 +57,7 @@ namespace Raysist
         {
             base.OnEnable();
 
-            Ender.Active = false;
+            Ender.Active = true;
         }
     }
 }
