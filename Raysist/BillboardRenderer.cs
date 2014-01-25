@@ -13,11 +13,20 @@ namespace Raysist
     class BillboardRenderer : SpriteRenderer
     {
         /// <summary>
+        /// @brief コンストラクタ　グラフィックを生成しない
+        /// </summary>
+        /// <param name="container">自身を組み込むコンテナ</param>
+        public BillboardRenderer(GameContainer container) : base(container)
+        {
+
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">自身を組み込むコンテナ</param>
         /// <param name="path">ファイルパス</param>
-        public BillboardRenderer(GameContainer container, String path) : base(container, path)
+        public BillboardRenderer(GameContainer container, string path) : base(container, path)
         {
 
         }

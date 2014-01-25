@@ -235,7 +235,6 @@ namespace Raysist
             bool r = false;
             bool rd = false;
             bool d = false;
-            bool ld = false;
 
             // 最低の外積値が一番近い方向
             float min = float.MaxValue;
@@ -265,7 +264,6 @@ namespace Raysist
                 r = false;
                 rd = false;
                 d = false;
-                ld = true;
                 min = Math.Abs(ld_cross);
             }
 

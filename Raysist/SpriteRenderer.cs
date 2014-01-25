@@ -71,16 +71,26 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief コンストラクタ グラフィックを生成しない
+        /// </summary>
+        /// <param name="container">自身を組み込むコンテナ</param>
+        public SpriteRenderer(GameContainer container) : base(container)
+        {
+            Scale = 1.0f;
+            Radian = 0.0f;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">コンテナ</param>
         /// <param name="path">ファイルの場所</param>
-        public SpriteRenderer(GameContainer container, String path) : base(container)
+        public SpriteRenderer(GameContainer container, string path) : this(container)
         {
             GraphicHandle = ResourceController.Instance.LoadGraphic(path);
-            Scale = 1.0f;
-            Radian = 0.0f;
         }
+
+        
 
         /// <summary>
         /// @brief 描画

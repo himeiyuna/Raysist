@@ -66,7 +66,7 @@ namespace Raysist
 
                 var gc = new GameContainer();
                 gc.Position.LocalPosition = Position.LocalPosition;
-                var spriteRenderer = new BillboardRenderer(gc, "explosion.png");
+                var spriteRenderer = new BillboardRenderer(gc);
                 spriteRenderer.Scale = 64.0f;
                 var animator = new Animator(gc, spriteRenderer, "explosion.png", 4, 4, 1, 512, 512, true);
                 animator.UpdateFrame = 3;

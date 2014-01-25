@@ -23,11 +23,20 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief ハンドルの配列(キーはパス)
+        /// @brief グラフィックハンドルの配列(キーはパス)
         /// </summary>
-        public Dictionary<string, int> Handles
+        private Dictionary<string, int> GraphicHandles
         {
-            private set;
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief モデルハンドルの配列
+        /// </summary>
+        private Dictionary<string, int> ModelHandles
+        {
+            set;
             get;
         }
 
@@ -36,7 +45,8 @@ namespace Raysist
         /// </summary>
         private ResourceController()
         {
-            Handles = new Dictionary<string, int>();
+            GraphicHandles = new Dictionary<string, int>();
+            ModelHandles = new Dictionary<string, int>();
         }
 
         /// <summary>
@@ -45,6 +55,16 @@ namespace Raysist
         public void Dispose()
         {
             instance = null;
+
+            foreach (var handle in GraphicHandles)
+            {
+                DX.DeleteGraph(handle.Value);
+            }
+
+            foreach (var handle in ModelHandles)
+            {
+                DX.MV1DeleteModel(handle.Value);
+            }
         }
 
         /// <summary>
@@ -54,9 +74,9 @@ namespace Raysist
         /// <returns>success:handle, failed:-1</returns>
         public int LoadGraphic(string path)
         {
-            if (Handles.ContainsKey(path))
+            if (GraphicHandles.ContainsKey(path))
             {
-                return Handles[path];
+                return GraphicHandles[path];
             }
 
             var h = DX.LoadGraph("Resources\\" + path);
@@ -65,7 +85,7 @@ namespace Raysist
                 return -1;
             }
 
-            Handles.Add(path, h);
+            GraphicHandles.Add(path, h);
 
             return h;
         }
@@ -98,13 +118,26 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief 画像読み込み
+        /// @brief モデル読み込み
         /// </summary>
         /// <param name="path">ファイルパス</param>
         /// <returns>success:handle, failed:-1</returns>
         public int LoadModel(string path)
         {
-            return -1;
+            if (ModelHandles.ContainsKey(path))
+            {
+                return DX.MV1DuplicateModel(ModelHandles[path]);
+            }
+
+            var h = DX.MV1LoadModel("Resources\\" + path);
+            if (h == -1)
+            {
+                return -1;
+            }
+
+            ModelHandles.Add(path, h);
+
+            return h;
         }
 
         /// <summary>

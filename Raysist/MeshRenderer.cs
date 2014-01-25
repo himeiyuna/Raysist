@@ -25,8 +25,7 @@ namespace Raysist
         /// <param name="path">Resourceフォルダからのパス</param>
         public MeshRenderer(GameContainer container, string path) : base(container)
         {
-            // TODO: Deplicateを使用するために管理クラスを作成する
-            ModelHandle = DX.MV1LoadModel("Resources\\" + path);
+            ModelHandle = ResourceController.Instance.LoadModel(path);
         }
 
         /// <summary>
