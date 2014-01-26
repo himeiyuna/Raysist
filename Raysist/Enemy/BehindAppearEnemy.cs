@@ -165,8 +165,9 @@ namespace Raysist
 
             gc.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f); ;
 
-            var vs = new VerticalShot(gc, 0.5f, From);
+            var vs = new FanShot(gc, 0.5f, From);
             vs.Speed = 5.0f;
+
 
             gc.AddComponent(vs);
             return gc;

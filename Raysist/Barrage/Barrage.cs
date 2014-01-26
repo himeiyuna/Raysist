@@ -46,6 +46,24 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief 弾を撃つ間隔
+        /// </summary>
+        public int Count
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief Aimするかどうか
+        /// </summary>
+        public bool AimFlag
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         public Barrage(GameContainer container, float angle, Vector3 pos)
@@ -56,6 +74,8 @@ namespace Raysist
             Speed = 5.0f;
             Magazine = 20;
             SpaceanInterval = 18;//360/Magazine　弾の間隔;
+            Count = SpaceanInterval;
+            AimFlag = false;
         }
 
         /// <summary>
@@ -75,6 +95,23 @@ namespace Raysist
             Vector2 Direction = new Vector2();
             Direction.x = a.x - b.x;
             Direction.y = a.y - b.y;
+        }
+
+        /// <summary>
+        /// @brief カウントを管理する関数
+        /// </summary>
+        protected bool CountDown()
+        {
+            if (Count == 0)
+            {
+                Count = SpaceanInterval;
+                return true;
+            }
+            else
+            {
+                --Count;
+            }
+            return false;
         }
     }
 }
