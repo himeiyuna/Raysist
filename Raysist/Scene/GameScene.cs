@@ -60,7 +60,7 @@ namespace Raysist
             });
 
             var gc = cf.Create();
-            var player = gc.GetComponent<Player>();
+            Player player = gc.GetComponent<Player>();
 
             var fact = new ContainerFactory((GameContainer g) =>
             {
@@ -73,7 +73,8 @@ namespace Raysist
             fact.Create();
 
             var ec = new GameContainer();
-            ec.AddComponent(new EnemyController(ec));
+            ec.AddComponent(new EnemyController(ec, player));
+            
 
             var camera = cameraFactory.Create().GetComponent<Camera>();
             camera.Position.LocalPosition = new Vector3 { x = 0.0f, y = 0.0f, z = -1000.0f };

@@ -13,7 +13,7 @@ namespace Raysist
         //メンバ変数こっから
 
         /// <summary>
-        /// @brief 体力
+        /// @brief 角度
         /// </summary>
         public float Angle
         {
@@ -30,11 +30,26 @@ namespace Raysist
             get;
         }
 
+        public Vector2 Direction
+        {
+            set;
+            get;
+        }
+
+        public bool flag
+        {
+            set;
+            get;
+        }
+
         //ここまで
         //----------------------------------------------------
 
         /// <summary>
         /// @brief コンストラクタ
+        /// angle :角度
+        /// speed :弾速
+        /// pos   :発射位置
         /// </summary>
         public Shot(GameContainer container, float angle, float speed, Vector3 pos)
             : base(container)
@@ -43,7 +58,19 @@ namespace Raysist
             Angle = angle;
             Speed = speed;
         }
-
+        /// <summary>
+        /// @brief コンストラクタ
+        /// Direction : 向き
+        /// speed :弾速
+        /// pos   :発射位置
+        /// </summary>
+        public Shot(GameContainer container, Vector2 direction, float speed, Vector3 pos)
+            : base(container)
+        {
+            Position.LocalPosition = pos;
+            Direction = direction;
+            Speed = speed;
+        }
         /// <summary>
         /// @brief 更新
         /// </summary>
@@ -59,8 +86,16 @@ namespace Raysist
             }
 
             // 移動処理
-            Position.LocalPosition.x += (float)Math.Cos(Angle) * Speed;
-            Position.LocalPosition.y -= (float)Math.Sin(Angle) * Speed;
+            //if (flag)
+            //{
+                Position.LocalPosition.x += (float)Math.Cos(Angle) * Speed;
+                Position.LocalPosition.y -= (float)Math.Sin(Angle) * Speed;
+            //}
+            //else
+            //{
+            //    Position.LocalPosition.x += Direction.x * Speed;
+            //    Position.LocalPosition.y -= Direction.y * Speed;
+            //}
         }
 
 

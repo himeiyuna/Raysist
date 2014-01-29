@@ -14,38 +14,48 @@ namespace Raysist
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public VerticalShot(GameContainer container, float angle, Vector3 pos)
-            : base(container, angle, pos)
+        public VerticalShot(GameContainer container, float angle, Vector3 pos, Player p)
+            : base(container, angle, pos, p)
         {
+            Angle = (float)Math.PI * 0.5f;
         }
         /// <summary>
         /// @brief 垂直なショットを撃つ関数
         /// </summary>
         public override void Update()
         {
-            var sf = new ContainerFactory((GameContainer g) =>
+            if (CountDown())
             {
-                g.AddComponent(new Shot(g, (float)Math.PI * 0.5f, -Speed, Position.WorldPosition));
-
-                var b = new BillboardRenderer(g, "dummy.png");
-                b.Scale = 5.0f;
-                g.AddComponent(b);
-
-                var col = new RectCollider(g, (Collider c) =>
+                if (AimFlag)
                 {
-                    var target = c.Container.GetComponent<EnemyInformation>();
-                    if (target != null)
+                    Vector2 Direction = new Vector2();
+                    Direction = Aim();
+                    Angle = (float)(Math.Atan2(Direction.y, Direction.x));
+                }
+                var sf = new ContainerFactory((GameContainer g) =>
+                {
+                    g.AddComponent(new Shot(g, -Angle, Speed, Position.WorldPosition));
+                    
+                    var b = new BillboardRenderer(g, "dummy.png");
+                    b.Scale = 5.0f;
+                    g.AddComponent(b);
+
+                    var col = new RectCollider(g, (Collider c) =>
                     {
-                        GameContainer.Destroy(g);
-                    }
+                        var target = c.Container.GetComponent<Player>();
+                        if (target != null)
+                        {
+                            GameContainer.Destroy(g);
+                        }
+                    });
+                    col.Width = 10.0f;
+                    col.Height = 10.0f;
+
+                    g.AddComponent(col);
                 });
-                col.Width = 10.0f;
-                col.Height = 10.0f;
 
-                g.AddComponent(col);
-            });
-
-            sf.Create();
+                sf.Create();
+            }
         }
     }
 }

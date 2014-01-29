@@ -13,7 +13,15 @@ namespace Raysist
             None = -1,
             BehindAppearEnemy,
             InfrontApeearEnemy
+        }
 
+        /// <summary>
+        /// @brief プレイヤーの位置
+        /// </summary>
+        private Player PlayerPosition
+        {
+            set;
+            get;
         }
 
         /// <summary>
@@ -26,9 +34,9 @@ namespace Raysist
         };
 
 
-        public EnemyController(GameContainer container) : base(container, "enemy.csv")
+        public EnemyController(GameContainer container, Player p) : base(container, "enemy.csv")
         {
-
+            PlayerPosition = p;
         }
 
         protected override void OnUpdateTimeline(string[] record)
@@ -40,7 +48,8 @@ namespace Raysist
                 case EnemyType.BehindAppearEnemy:
                     factory = new BehindAppearEnemyFactory(new Vector3 { x = float.Parse(record[2]), y = float.Parse(record[3]), z = float.Parse(record[4]) }, 
                         bool.Parse(record[5]) ? BehindAppearEnemyFactory.Direction.LEFT : BehindAppearEnemyFactory.Direction.RIGHT, 
-                        float.Parse(record[6]));
+                        float.Parse(record[6]), PlayerPosition);
+                    
                     factory.Create();
                     break;
                 case EnemyType.InfrontApeearEnemy:

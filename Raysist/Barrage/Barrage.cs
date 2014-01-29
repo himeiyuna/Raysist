@@ -20,7 +20,7 @@ namespace Raysist
         }
 
         /// <summary>
-        /// @brief 体力
+        /// @brief 角度
         /// </summary>
         public float Angle
         {
@@ -64,18 +64,28 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief プレイヤーの位置
+        /// </summary>
+        public Player PlayerPosition
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public Barrage(GameContainer container, float angle, Vector3 pos)
+        public Barrage(GameContainer container, float angle, Vector3 pos, Player p)
             : base(container)
         {
             Position.LocalPosition = pos;
             Angle = angle;
             Speed = 5.0f;
             Magazine = 20;
-            SpaceanInterval = 18;//360/Magazine　弾の間隔;
+            SpaceanInterval = 3;//360/Magazine　弾の間隔;
             Count = SpaceanInterval;
             AimFlag = false;
+            PlayerPosition = p;
         }
 
         /// <summary>
@@ -88,13 +98,17 @@ namespace Raysist
         /// <summary>
         /// @brief 狙いをつける関数
         /// </summary>
-        protected void Aim()
+        protected Vector2 Aim()
         {
-            var a = Container.GetComponent<Player>().Position.LocalPosition;
-            var b = Position.LocalPosition;
             Vector2 Direction = new Vector2();
-            Direction.x = a.x - b.x;
-            Direction.y = a.y - b.y;
+            //var a = PlayerPosition.Position.LocalPosition;
+            //多分正しいほう話0るど
+            var PlayerPos = PlayerPosition.Position.WorldPosition;
+            var EnemyPos = Position.WorldPosition;
+
+            Direction.x = (PlayerPos.x - EnemyPos.x);
+            Direction.y = (PlayerPos.y - EnemyPos.y);
+            return Direction.Normalize();
         }
 
         /// <summary>

@@ -14,8 +14,8 @@ namespace Raysist
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
-        public CircleShot(GameContainer container, float angle, Vector3 pos)
-            : base(container, angle, pos)
+        public CircleShot(GameContainer container, float angle, Vector3 pos, Player p)
+            : base(container, angle, pos, p)
         {
         }
 

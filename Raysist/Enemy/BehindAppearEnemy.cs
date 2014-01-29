@@ -89,7 +89,6 @@ namespace Raysist
         public override void OnDisable()
         {
             base.OnDisable();
-
             Container.GetComponent<RetreatEnemy>().Active = true;
             Container.GetComponent<RectCollider>().Active = true;
         }
@@ -129,17 +128,28 @@ namespace Raysist
             set;
             get;
         }
+        
+        /// <summary>
+        /// @brief プレイヤーの位置
+        /// </summary>
+        public Player PlayerPosition
+        {
+            set;
+            get;
+        }
 
         /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
-        public BehindAppearEnemyFactory(Vector3 to, Direction dir, float speed) : base()
+        public BehindAppearEnemyFactory(Vector3 to, Direction dir, float speed, Player pos)
+            : base()
         {
             From = new Vector3 { x = to.x + 300.0f * (dir == Direction.LEFT ? -1 : 1), y = -500.0f, z = 0.0f };
             To = to;
             Speed = speed;
+            PlayerPosition = pos;
         }
 
         public override GameContainer Create()
@@ -163,10 +173,13 @@ namespace Raysist
 
             gc.AddComponent(new MeshRenderer(gc, "fighter.x"));
 
-            gc.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f); ;
+            gc.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f);
 
-            var vs = new FanShot(gc, 0.5f, From);
+            var vs = new FanShot(gc, 0.5f, From, PlayerPosition);
+            //var vs = new VerticalShot(gc, 0.5f, From, PlayerPosition);
             vs.Speed = 5.0f;
+            vs.Count = 3;
+            vs.AimFlag = true;
 
 
             gc.AddComponent(vs);
