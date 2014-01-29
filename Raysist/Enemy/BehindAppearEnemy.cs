@@ -175,10 +175,11 @@ namespace Raysist
 
             gc.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f);
 
-            var vs = new FanShot(gc, 0.5f, From, PlayerPosition);
+            var vs = new FanShot(gc, (float)Math.PI * 0.5f, From, PlayerPosition);
             //var vs = new VerticalShot(gc, 0.5f, From, PlayerPosition);
             vs.Speed = 5.0f;
-            vs.Count = 3;
+            vs.Count = 5;
+            vs.Magazine = 5;
             vs.AimFlag = true;
 
 
