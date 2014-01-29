@@ -41,12 +41,32 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @brief ミュージックハンドルの配列
+        /// </summary>
+        private Dictionary<string, int> MusicHandles
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// @brief サウンドハンドルの配列
+        /// </summary>
+        private Dictionary<string, int> SoundHandles
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         private ResourceController()
         {
             GraphicHandles = new Dictionary<string, int>();
             ModelHandles = new Dictionary<string, int>();
+            MusicHandles = new Dictionary<string, int>();
+            SoundHandles = new Dictionary<string, int>();
         }
 
         /// <summary>
@@ -64,6 +84,16 @@ namespace Raysist
             foreach (var handle in ModelHandles)
             {
                 DX.MV1DeleteModel(handle.Value);
+            }
+
+            foreach (var handle in MusicHandles)
+            {
+                DX.DeleteMusicMem(handle.Value);
+            }
+
+            foreach (var handle in SoundHandles)
+            {
+                DX.DeleteSoundMem(handle.Value);
             }
         }
 
@@ -145,9 +175,22 @@ namespace Raysist
         /// </summary>
         /// <param name="path">ファイルパス</param>
         /// <returns>success:handle, failed:-1</returns>
-        public int LoadSound(string path)
+        public int LoadMusic(string path)
         {
-            return -1;
+            if (MusicHandles.ContainsKey(path))
+            {
+                return MusicHandles[path];
+            }
+
+            var h = DX.LoadMusicMem("Resources\\" + path);
+            if (h == -1)
+            {
+                return -1;
+            }
+
+            MusicHandles.Add(path, h);
+
+            return h;
         }
     }
 }

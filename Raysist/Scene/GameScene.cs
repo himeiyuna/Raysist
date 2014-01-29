@@ -38,6 +38,7 @@ namespace Raysist
             rc.LoadGraphic("dummy.png");
             rc.LoadGraphic("dummy2.png");
             rc.LoadDivideGraphic("explosion.png", 4, 512, 512);
+            rc.LoadMusic("The Ray of Hopes (ver. seeing true sky).wav");
         }
 
         public override void EnterScene()
@@ -88,6 +89,7 @@ namespace Raysist
                 g.AddComponent(gcom);
                 g.AddComponent(new StageTimeline(g, gcom));
                 g.AddComponent(new MeshRenderer(g, "hogeStage.x"));
+                g.AddComponent(new MusicPlayer(g, "The Ray of Hopes (ver. seeing true sky).wav"));
             });
 
             sf.Create();
