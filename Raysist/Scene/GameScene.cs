@@ -37,12 +37,16 @@ namespace Raysist
 
             rc.LoadGraphic("dummy.png");
             rc.LoadGraphic("dummy2.png");
-            rc.LoadDivideGraphic("explosion.png", 4, 512, 512);
+            rc.LoadGraphic("explosion.png");
+            rc.LoadGraphic("number.png");
             rc.LoadMusic("The Ray of Hopes (ver. seeing true sky).wav");
         }
 
         public override void EnterScene()
         {
+            var score = new GameContainer();
+            score.AddComponent(new ScoreComponent(score));
+
             var cf = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new Player(g));
