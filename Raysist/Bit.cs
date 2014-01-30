@@ -6,7 +6,7 @@ namespace Raysist
 {
     class Bit : GameComponent
     {
-        private const int MaxEnergy = 12000;
+        private const int MaxEnergy = 120;
 
         /// <summary>
         /// @brief ビット番号
@@ -185,7 +185,6 @@ namespace Raysist
             else
             {
                 --Energy;
-                //--Energy;
                 Move();
                 Lazer.GetComponent<Raypier>().Active = true;
 
@@ -236,23 +235,6 @@ namespace Raysist
         /// </summary>
         private void Move()
         {
-            ++Energy;
-            /*
-             * http://dixq.net/forum/viewtopic.php?f=3&t=6697
-             * 現在の角度を目標の方向に近い方で回転させるという意味だとしたら
-現在の角度と目標の方向を三角関数に放り込んで2次元のベクトルを作り、
-外積の符号を見るとよろしいかと思います。
-             * */
-            
-            //if ((Rot >= 270 && Rot <= 360) || (Rot <= 90 && Rot >= 0)) //上半分
-            //{
-            //    LRFlag = true;
-            //}
-            //if (Rot <= 270 && Rot >= 90)//下半分
-            //{
-            //    LRFlag = false;
-            //}
-
             int dir = 0x0000;
             var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };//右向きの基本ベクトル
             float Clockwise = (float)Math.PI / 60;//曲げる分；
