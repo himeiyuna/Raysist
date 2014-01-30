@@ -35,6 +35,8 @@ namespace Raysist
             var cf = new ContainerFactory((GameContainer g) =>
             {
                 g.AddComponent(new SpriteRenderer(g, "title.png"));
+                g.Position.LocalPosition.x = 800;
+                g.Position.LocalPosition.y = 450;
             });
 
             var cameraFactory = new ContainerFactory((GameContainer g) =>

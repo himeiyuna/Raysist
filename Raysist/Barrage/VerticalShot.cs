@@ -17,7 +17,7 @@ namespace Raysist
         public VerticalShot(GameContainer container, float angle, Vector3 pos, Player p)
             : base(container, angle, pos, p)
         {
-            Angle = (float)Math.PI * 0.5f;
+            Angle = -(float)Math.PI * 0.5f;
         }
         /// <summary>
         /// @brief 垂直なショットを撃つ関数

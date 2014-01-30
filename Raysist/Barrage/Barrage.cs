@@ -81,9 +81,9 @@ namespace Raysist
             Position.LocalPosition = pos;
             Angle = angle;
             Speed = 5.0f;
-            Magazine = 20;
-            SpaceanInterval = 3;//360/Magazine　弾の間隔;
-            Count = SpaceanInterval;
+            Magazine = 36;
+            Count = 10;
+            SpaceanInterval = Count;//360/Magazine　弾の間隔;
             AimFlag = false;
             PlayerPosition = p;
         }

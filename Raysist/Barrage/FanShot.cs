@@ -48,7 +48,7 @@ namespace Raysist
                     {
                         g.AddComponent(new Shot(g, -Angle + Theta * i - Theta / 2, Speed, Position.WorldPosition));
                     }
-                    var b = new BillboardRenderer(g, "dummy.png");
+                    var b = new BillboardRenderer(g, "hisiga.png");
                     b.Scale = 5.0f;
                     g.AddComponent(b);
 
@@ -80,7 +80,7 @@ namespace Raysist
                     {
                         g.AddComponent(new Shot(g, -Angle - Theta * i + Theta / 2, Speed, Position.WorldPosition));
                     }
-                    var b = new BillboardRenderer(g, "dummy.png");
+                    var b = new BillboardRenderer(g, "hisiga.png");
                     b.Scale = 5.0f;
                     g.AddComponent(b);
 
@@ -111,8 +111,8 @@ namespace Raysist
             {
                 g.AddComponent(new Shot(g, -Angle, Speed, Position.WorldPosition));
 
-                var b = new BillboardRenderer(g, "dummy.png");
-                b.Scale = 5.0f;
+                var b = new BillboardRenderer(g, "hisiga.png");
+                b.Scale = 15.0f;
                 g.AddComponent(b);
 
                 var col = new RectCollider(g, (Collider c) =>
@@ -138,7 +138,7 @@ namespace Raysist
                 {
                     g.AddComponent(new Shot(g, -Angle + Theta * i, Speed, Position.WorldPosition));
 
-                    var b = new BillboardRenderer(g, "dummy.png");
+                    var b = new BillboardRenderer(g, "hisiga.png");
                     b.Scale = 5.0f;
                     g.AddComponent(b);
 
@@ -164,7 +164,7 @@ namespace Raysist
                 {
                     g.AddComponent(new Shot(g, -Angle - Theta * i, Speed, Position.WorldPosition));
 
-                    var b = new BillboardRenderer(g, "dummy.png");
+                    var b = new BillboardRenderer(g, "hisiga.png");
                     b.Scale = 5.0f;
                     g.AddComponent(b);
 

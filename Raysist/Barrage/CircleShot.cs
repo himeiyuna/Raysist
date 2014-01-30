@@ -12,11 +12,22 @@ namespace Raysist
     class CircleShot : Barrage
     {
         /// <summary>
+        /// @brief 弾間距離
+        /// </summary>
+        public float space
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         public CircleShot(GameContainer container, float angle, Vector3 pos, Player p)
             : base(container, angle, pos, p)
         {
+            Magazine = 18;
+            space = (float)Math.PI / Magazine;
         }
 
         /// <summary>
@@ -24,30 +35,33 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
-            for (int i = 0; i < Magazine; i++)
+            if (CountDown())
             {
-                var sf = new ContainerFactory((GameContainer g) =>
+                for (int i = 0; i < Magazine; ++i)
                 {
-                    g.AddComponent(new Shot(g, i * SpaceanInterval, Speed, Position.WorldPosition));
-
-                    var b = new BillboardRenderer(g, "dummy.png");
-                    b.Scale = 5.0f;
-                    g.AddComponent(b);
-
-                    var col = new RectCollider(g, (Collider c) =>
+                    var sf = new ContainerFactory((GameContainer g) =>
                     {
-                        var target = c.Container.GetComponent<EnemyInformation>();
-                        if (target != null)
-                        {
-                            GameContainer.Destroy(g);
-                        }
-                    });
-                    col.Width = 10.0f;
-                    col.Height = 10.0f;
+                        g.AddComponent(new Shot(g, i * space, Speed, Position.WorldPosition));
 
-                    g.AddComponent(col);
-                });
-                sf.Create();
+                        var b = new BillboardRenderer(g, "弾.png");
+                        b.Scale = 15.0f;
+                        g.AddComponent(b);
+
+                        var col = new RectCollider(g, (Collider c) =>
+                        {
+                            var target = c.Container.GetComponent<Player>();
+                            if (target != null)
+                            {
+                                GameContainer.Destroy(g);
+                            }
+                        });
+                        col.Width = 10.0f;
+                        col.Height = 10.0f;
+
+                        g.AddComponent(col);
+                    });
+                    sf.Create();
+                }
             }
         }
     }

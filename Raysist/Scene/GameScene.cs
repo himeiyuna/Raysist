@@ -103,5 +103,14 @@ namespace Raysist
         public override void UnloadResource()
         {
         }
+
+        public override void Update()
+        {
+            base.Update();
+            if (DX.CheckHitKey(DX.KEY_INPUT_E) == 1)
+            {
+                Game.Instance.SceneController.ChangeScene<ClearScene, LoadScene>();
+            }
+        }
     }
 }
