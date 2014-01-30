@@ -77,6 +77,10 @@ namespace Raysist
             {
                 Game.Instance.SceneController.ChangeScene<GameScene, LoadScene>();
             }
+            if (DX.CheckHitKey(DX.KEY_INPUT_O) == 1)
+            {
+                Game.Instance.SceneController.ChangeScene<OptionScene, LoadScene>();
+            }
         }
     }
 }
