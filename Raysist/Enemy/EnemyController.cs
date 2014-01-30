@@ -25,6 +25,15 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @breif スコアへのポインタ
+        /// </summary>
+        public ScoreComponent SC
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief 敵種類判別テーブル
         /// </summary>
         private static readonly Dictionary<string, EnemyType> EnemyTypes = new Dictionary<string, EnemyType>
@@ -34,9 +43,10 @@ namespace Raysist
         };
 
 
-        public EnemyController(GameContainer container, Player p) : base(container, "enemy.csv")
+        public EnemyController(GameContainer container, Player p, ScoreComponent sc) : base(container, "enemy.csv")
         {
             PlayerPosition = p;
+            SC = sc;
         }
 
         protected override void OnUpdateTimeline(string[] record)
@@ -48,14 +58,14 @@ namespace Raysist
                 case EnemyType.BehindAppearEnemy:
                     factory = new BehindAppearEnemyFactory(new Vector3 { x = float.Parse(record[2]), y = float.Parse(record[3]), z = float.Parse(record[4]) }, 
                         bool.Parse(record[5]) ? BehindAppearEnemyFactory.Direction.LEFT : BehindAppearEnemyFactory.Direction.RIGHT, 
-                        float.Parse(record[6]), PlayerPosition);
+                        float.Parse(record[6]), PlayerPosition,SC);
                     
                     factory.Create();
                     break;
                 case EnemyType.InfrontApeearEnemy:
                     factory = new InfrontAppearEnemyFactory(new Vector3 { x = float.Parse(record[2]), y = float.Parse(record[3]), z = float.Parse(record[4]) },
                         bool.Parse(record[5]) ? InfrontAppearEnemyFactory.Direction.LEFT : InfrontAppearEnemyFactory.Direction.RIGHT,
-                        int.Parse(record[6]));
+                        int.Parse(record[6]), PlayerPosition, SC);
                     factory.Create();
                     break;
                 default:

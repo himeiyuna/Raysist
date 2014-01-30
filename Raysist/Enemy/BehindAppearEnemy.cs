@@ -139,23 +139,33 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @breif スコアへのポインタ
+        /// </summary>
+        public ScoreComponent SC
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
-        public BehindAppearEnemyFactory(Vector3 to, Direction dir, float speed, Player pos)
+        public BehindAppearEnemyFactory(Vector3 to, Direction dir, float speed, Player pos, ScoreComponent sc)
             : base()
         {
             From = new Vector3 { x = to.x + 300.0f * (dir == Direction.LEFT ? -1 : 1), y = -500.0f, z = 0.0f };
             To = to;
             Speed = speed;
             PlayerPosition = pos;
+            SC = sc;
         }
 
         public override GameContainer Create()
         {
             var gc = new GameContainer();
-            gc.AddComponent(new EnemyInformation(gc, BehindAppearEnemy.MaxLife));
+            gc.AddComponent(new EnemyInformation(gc, BehindAppearEnemy.MaxLife, SC));
             gc.AddComponent(new BehindAppearEnemy(gc, From, To));
 
             var re = new RetreatEnemy(gc, Speed);
@@ -175,13 +185,13 @@ namespace Raysist
 
             gc.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f);
 
-            var vs = new FanShot(gc, (float)Math.PI * 0.5f, From, PlayerPosition);
-            vs.Magazine = 7;
+            //var vs = new FanShot(gc, (float)Math.PI * 0.5f, From, PlayerPosition);
+            //vs.Magazine = 7;
             //var vs = new VerticalShot(gc, 0.5f, From, PlayerPosition);
             
 
-            //var vs = new CircleShot(gc, 0.5f, From, PlayerPosition);
-            //vs.Magazine = 36;
+            var vs = new CircleShot(gc, 0.5f, From, PlayerPosition);
+            vs.Magazine = 36;
 
 
 

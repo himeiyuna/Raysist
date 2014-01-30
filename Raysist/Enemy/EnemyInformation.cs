@@ -39,14 +39,24 @@ namespace Raysist
         }
 
         /// <summary>
+        /// @breif スコアへのポインタ
+        /// </summary>
+        public ScoreComponent SC
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// @brief コンストラクタ
         /// </summary>
         /// <param name="container">自身を組み込むコンテナ</param>
-        public EnemyInformation(GameContainer container, int life) : base(container)
+        public EnemyInformation(GameContainer container, int life, ScoreComponent sc) : base(container)
         {
             Life = life;
             Count = 15;
             Speed = 5.0f;
+            SC = sc;
         }
 
         /// <summary>
@@ -60,6 +70,12 @@ namespace Raysist
                 Count = 15;
             }
 
+            if (Position.LocalPosition.x < -1600 || Position.LocalPosition.x > 1600 ||
+                Position.LocalPosition.y < -1600 || Position.LocalPosition.y > 1600)
+            {
+                // TODO:外に出たら破棄する
+                GameContainer.Destroy(Container);
+            }
             if (Life <= 0)
             {
                 GameContainer.Destroy(Container);
@@ -72,7 +88,9 @@ namespace Raysist
                 animator.UpdateFrame = 3;
                 gc.AddComponent(spriteRenderer);
                 gc.AddComponent(animator);
-                
+
+                SC.Score += 100;
+
                 animator.OnFinishAnimation = (Animator a) =>
                 {
                     GameContainer.Destroy(a.Container);

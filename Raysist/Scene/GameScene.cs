@@ -44,8 +44,7 @@ namespace Raysist
 
         public override void EnterScene()
         {
-            var score = new GameContainer();
-            score.AddComponent(new ScoreComponent(score));
+            
 
             var cf = new ContainerFactory((GameContainer g) =>
             {
@@ -78,7 +77,7 @@ namespace Raysist
             fact.Create();
 
             var ec = new GameContainer();
-            ec.AddComponent(new EnemyController(ec, player));
+            ec.AddComponent(new EnemyController(ec, player, new ScoreComponent(ec)));
             
 
             var camera = cameraFactory.Create().GetComponent<Camera>();

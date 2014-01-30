@@ -95,7 +95,7 @@ namespace Raysist
                 gc.Position.LocalPosition = new Vector3 { x = i * 32.0f, y = 0.0f, z = 0.0f };
             }
 
-            Score = 1000;
+            Score = 0;
         }
 
 

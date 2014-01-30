@@ -126,11 +126,29 @@ namespace Raysist
             get;
         }
 
-        public InfrontAppearEnemyFactory(Vector3 to, Direction dir, int stayTime)
+        /// <summary>
+        /// @brief プレイヤーの位置
+        /// </summary>
+        public Player PlayerPosition
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// @breif スコアへのポインタ
+        /// </summary>
+        public ScoreComponent SC
+        {
+            set;
+            get;
+        }
+        public InfrontAppearEnemyFactory(Vector3 to, Direction dir, int stayTime, Player pos, ScoreComponent sc)
         {
             To = to;
             Dir = dir;
             StayTime = stayTime;
+            PlayerPosition = pos;
+            SC = sc;
         }
 
         public override GameContainer Create()
@@ -142,7 +160,7 @@ namespace Raysist
             gc.AddComponent(iae);
             gc.AddComponent(se);
             gc.AddComponent(de);
-            gc.AddComponent(new EnemyInformation(gc, BehindAppearEnemy.MaxLife));
+            gc.AddComponent(new EnemyInformation(gc, BehindAppearEnemy.MaxLife, SC));
             gc.AddComponent(new MeshRenderer(gc, "fighter.x"));
 
             var col = new RectCollider(gc, (Collider c) =>
@@ -152,8 +170,22 @@ namespace Raysist
             col.Width = 50.0f;
             col.Height = 50.0f;
             gc.AddComponent(col);
+            var vs = new FanShot(gc, (float)Math.PI * 0.5f, To, PlayerPosition);
+            vs.Magazine = 7;
+            //var vs = new VerticalShot(gc, 0.5f, From, PlayerPosition);
 
+
+            //var vs = new CircleShot(gc, 0.5f, From, PlayerPosition);
+            //vs.Magazine = 36;
+
+
+
+            vs.Speed = 5.0f;
+            vs.Count = 60;
+            vs.SpaceanInterval = 60;
+            vs.AimFlag = false;
             gc.Position.LocalRotation = new Quaternion(Vector3.AxisX, (float)Math.PI * 0.5f);
+            gc.AddComponent(vs);
             return gc;
         }
     }

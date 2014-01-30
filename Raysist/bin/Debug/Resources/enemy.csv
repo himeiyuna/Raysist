@@ -2,3 +2,9 @@
 120,BehindAppearEnemy,50,400,0,FALSE,2
 150,BehindAppearEnemy,100,400,0,FALSE,3
 160,InfrontAppearEnemy,0,0,0,TRUE,120
+250,InfrontAppearEnemy,300,300,0,TRUE,100
+255,InfrontAppearEnemy,300,350,0,TRUE,100
+260,BehindAppearEnemy,300,400,0,FALSE,100
+270,BehindAppearEnemy,300,450,0,FALSE,100
+280,BehindAppearEnemy,300,500,0,FALSE,100
+290,BehindAppearEnemy,300,550,0,FALSE,100
