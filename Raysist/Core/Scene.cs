@@ -332,12 +332,18 @@ namespace Raysist
             }
         }
 
+        private SpriteRenderer Sprite
+        {
+            set;
+            get;
+        }
+
         /// <summary>
         /// @brief リソースの読み込み
         /// </summary>
         public override void LoadResource()
         {
-            
+            ResourceController.Instance.LoadGraphic("loading.png");
         }
 
         /// <summary>
@@ -350,6 +356,11 @@ namespace Raysist
 
             // 読み込み
             Next.LoadResource();
+
+            var gc = new GameContainer();
+            gc.Position.LocalPosition = new Vector3 { x = 1500.0f, y = 750.0f, z = 0.0f };
+            Sprite = new SpriteRenderer(gc, "loading.png");
+            gc.AddComponent(Sprite);
         }
 
         /// <summary>
@@ -358,6 +369,8 @@ namespace Raysist
         public override void Update()
         {
             base.Update();
+
+            Sprite.Radian += (float)Math.PI / 60.0f;
         }
 
         /// <summary>
