@@ -464,6 +464,9 @@ namespace Raysist
                     CurrentScene.EnterScene();
 
                     LoadingScene = null;
+
+                    // ガベージコレクション起動
+                    System.GC.Collect();
                 }
             }
         }

@@ -145,6 +145,7 @@ namespace Raysist
             // 自機についているときはエネルギー回復
             if (IsDock)
             {
+                ++Energy;
                 if (MaxEnergy < Energy)
                 {
                     Energy = MaxEnergy;

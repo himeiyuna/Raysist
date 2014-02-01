@@ -29,6 +29,14 @@ namespace Raysist
             DX.PlayMusicMem(MusicHandle, 2);
         }
 
+        /// <summary>
+        /// @brief デストラクタ
+        /// </summary>
+        ~MusicPlayer()
+        {
+            DX.StopMusicMem(MusicHandle);
+        }
+
         public override void Update()
         {
             
