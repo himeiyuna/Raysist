@@ -207,6 +207,7 @@ namespace Raysist
             var c = Math.Atan2(a.x, a.y);
             Position.LocalPosition.x += (float)Math.Cos(c) * Speed;
             Position.LocalPosition.y += -(float)Math.Sin(c) * Speed;
+            
             //----------------------------------
 
             Lazer.GetComponent<Raypier>().Active = false;

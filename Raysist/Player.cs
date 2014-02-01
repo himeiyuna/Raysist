@@ -75,17 +75,39 @@ namespace Raysist
         {
             int dir = 0x0000;
 
+            var EightDirection = XGameController.StickDirection.NONE;
+            // コントローラーが接続されていない場合は判定しない
+            if (Game.Instance.InputController.XController != null)
+            {
+                EightDirection = Game.Instance.InputController.XController.GetStick8Direction(false, 10000);
+            }
+            if (EightDirection == XGameController.StickDirection.LEFTDOWN)
+            {//左下
+                dir |= 0x0110;
+            }
+            else if (EightDirection == XGameController.StickDirection.LEFTUP)
+            {//左上
+                dir |= 0x1100;
+            }
+            else if (EightDirection == XGameController.StickDirection.RIGHTDOWN)
+            {//右下
+                dir |= 0x0011;
+            }
+            else if (EightDirection == XGameController.StickDirection.RIGHTUP)
+            {//右上
+                dir |= 0x1001;
+            }
             // 移動処理
-            if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
+            if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1 || EightDirection == XGameController.StickDirection.UP)
             {
                 dir |= 0x1000;
             }
-            else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1)
+            else if (DX.CheckHitKey(DX.KEY_INPUT_S) == 1 || EightDirection == XGameController.StickDirection.DOWN)
             {
                 dir |= 0x0010;
             }
 
-            if (DX.CheckHitKey(DX.KEY_INPUT_A) == 1)
+            if (DX.CheckHitKey(DX.KEY_INPUT_A) == 1 || EightDirection == XGameController.StickDirection.LEFT)
             {
                 dir |= 0x0100;
 
@@ -99,7 +121,7 @@ namespace Raysist
                     Rot = -MaxRot;
                 }
             }
-            else if (DX.CheckHitKey(DX.KEY_INPUT_D) == 1)
+            else if (DX.CheckHitKey(DX.KEY_INPUT_D) == 1 || EightDirection == XGameController.StickDirection.RIGHT)
             {
                 dir |= 0x0001;
 

@@ -55,12 +55,12 @@
     <Compile Include="Enemy\InfrontAppearEnemy.cs" />
     <Compile Include="Core\InputController.cs" />
     <Compile Include="Laser.cs" />
+    <Compile Include="MusicPlayer.cs" />
     <Compile Include="Raypier.cs" />
     <Compile Include="RaypierRenderFinisher.cs" />
     <Compile Include="RaypierTrail.cs" />
     <Compile Include="Enemy\RetreatEnemy.cs" />
     <Compile Include="Core\ResourceController.cs" />
-    <Compile Include="Scene\BGM.cs" />
     <Compile Include="Scene\ClearScene.cs" />
     <Compile Include="DisablePlayer.cs" />
     <Compile Include="Scene\EndScene.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="Scene\OptionScene.cs" />
     <Compile Include="Scene\ReplayScene.cs" />
     <Compile Include="Scene\ResultScene.cs" />
+    <Compile Include="Score.cs" />
     <Compile Include="Shot.cs" />
     <Compile Include="Scene\GameScene.cs" />
     <Compile Include="Core\CollisionManager.cs" />

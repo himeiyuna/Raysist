@@ -101,8 +101,6 @@ namespace Raysist
         protected Vector2 Aim()
         {
             Vector2 Direction = new Vector2();
-            //var a = PlayerPosition.Position.LocalPosition;
-            //多分正しいほう話0るど
             var PlayerPos = PlayerPosition.Position.WorldPosition;
             var EnemyPos = Position.WorldPosition;
 
