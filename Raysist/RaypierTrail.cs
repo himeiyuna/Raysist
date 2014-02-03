@@ -9,7 +9,7 @@ namespace Raysist
 {
     class RaypierTrail : GameComponent
     {
-        private const float Speed = 50.0f;
+        private const float Speed = 48.0f;
 
         /// <summary>
         /// @brief 角度
@@ -81,11 +81,11 @@ namespace Raysist
             gc.Position.LocalPosition.z = 0.0f;
             gc.AddComponent(new RaypierTrail(gc, Bit.Angle));
             var br = new BillboardRenderer(gc, "dummy2.png");
-            br.Scale = 64.0f;
+            br.Scale = 32.0f;
             gc.AddComponent(br);
-            //var bra = new BillboardRenderer(gc, "dummy2.png");
-            //bra.Scale = 32.0f;
-            //gc.AddComponent(bra);
+            var bra = new BillboardRenderer(gc, "dummy2.png");
+            bra.Scale = 16.0f;
+            gc.AddComponent(bra);
             var col = new RectCollider(gc, (Collider g) =>
             {
                 DX.DrawString(0, 400, "hit", DX.GetColor(255, 255, 255));

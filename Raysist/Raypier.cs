@@ -37,10 +37,13 @@ namespace Raysist
             var rtf = new RaipierTrailFactory(Container, Parent, (GameContainer g) => 
             {
                 var pos = g.Position.LocalPosition;
-                g.Position.LocalPosition = new Vector3 { x = pos.x + (float)Math.Cos(ang) * 17.0f * i, y = pos.y - (float)Math.Sin(ang) * 17.0f * i, z = 0.0f };
+                g.Position.LocalPosition = new Vector3 { x = pos.x + (float)Math.Cos(ang) * 8.0f * i, y = pos.y - (float)Math.Sin(ang) * 8.0f * i, z = 0.0f };
                 ++i;
             });
 
+            rtf.Create();
+            rtf.Create();
+            rtf.Create();
             rtf.Create();
             rtf.Create();
             rtf.Create();
