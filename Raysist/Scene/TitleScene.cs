@@ -73,11 +73,12 @@ namespace Raysist
         public override void Update()
         {
             base.Update();
-            if (DX.CheckHitKey(DX.KEY_INPUT_SPACE) == 1)
+            if (DX.CheckHitKey(DX.KEY_INPUT_SPACE) == 1 || (Game.Instance.InputController.XController != null && Game.Instance.InputController.XController.IsPushButton(XGameController.Button.A)))
             {
                 Game.Instance.SceneController.ChangeScene<GameScene, LoadScene>();
             }
-            if (DX.CheckHitKey(DX.KEY_INPUT_O) == 1)
+
+            if (DX.CheckHitKey(DX.KEY_INPUT_O) == 1 || (Game.Instance.InputController.XController != null && Game.Instance.InputController.XController.IsPushButton(XGameController.Button.B)))
             {
                 Game.Instance.SceneController.ChangeScene<OptionScene, LoadScene>();
             }

@@ -72,6 +72,8 @@ namespace Raysist
             RIGHT_STICK_PUSH,
             LEFT_SHOULDER,
             RIGHT_SHOULDER,
+            EMPTY1,
+            EMPTY2,
             A,
             B,
             X,
@@ -196,9 +198,9 @@ namespace Raysist
         /// <param name="button"></param>
         /// <param name="frame"></param>
         /// <returns></returns>
-        public bool IsPushButton(Button button, int interval = 0)
+        public bool IsPushButton(Button button, int interval = 1)
         {
-            return IsPushButtonOnce(button) ? true : (ButtonInputBuffer[(int)button] - 1) % interval == 0;
+            return ButtonInputBuffer[(int)button] == 0 ? false : ButtonInputBuffer[(int)button] % interval == 0;
         }
 
         /// <summary>
@@ -397,26 +399,6 @@ namespace Raysist
             }
 
             // A
-            if (buf.Buttons10 != 0)
-            {
-                ++ButtonInputBuffer[10];
-            }
-            else
-            {
-                ButtonInputBuffer[10] = 0;
-            }
-
-            // B
-            if (buf.Buttons11 != 0)
-            {
-                ++ButtonInputBuffer[11];
-            }
-            else
-            {
-                ButtonInputBuffer[11] = 0;
-            }
-
-            // X
             if (buf.Buttons12 != 0)
             {
                 ++ButtonInputBuffer[12];
@@ -426,7 +408,7 @@ namespace Raysist
                 ButtonInputBuffer[12] = 0;
             }
 
-            // Y
+            // B
             if (buf.Buttons13 != 0)
             {
                 ++ButtonInputBuffer[13];
@@ -434,6 +416,26 @@ namespace Raysist
             else
             {
                 ButtonInputBuffer[13] = 0;
+            }
+
+            // X
+            if (buf.Buttons14 != 0)
+            {
+                ++ButtonInputBuffer[13];
+            }
+            else
+            {
+                ButtonInputBuffer[13] = 0;
+            }
+
+            // Y
+            if (buf.Buttons15 != 0)
+            {
+                ++ButtonInputBuffer[14];
+            }
+            else
+            {
+                ButtonInputBuffer[14] = 0;
             }
         }
     }

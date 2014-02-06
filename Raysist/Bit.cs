@@ -6,7 +6,7 @@ namespace Raysist
 {
     class Bit : GameComponent
     {
-        private const int MaxEnergy = 120;
+        private const int MaxEnergy = 250;
 
         /// <summary>
         /// @brief ビット番号
