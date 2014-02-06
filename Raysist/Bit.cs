@@ -142,6 +142,16 @@ namespace Raysist
         /// </summary>
         public override void Update()
         {
+            if (Index == BitIndex.BIT_LEFT)
+            {
+                DX.DrawBox(300, 780, 300 + 100 * Energy / MaxEnergy, 800, DX.GetColor(0, 255, 100), DX.TRUE);
+            }
+            else
+            {
+                DX.DrawBox(1300 - 100 * Energy / MaxEnergy, 780, 1300, 800, DX.GetColor(0, 255, 100), DX.TRUE);
+            }
+            
+
             // 自機についているときはエネルギー回復
             if (IsDock)
             {
