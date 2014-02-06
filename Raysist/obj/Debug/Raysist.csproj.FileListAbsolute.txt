@@ -41,3 +41,9 @@ C:\Users\Blew\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.exe
 C:\Users\Blew\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.pdb
 C:\Users\Blew\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csprojResolveAssemblyReference.cache
 C:\Users\st071008\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csproj.ResolveComReference.cache
+C:\Users\x\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.exe.config
+C:\Users\x\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.exe
+C:\Users\x\Documents\GitHub\Raysist\Raysist\bin\Debug\Raysist.pdb
+C:\Users\x\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.csprojResolveAssemblyReference.cache
+C:\Users\x\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.exe
+C:\Users\x\Documents\GitHub\Raysist\Raysist\obj\Debug\Raysist.pdb

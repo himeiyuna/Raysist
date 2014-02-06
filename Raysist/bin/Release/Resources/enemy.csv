@@ -4,7 +4,8 @@
 160,InfrontAppearEnemy,0,0,0,TRUE,200
 250,InfrontAppearEnemy,300,300,0,FALSE,200
 255,InfrontAppearEnemy,300,350,0,TRUE,200
-260,BehindAppearEnemy,300,400,0,TRUE,10
-270,BehindAppearEnemy,300,450,0,TRUE,9
-280,BehindAppearEnemy,300,500,0,FALSE,8
-290,BehindAppearEnemy,300,550,0,FALSE,7
+260,BehindAppearEnemy,300,400,0,TRUE,2
+270,BehindAppearEnemy,300,450,0,TRUE,1
+280,BehindAppearEnemy,300,500,0,FALSE,4
+290,BehindAppearEnemy,300,550,0,FALSE,1
+400,InfrontAppearEnemy,700,500,0,TRUE,100

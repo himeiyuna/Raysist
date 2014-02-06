@@ -79,7 +79,7 @@ namespace Raysist
             // コントローラーが接続されていない場合は判定しない
             if (Game.Instance.InputController.XController != null)
             {
-                EightDirection = Game.Instance.InputController.XController.GetStick8Direction(false, 10000);
+                EightDirection = Game.Instance.InputController.XController.GetStick8Direction(true, 10000);
             }
             if (EightDirection == XGameController.StickDirection.LEFTDOWN)
             {//左下
@@ -189,7 +189,7 @@ namespace Raysist
             DX.DrawBox(300, 0, 1300, 800,255,0);//有効距離
 
             // 左ビット射出
-            if (DX.CheckHitKey(DX.KEY_INPUT_Z) == 1)
+            if (DX.CheckHitKey(DX.KEY_INPUT_Z) == 1 || (Game.Instance.InputController.XController != null && Game.Instance.InputController.XController.IsPullTrigger(XGameController.Trigger.LEFT, 128)))
             {
                 var bit = Position.FindChildren("BitLeft");
                 foreach (var b in bit)
@@ -197,8 +197,9 @@ namespace Raysist
                     b.Container.GetComponent<Bit>().Undock();
                 }
             }
+
             // 右ビット射出
-            if (DX.CheckHitKey(DX.KEY_INPUT_X) == 1)
+            if (DX.CheckHitKey(DX.KEY_INPUT_X) == 1 || (Game.Instance.InputController.XController != null && Game.Instance.InputController.XController.IsPullTrigger(XGameController.Trigger.RIGHT, 128)))
             {
                 var bit = Position.FindChildren("BitRight");
                 foreach (var b in bit)

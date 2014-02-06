@@ -237,6 +237,11 @@ namespace Raysist
         /// </summary>
         private void Move()
         {
+            if (Game.Instance.InputController.XController != null && !Game.Instance.InputController.XController.IsPullTrigger(Index == BitIndex.BIT_LEFT ? XGameController.Trigger.LEFT : XGameController.Trigger.RIGHT, 128))
+            {
+                return;
+            }
+
             int dir = 0x0000;
             var Direciton = new Vector3 { x = 1.0f, y = 0.0f, z = 0.0f };//右向きの基本ベクトル
             float Clockwise = (float)Math.PI / 60;//曲げる分；
